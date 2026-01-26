@@ -1,0 +1,1 @@
+Both CMS (Sanity) and frontend(NextJS) have their seperate Readme.md's
