@@ -1,8 +1,9 @@
 import { client } from "@/sanity/client";
-import { TEMPLATE_STATUS_QUERY } from "@/sanity/queries";
+import { LINKED_IN_QUERY, TEMPLATE_STATUS_QUERY } from "@/sanity/queries";
 
 export default async function HomePage() {
   const status = await client.fetch(TEMPLATE_STATUS_QUERY);
+  const linkedIn = await client.fetch(LINKED_IN_QUERY)
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 py-20">
@@ -11,6 +12,7 @@ export default async function HomePage() {
           Template Ready
         </h1>
         
+        {/* Check Status */}
         <div className="bg-white/60 backdrop-blur-xl rounded-3xl p-12 shadow-2xl border border-slate-200/50">
           {status ? (
             <>
@@ -30,6 +32,27 @@ export default async function HomePage() {
             </div>
           )}
         </div>
+
+        <br></br>
+
+        {/* Check LinkedIn */}
+        <div className="bg-white/60 backdrop-blur-xl rounded-3xl p-12 shadow-2xl border border-slate-200/50">
+          {linkedIn ? (
+            <>
+              <h2 className="text-3xl font-bold text-slate-900 mb-4">
+                {linkedIn.link ? "✅ LinkedIn embed working!" : "⚠️ LinkedIn embed needs work"}
+              </h2>
+              <p className="text-xl text-slate-700 mb-8">
+                Post: {linkedIn.link}
+              </p>
+            </>
+          ) : (
+            <div className="text-2xl text-slate-600">
+              No LinkedIn Embedding provided yet
+            </div>
+          )}
+        </div>
+
       </div>
     </main>
   );
