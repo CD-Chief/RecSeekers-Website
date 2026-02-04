@@ -42,9 +42,7 @@ export default async function HomePage() {
               <h2 className="text-3xl font-bold text-slate-900 mb-4">
                 {linkedIn.link ? "✅ LinkedIn embed working!" : "⚠️ LinkedIn embed needs work"}
               </h2>
-              <p className="text-xl text-slate-700 mb-8">
-                Post: {linkedIn.link}
-              </p>
+              <div dangerouslySetInnerHTML={{__html: linkedIn.link}}></div>
             </>
           ) : (
             <div className="text-2xl text-slate-600">
