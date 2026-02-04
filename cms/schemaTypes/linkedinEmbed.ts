@@ -7,14 +7,13 @@ export default {
     {
       name: 'link',
       title: 'LinkedIn Post Link 🔗',
-      type: 'string',
-      validation: (Rule: any) => Rule.custom((isIframe: any) => {
+      description: 'Paste Embed URL here (you can do more than one)',
+      type: 'array',
+      of: [{
+         type: 'string'
+        }],
+      validation: (Rule: any) => Rule.custom((isIframe: string) => {
         
-        // Check if input is an iframe
-        if (!isIframe.startsWith('<iframe src=') && !isIframe.endsWith('>')) {
-          return 'LinkedIn embed URL must start with <iframe> and end with >';
-        }
-
         return true;
       }) 
     }
