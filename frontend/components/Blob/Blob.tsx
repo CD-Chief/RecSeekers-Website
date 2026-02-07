@@ -2,15 +2,17 @@ import styles from './Blob.module.css';
 
 export function BlobField() {
   return (
-    <div className={styles.blobLayer}>
-      <div className={`${styles.blob} ${styles.blob1}`}>
-        <BlobSvg />
-      </div>
-      <div className={`${styles.blob} ${styles.blob2}`}>
-        <BlobSvg />
-      </div>
-      <div className={`${styles.blob} ${styles.blob3}`}>
-        <BlobSvg />
+    <div className="pointer-events-none absolute inset-0 -z-10">
+      <div className={styles.blobLayer}>
+        <div className={`${styles.blob} ${styles.blob1}`}>
+          <BlobSvg />
+        </div>
+        <div className={`${styles.blob} ${styles.blob2}`}>
+          <BlobSvg />
+        </div>
+        <div className={`${styles.blob} ${styles.blob3}`}>
+          <BlobSvg />
+        </div>
       </div>
     </div>
   );

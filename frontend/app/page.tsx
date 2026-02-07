@@ -6,34 +6,14 @@ export default async function HomePage() {
   const status = await client.fetch(TEMPLATE_STATUS_QUERY);
 
   return (
-    <main className="min-h-screen py-20 relative overflow-hidden flex items-center" style={{ background: '#da8da0' }}>
+    <main
+      className="relative isolate min-h-screen flex items-center justify-center overflow-hidden"
+      style={{ background: '#da8da0' }}
+    >
       <BlobField />
-      
-      <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
-        <h1 className="text-5xl md:text-7xl font-bold bg-linear-to-r text-primary-darkd bg-clip-text mb-8">
-          Template Ready
-        </h1>
-        
-        <div className="bg-white/60 backdrop-blur-xl rounded-3xl p-12 shadow-2xl border border-slate-200/50">
-          {status ? (
-            <>
-              <h2 className="text-3xl font-bold text-slate-900 mb-4">
-                {status.isReady ? "✅ Sanity Connected!" : "⚠️ Setup needed"}
-              </h2>
-              <p className="text-xl text-slate-700 mb-8">
-                Status: <strong>{status.status}</strong>
-              </p>
-              <div className="text-sm text-slate-500">
-                Sanity query working → your template is fully wired!
-              </div>
-            </>
-          ) : (
-            <div className="text-2xl text-slate-600">
-              No status document yet. Create one in /studio
-            </div>
-          )}
-        </div>
-      </div>
+      <h1 className="relative z-10 text-6xl font-bold text-white mix-blend-difference">
+        Template Ready
+      </h1>
     </main>
   );
 }
