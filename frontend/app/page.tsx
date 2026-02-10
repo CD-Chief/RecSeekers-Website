@@ -3,8 +3,6 @@ import { TEMPLATE_STATUS_QUERY } from "@/sanity/queries";
 import { BlobField } from "@/components/Blob/Blob";
 
 export default async function HomePage() {
-  const status = await client.fetch(TEMPLATE_STATUS_QUERY);
-
   return (
     <main
       className="relative isolate min-h-screen flex items-center justify-center overflow-hidden"
