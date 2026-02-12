@@ -15,31 +15,40 @@ export default async function HomePage() {
       style={{ background: '#da8da0' }}
     >
       <BlobField />
-      <h1
-       className={
-        `relative z-10 
       
-        text-7xl 
-      
-        font-bold
-      
-        italic
-      
-        text-pink-300
+      {/* Container to stack the headings vertically */}
+      <div className="relative z-10 flex flex-col items-center text-center">
         
-        [-webkit-text-stroke:3px_black]
-        
-        hover:[-webkit-text-stroke:3.5px_black]
+        <h1
+          className={`
+            text-9xl 
+            font-bold
+            italic
+            text-primary
+            -tracking-[0.04em]
+            [-webkit-text-stroke:8.56px_black]
+            hover:[]
+            transition-all duration-300 ease-in-out
+            cursor-default
+            ${cooper.className}
+          `}
+        >
+          RecSeekers
+        </h1>
 
-        transition-all duration-300 ease-in-out
+        <h2
+          className={`
+            text-6xl 
+            font-bold 
+            text-black 
+            -mt-3 
+            ${cooper.className}
+          `}
+        >
+          "Recruiters for Recruiters"
+        </h2>
         
-        cursor-default
-        
-        ${cooper.className}`}>
-        {/* ^^ had to remove mix-blend-difference bc pink wasnt working */}
-        
-        Template Ready
-      </h1>
+      </div>
     </main>
   );
 }
