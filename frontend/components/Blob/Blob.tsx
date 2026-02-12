@@ -13,6 +13,12 @@ export function BlobField() {
         <div className={`${styles.blob} ${styles.blob3}`}>
           <BlobSvg />
         </div>
+        <div className={`${styles.blob} ${styles.blob4}`}>
+          <BlobSvg />
+        </div>
+        <div className={`${styles.blob} ${styles.blob5}`}>
+          <BlobSvg />
+        </div>
       </div>
     </div>
   );
