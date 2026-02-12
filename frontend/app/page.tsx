@@ -6,7 +6,7 @@ export default async function HomePage() {
   return (
     <main
       className="relative isolate min-h-screen flex items-center justify-center overflow-hidden"
-      style={{ background: '#da8da0' }}
+      
     >
       <BlobField />
       <h1 className="relative z-10 text-6xl font-bold text-white mix-blend-difference">
