@@ -16,6 +16,7 @@
 }
 
 @theme inline {
+  /* Colours */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);
@@ -25,13 +26,15 @@
   --color-neutral-50: var(--neutral-50);
   --color-neutral-900: var(--neutral-900);
   
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  /* Fonts */
+  --font-sans: var(--font-poppins), sans-serif;
+  
 
+  /* Body */
+  --font-body: var(--font-poppins);
+  /* Headings */
+  --font-heading: var(--font-quicksand);
+  /* Display */
+  --font-display: var(--font-rubik);
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
 }
