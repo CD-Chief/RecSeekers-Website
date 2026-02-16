@@ -85,9 +85,9 @@ export default async function HomePage() {
         <div className="relative z-10 flex flex-col items-center text-center">
           <h1
             className={`
-              text-9xl font-bold italic text-[#fdb4df] -tracking-[0.0465em]
-              [-webkit-text-stroke:8.6px_black]
-              hover:[]
+              text-9xl font-bold italic text-primary-logo -tracking-[0.04em]
+              [-webkit-text-stroke:8.56px_black]
+              hover:[-webkit-text-stroke:3.5px_black]
               transition-all duration-300 ease-in-out
               cursor-default
               ${cooper.className}
