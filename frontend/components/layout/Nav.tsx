@@ -7,28 +7,32 @@ import { Button } from "../ui/Button";
 
 const NAV_ITEMS = [
   {
-    label: "Home",
-    href: "/",
-    previewTitle: "Welcome to RecSeekers",
-    previewText: "High-impact recruiters matching talent with their next move.",
-  },
-  {
     label: "About",
     href: "/about",
     previewTitle: "About RecSeekers",
-    previewText: "Recruiters for recruiters – learn how we work and who we help.",
+    previewText: "We specialise in recruiter-to-recruiter hiring—matching top talent with high-performing teams.",
+    previewImage: "/file.svg",
   },
   {
-    label: "Jobs",
-    href: "/jobs",
-    previewTitle: "Live roles",
-    previewText: "Browse open positions and find your next opportunity.",
+    label: "Candidates",
+    href: "/candidates",
+    previewTitle: "For Recruiter Candidates",
+    previewText: "Level up your recruiting career with roles that match your niche, targets, and way of working.",
+    previewImage: "/file.svg",
+  },
+  {
+    label: "Employers",
+    href: "/employers",
+    previewTitle: "For Hiring Teams",
+    previewText: "Hire proven recruiters who understand your market, your pipeline, and your growth targets.",
+    previewImage: "/file.svg",
   },
   {
     label: "Contact",
     href: "/contact",
-    previewTitle: "Work with us",
-    previewText: "Reach out to discuss hiring or your next career step.",
+    previewTitle: "Talk to RecSeekers",
+    previewText: "Book a quick call to discuss open roles, hiring plans, or your next career move.",
+    previewImage: "/file.svg",
   },
 ];
 
@@ -65,38 +69,50 @@ export function Nav() {
           ))}
         </div>
 
-        {/* Preview bar: same width as nav pill */}
+        {/* Wider/taller preview bar */}
         <AnimatePresence>
           {isPreviewOpen && hoveredIndex !== null && (
             <motion.div
               key="nav-preview"
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 8 }}
-              exit={{ opacity: 0, y: -8 }}
+              initial={{ opacity: 0, y: -8, scale: 0.95 }}
+              animate={{ opacity: 1, y: 8, scale: 1 }}
+              exit={{ opacity: 0, y: -8, scale: 0.95 }}
               transition={{ type: "spring", stiffness: 260, damping: 22 }}
               className="
-                absolute left-0 right-0 mt-1
-                rounded-2xl bg-white/95 border border-neutral-200 shadow-xl
+                absolute left-1/2 -translate-x-1/2 mt-2 w-[calc(100%+2rem)] max-w-md
+                rounded-2xl bg-white/95 border border-neutral-200 shadow-2xl
                 overflow-hidden
               "
               onMouseEnter={() => setIsInside(true)}
               onMouseLeave={() => setIsInside(false)}
             >
-              {/* Content fades when hoveredIndex changes */}
+              {/* Grid: 33% image | 67% text */}
               <motion.div
                 key={NAV_ITEMS[hoveredIndex].label}
-                initial={{ opacity: 0, y: 4 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -4 }}
-                transition={{ duration: 0.15 }}
-                className="px-4 py-3"
+                initial={{ opacity: 0, x: 8 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -8 }}
+                transition={{ duration: 0.2 }}
+                className="grid grid-cols-[1fr_2fr] h-20 items-center p-2 gap-3"
               >
-                <p className="text-xs font-semibold text-neutral-900">
-                  {NAV_ITEMS[hoveredIndex].previewTitle}
-                </p>
-                <p className="mt-1 text-xs text-neutral-600">
-                  {NAV_ITEMS[hoveredIndex].previewText}
-                </p>
+                {/* Left 33%: Image */}
+                <div className="h-16 w-16 rounded-xl overflow-hidden bg-gradient-to-br from-primary/20 to-secondary/20">
+                  <img
+                    src={NAV_ITEMS[hoveredIndex].previewImage}
+                    alt=""
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+
+                {/* Right 67%: Text */}
+                <div>
+                  <p className="text-sm font-semibold text-neutral-900 leading-tight">
+                    {NAV_ITEMS[hoveredIndex].previewTitle}
+                  </p>
+                  <p className="text-xs text-neutral-600 mt-0.5 leading-tight">
+                    {NAV_ITEMS[hoveredIndex].previewText}
+                  </p>
+                </div>
               </motion.div>
             </motion.div>
           )}
