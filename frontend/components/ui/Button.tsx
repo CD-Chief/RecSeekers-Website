@@ -22,7 +22,7 @@ export function Button({
     primary: "bg-primary hover:bg-primary-dark text-white focus:ring-primary",
     secondary: "bg-secondary hover:opacity-90 text-white focus:ring-secondary",
     tertiary: "bg-tertiary hover:opacity-90 text-white focus:ring-tertiary",
-    text: "bg-transparent hover:bg-neutral-50 text-foreground focus:ring-neutral-900",
+    text: "bg-transparent text-foreground hover:text-white focus:ring-neutral-900 transition-colors duration-400",
   };
 
   const sizeStyles: Record<ButtonSize, string> = {
