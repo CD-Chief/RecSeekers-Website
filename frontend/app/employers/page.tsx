@@ -1,6 +1,7 @@
 import Link from "next/link";
 import localFont from "next/font/local";
 import { Button } from "@/components/ui/Button";
+import { FeatureCards } from "@/components/employers/FeatureCards";
 
 const cooper = localFont({
   src: "../fonts/cooper-black-cdnfonts/coopbl.ttf",
@@ -65,6 +66,40 @@ export default function EmployersPage() {
             </div>
           </div>
 
+        </div>
+      </section>
+
+      {/* ── WHY WORK WITH US ── */}
+      <section className="min-h-screen flex flex-col justify-center bg-white px-8">
+        <div className="max-w-6xl mx-auto w-full">
+
+          {/* Section title */}
+          <h2 className={`text-4xl lg:text-5xl text-neutral-900 mb-16 ${cooper.className}`}>
+            Why work with{" "}
+            <span className="text-primary italic">RecSeekers?</span>
+          </h2>
+
+          {/* Two-column layout */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+
+            {/* LEFT: Image */}
+            <div className="flex justify-center">
+              <div className="relative w-full max-w-md aspect-square">
+                <div className="absolute inset-0 rounded-3xl border-4 border-neutral-900 translate-x-3 translate-y-3" />
+                <div className="relative h-full w-full rounded-3xl border-4 border-neutral-900 overflow-hidden bg-neutral-100">
+                  <img
+                    src="/file.svg"
+                    alt="Why work with RecSeekers"
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* RIGHT: Feature cards */}
+            <FeatureCards />
+
+          </div>
         </div>
       </section>
     </main>
