@@ -21,7 +21,7 @@ export function Button({
   const variantStyles: Record<ButtonVariant, string> = {
     primary: "bg-primary hover:bg-primary-dark text-white focus:ring-primary",
     secondary: "bg-secondary hover:opacity-90 text-white focus:ring-secondary",
-    tertiary: "bg-tertiary hover:opacity-90 text-white focus:ring-tertiary",
+    tertiary: "btn-burst bg-transparent border-2 border-white text-white hover:border-tertiary focus:ring-tertiary",
     text: "bg-transparent text-foreground hover:text-white focus:ring-neutral-900 transition-colors duration-400",
   };
 
