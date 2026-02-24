@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "../ui/Button";
 
@@ -42,21 +43,43 @@ const CONTACT_ITEM = {
 };
 
 export function Nav() {
+  const pathname = usePathname();
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [isInside, setIsInside] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    function onScroll() {
+      setScrolled(window.scrollY > 20);
+    }
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const isPreviewOpen = hoveredIndex !== null && isInside;
+  const showLogo = pathname !== "/" || scrolled;
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50">
       <div className="relative flex items-center justify-center bg-primary/90 backdrop-blur-3xl shadow-lg border-b border-neutral-50/20 px-6 py-2 rounded-b-lg">
 
-        {/* Logo – far left */}
-        <div className="absolute left-10">
-          <Link href="/">
-            <img src="/RecLogo.svg" alt="RecSeekers" className="h-8 w-auto" />
-          </Link>
-        </div>
+        {/* Logo – far left, hidden on landing until scrolled */}
+        <AnimatePresence>
+          {showLogo && (
+            <motion.div
+              className="absolute left-10"
+              initial={{ opacity: 0, x: -16 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -16 }}
+              transition={{ type: "spring", stiffness: 300, damping: 28 }}
+            >
+              <Link href="/">
+                <img src="/RecLogo.svg" alt="RecSeekers" className="h-8 w-auto" />
+              </Link>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Pill + preview – hover system scoped here only */}
         <div
