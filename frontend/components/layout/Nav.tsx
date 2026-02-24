@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "../ui/Button";
+import { NavPreview } from "./NavPreview";
 
 const PILL_ITEMS = [
   {
@@ -106,52 +107,13 @@ export function Nav() {
           </div>
 
           {/* Preview bar – centered under pill */}
-          <AnimatePresence>
-            {isPreviewOpen && hoveredIndex !== null && (
-              <motion.div
-                key="nav-preview"
-                initial={{ opacity: 0, y: -8, scale: 0.95 }}
-                animate={{ opacity: 1, y: 8, scale: 1 }}
-                exit={{ opacity: 0, y: -8, scale: 0.95 }}
-                transition={{ type: "spring", stiffness: 260, damping: 22 }}
-                className="
-                  absolute left-1/2 -translate-x-1/2 top-full mt-2 w-80
-                  rounded-2xl bg-white/95 border border-neutral-200 shadow-2xl
-                  overflow-hidden
-                "
-                onMouseEnter={() => setIsInside(true)}
-                onMouseLeave={() => setIsInside(false)}
-              >
-                <motion.div
-                  key={PILL_ITEMS[hoveredIndex].label}
-                  initial={{ opacity: 0, x: 8 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -8 }}
-                  transition={{ duration: 0.2 }}
-                  className="grid grid-cols-[1fr_2fr] h-20 items-center p-2 gap-3"
-                >
-                  {/* Left 33%: Image */}
-                  <div className="h-16 w-16 rounded-xl overflow-hidden bg-gradient-to-br from-primary/20 to-secondary/20">
-                    <img
-                      src={PILL_ITEMS[hoveredIndex].previewImage}
-                      alt=""
-                      className="h-full w-full object-cover"
-                    />
-                  </div>
-
-                  {/* Right 67%: Text */}
-                  <div>
-                    <p className="text-sm font-semibold text-neutral-900 leading-tight">
-                      {PILL_ITEMS[hoveredIndex].previewTitle}
-                    </p>
-                    <p className="text-xs text-neutral-600 mt-0.5 leading-tight">
-                      {PILL_ITEMS[hoveredIndex].previewText}
-                    </p>
-                  </div>
-                </motion.div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          <NavPreview
+            items={PILL_ITEMS}
+            hoveredIndex={hoveredIndex}
+            isOpen={isPreviewOpen}
+            onMouseEnter={() => setIsInside(true)}
+            onMouseLeave={() => setIsInside(false)}
+          />
         </div>
 
         {/* Contact button – far right, outside preview system */}
