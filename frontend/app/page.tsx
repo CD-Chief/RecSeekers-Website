@@ -19,16 +19,11 @@ export default async function HomePage() {
         <BlobField />
         
         <div className="relative z-10 flex flex-col items-center text-center">
-          <h1
-            className={`
-              text-9xl font-bold italic text-primary-logo -tracking-[0.04em]
-              [-webkit-text-stroke:8.56px_black]
-              cursor-default
-              ${cooper.className}
-            `}
-          >
-            RecSeekers
-          </h1>
+          <img
+            src="/RecLogo.svg"
+            alt="RecSeekers"
+            className="w-auto max-w-2xl my-3.5"
+          />
 
           <h2
             className={`
