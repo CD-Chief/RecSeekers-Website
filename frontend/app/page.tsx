@@ -23,8 +23,6 @@ export default async function HomePage() {
             className={`
               text-9xl font-bold italic text-primary-logo -tracking-[0.04em]
               [-webkit-text-stroke:8.56px_black]
-              hover:[-webkit-text-stroke:3.5px_black]
-              transition-all duration-300 ease-in-out
               cursor-default
               ${cooper.className}
             `}
