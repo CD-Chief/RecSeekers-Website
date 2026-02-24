@@ -23,7 +23,7 @@ export function Button({
     secondary: "bg-secondary border-2 border-secondary hover:border-white text-white focus:ring-secondary",
     tertiary: "btn-burst bg-transparent border-2 border-white text-white hover:border-tertiary focus:ring-tertiary",
     tertiary2: "bg-tertiary border-2 border-tertiary hover:border-white text-white focus:ring-secondary",
-    text: "bg-transparent text-foreground hover:text-white focus:ring-neutral-900 transition-colors duration-400",
+    text: "group relative bg-transparent text-foreground hover:text-white focus:ring-neutral-900 transition-colors duration-400",
   };
 
   const sizeStyles: Record<ButtonSize, string> = {
@@ -36,7 +36,14 @@ export function Button({
 
   return (
     <button className={combinedClassName} {...props}>
-      {children}
+      {variant === "text" ? (
+        <span className="relative inline-block">
+          {children}
+          <span className="absolute bottom-0 left-0 h-px w-full bg-current scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300" />
+        </span>
+      ) : (
+        children
+      )}
     </button>
   );
 }
