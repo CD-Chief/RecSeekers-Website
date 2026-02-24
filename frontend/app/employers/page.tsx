@@ -2,6 +2,7 @@ import Link from "next/link";
 import localFont from "next/font/local";
 import { Button } from "@/components/ui/Button";
 import { FeatureCards } from "@/components/employers/FeatureCards";
+import { BottomCTA } from "@/components/employers/BottomCTA";
 
 const cooper = localFont({
   src: "../fonts/cooper-black-cdnfonts/coopbl.ttf",
@@ -102,6 +103,7 @@ export default function EmployersPage() {
           </div>
         </div>
       </section>
+      <BottomCTA />
     </main>
   );
 }
