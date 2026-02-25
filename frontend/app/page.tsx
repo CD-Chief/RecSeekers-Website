@@ -4,6 +4,7 @@ import { BlobField } from "@/components/Blob/Blob";
 import localFont from 'next/font/local';
 import Image from "next/image";
 import Link from "next/link";
+import { Button } from "@/components/ui/Button";
 
 const placeHolderProfile = '/profile.png';
 
@@ -194,12 +195,9 @@ export default async function HomePage() {
             
             {/* Split Button Container */}
             <Link href="/contact" className="group flex items-stretch gap-2">
-              <div className={`px-18 py-4 bg-[#1e293b] text-white ${cooper.className} font-bold rounded-2xl border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] group-hover:translate-x-1 group-hover:translate-y-1 group-hover:shadow-none transition-all text-lg tracking-wider flex items-center`}>
-                Get In Touch
-              </div>
-              <div className="w-14 bg-[#d9f99d] flex items-center justify-center rounded-2xl border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] group-hover:translate-x-1 group-hover:translate-y-1 group-hover:shadow-none transition-all text-black font-bold text-xl">
-                →
-              </div>
+              <Button className={`px-18 py-4 bg-[#1e293b] text-white ${cooper.className} font-bold rounded-2xl border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] group-hover:translate-x-1 group-hover:translate-y-1 group-hover:shadow-none transition-all text-lg tracking-wider flex items-center`}>
+                Get In Touch!
+              </Button>
             </Link>
           </div>          
         </div>
