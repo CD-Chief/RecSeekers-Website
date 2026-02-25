@@ -5,6 +5,7 @@ import localFont from 'next/font/local';
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
+import TestimonialCarousel from "@/components/Testimonial/TestimonialCarousel";
 
 const placeHolderProfile = '/profile.png';
 
@@ -13,39 +14,39 @@ const cooper = localFont({
   display: 'swap',
 })
 
-// Testimonials Component to reuse
-// Testimonials Component to reuse
-const TestimonialCard = ({ name, text, image }: { name: string, text: string, image: string }) => {
+// - COMMENTED IN CASE WE DON'T GO WITH CAROUSEL
+// // Testimonials Component to reuse 
+// const TestimonialCard = ({ name, text, image }: { name: string, text: string, image: string }) => {
     
-  // Logic to determine which source to use 
-  const imageSrc = (image !== "no image" && image !==  "" && image !== " ") ? image : placeHolderProfile;
+//   // Logic to determine which source to use 
+//   const imageSrc = (image !== "no image" && image !==  "" && image !== " ") ? image : placeHolderProfile;
 
-  return (
-    <div className="relative flex flex-col items-center p-10 border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] bg-white w-full max-w-xs min-h-[450px]">
+//   return (
+//     <div className="relative flex flex-col items-center p-10 border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] bg-white w-full max-w-xs min-h-[450px]">
       
-      {/* 1. Name of person (in Cooper Black) */}
-      <h3 className={`${cooper.className} text-3xl text-black text-center mb-10`}>
-        {name}
-      </h3>
+//       {/* 1. Name of person (in Cooper Black) */}
+//       <h3 className={`${cooper.className} text-3xl text-black text-center mb-10`}>
+//         {name}
+//       </h3>
 
-      {/* 2. Profile Image Circle */}
-      <div className="w-32 h-32 rounded-full border-4 border-black overflow-hidden mb-10 bg-gray-100 flex-shrink-0 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-        <Image
-          src={imageSrc} 
-          alt={name} 
-          width={256}
-          height={256} 
-          className="w-full h-full object-cover"
-        />
-      </div>
+//       {/* 2. Profile Image Circle */}
+//       <div className="w-32 h-32 rounded-full border-4 border-black overflow-hidden mb-10 bg-gray-100 flex-shrink-0 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+//         <Image
+//           src={imageSrc} 
+//           alt={name} 
+//           width={256}
+//           height={256} 
+//           className="w-full h-full object-cover"
+//         />
+//       </div>
       
-      {/* 3. Testimonial Text */}
-      <p className="text-center text-black text-xl leading-relaxed italic">
-        {text}
-      </p>
-    </div>
-  );
-};
+//       {/* 3. Testimonial Text */}
+//       <p className="text-center text-black text-xl leading-relaxed italic">
+//         {text}
+//       </p>
+//     </div>
+//   );
+// };
 
 export default async function HomePage() {
 
@@ -57,20 +58,32 @@ export default async function HomePage() {
   */
   const testimonials = [
     { 
-      name: "Barack Obama",
-      text: "\"Very good guy\"",
-      image: "no image",
-   
+      name: "Capsule Corp",
+      role: "Earth Defender",
+      image: "/Testimonial1.jpg",
+      quote: "I was looking for a strong sparring partner, but RecSeekers found me a job with an infinite food supply instead! 10/10.",
+      author: "Son Goku"
     },
     { 
-      name: "Barack Obama",
-      text: "\"Very good guy\"",
-      image: " "
+      name: "Hidden Leaf",
+      role: "7th Hokage",
+      image: "/Testimonial2.jpg", 
+      quote: "Believe it! I needed new ninja for the Leaf Village, and these guys delivered faster than the Flying Raijin jutsu!",
+      author: "Naruto Uzumaki"
     },
     { 
-      name: "Barack Obama",
-      text: "\"Very good guy\"",
-      image: ""
+      name: "Scout Regiment",
+      role: "Squad Captain",
+      image: "/Testimonial3.jpg",
+      quote: "The candidates they sent were actually capable of cleaning a room properly. Acceptable.",
+      author: "Levi Ackerman"
+    },
+    { 
+      name: "Hero Assoc.",
+      role: "Hero for Fun",
+      image: "/Testimonial4.png",
+      quote: "I just wanted a job where I don't defeat the boss in one punch. Still waiting, but the recruiter was nice.",
+      author: "Saitama"
     }
   ]
 
@@ -136,22 +149,15 @@ export default async function HomePage() {
         </div>
       </section>
       {/* --- Testimonials Section --- */}
-      <section className="relative z-20 min-h-screen bg-pink-300 px-8 flex flex-col items-center snap-start">
-        <div className="max-w-6xl w-full">
-          <h2 className={`text-5xl mb-16 text-black ${cooper.className}`}>
+      <section className="relative z-20 min-h-screen bg-pink-300 px-8 flex flex-col items-center snap-start py-24">
+        <div className="max-w-6xl w-full flex flex-col items-center">
+          <h2 className={`text-5xl mb-16 text-black text-center ${cooper.className}`}>
             Our Clients
           </h2>
-          
-          <div className="flex flex-wrap justify-center gap-16">
-            {testimonials.map((t, i) => (
-              <TestimonialCard 
-                key={i} 
-                name={t.name} 
-                text={t.text} 
-                image={t.image} 
-              />
-            ))}
-          </div>
+          <TestimonialCarousel 
+            testimonials={testimonials} 
+            fontClass={cooper.className} 
+          />
         </div>
       </section>
       {/* --- Contact Section ---*/}
