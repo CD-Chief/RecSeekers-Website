@@ -1,6 +1,6 @@
 import React from "react";
 
-type ButtonVariant = "primary" | "secondary" | "tertiary" | "text";
+type ButtonVariant = "primary" | "secondary" | "tertiary" | "tertiary2" | "text";
 type ButtonSize = "sm" | "md" | "lg";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -22,7 +22,8 @@ export function Button({
     primary: "bg-primary hover:bg-primary-dark text-white focus:ring-primary",
     secondary: "bg-secondary border-2 border-secondary hover:border-white text-white focus:ring-secondary",
     tertiary: "btn-burst bg-transparent border-2 border-white text-white hover:border-tertiary focus:ring-tertiary",
-    text: "bg-transparent text-foreground hover:text-white focus:ring-neutral-900 transition-colors duration-400",
+    tertiary2: "bg-tertiary border-2 border-tertiary hover:border-white text-white focus:ring-secondary",
+    text: "group relative bg-transparent text-foreground hover:text-white focus:ring-neutral-900 transition-colors duration-400",
   };
 
   const sizeStyles: Record<ButtonSize, string> = {
@@ -35,7 +36,14 @@ export function Button({
 
   return (
     <button className={combinedClassName} {...props}>
-      {children}
+      {variant === "text" ? (
+        <span className="relative inline-block">
+          {children}
+          <span className="absolute bottom-0 left-0 h-px w-full bg-current scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300" />
+        </span>
+      ) : (
+        children
+      )}
     </button>
   );
 }

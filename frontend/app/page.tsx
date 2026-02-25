@@ -10,10 +10,10 @@ const cooper = localFont({
 
 export default async function HomePage() {
   return (
-    <main className="relative w-full snap-y snap-mandatory">
-      {/* --- HERO SECTION --- */}
+    <main className="relative w-full">
+      {/* --- HERO SECTION: sticky, lower z-index so content scrolls over it --- */}
       <section 
-        className="relative isolate min-h-screen flex items-center justify-center overflow-hidden snap-start"
+        className="sticky top-0 z-10 isolate min-h-screen flex items-center justify-center overflow-hidden"
         style={{ background: '#da8da0' }}
       >
         <BlobField />
@@ -36,8 +36,8 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* --- FEATURES SECTION --- */}
-      <section className="relative min-h-screen bg-pink-300 py-24 px-8 flex flex-col items-center snap-start">
+      {/* --- FEATURES SECTION: higher z-index, scrolls up and covers hero --- */}
+      <section className="relative z-20 min-h-screen rounded-t-4xl bg-pink-300 py-24 px-8 flex flex-col items-center shadow-[0_-16px_40px_0_rgba(0,0,0,0.35)]">
         <div className="max-w-6xl w-full">
           <h2 className={`text-5xl mb-16 text-black ${cooper.className}`}>
             Why RecSeekers?
