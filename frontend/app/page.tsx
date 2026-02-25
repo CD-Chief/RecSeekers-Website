@@ -136,7 +136,7 @@ export default async function HomePage() {
         </div>
       </section>
       {/* --- Testimonials Section --- */}
-      <section className="relative min-h-screen bg-pink-300 px-8 flex flex-col items-center snap-start">
+      <section className="relative z-20 min-h-screen bg-pink-300 px-8 flex flex-col items-center snap-start">
         <div className="max-w-6xl w-full">
           <h2 className={`text-5xl mb-16 text-black ${cooper.className}`}>
             Our Clients
@@ -155,9 +155,13 @@ export default async function HomePage() {
         </div>
       </section>
       {/* --- Contact Section ---*/}
-      <section className="relative min-h-screen bg-pink-300 py-24 px-8 flex flex-col items-center snap-start">
-        <div className="max-w-6xl w-full flex flex-col lg:flex-row items-center gap-16">
-          
+      <section className="relative z-20 min-h-screen bg-pink-300 py-24 px-8 flex flex-col items-center snap-start">
+        <div className="max-w-6xl w-full">
+          <h2 className={`text-5xl mb-16 text-black ${cooper.className}`}>
+            Contact Us
+          </h2>
+        </div>
+        <div className="max-w-6xl w-full flex flex-col lg:flex-row items-center gap-16">  
           {/* Left Side: Image */}
           <div className="w-full lg:w-1/2">
             <div className="relative w-full aspect-[4/3] rounded-[2rem] border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] overflow-hidden bg-white">
@@ -196,7 +200,7 @@ export default async function HomePage() {
         </div>
       </section>
       {/* --- Footer ---*/}
-      <footer className="relative w-full bg-[#d940c0] py-20 px-8 border-t-2 border-black text-white snap-start">
+      <footer className="relative w-full z-20 bg-[#d940c0] py-20 px-8 border-t-2 border-black text-white snap-start">
         <div className="max-w-6xl w-full mx-auto grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-8">
           
           {/* Logo Graphic & Motto */}
