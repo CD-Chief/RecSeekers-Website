@@ -161,7 +161,7 @@ export default async function HomePage() {
             Contact Us
           </h2>
         </div>
-        <div className="max-w-6xl w-full flex flex-col lg:flex-row items-center gap-16">  
+        <div className="max-w-6xl w-full flex flex-col lg:flex-row items-start gap-16">  
           {/* Left Side: Image */}
           <div className="w-full lg:w-1/2">
             <div className="relative w-full aspect-[4/3] rounded-[2rem] border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] overflow-hidden bg-white">
