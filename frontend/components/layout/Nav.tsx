@@ -63,7 +63,7 @@ export function Nav() {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50">
-      <div className="relative flex items-center justify-center bg-primary/90 backdrop-blur-3xl shadow-lg border-b border-neutral-50/20 px-6 py-2 rounded-b-lg">
+      <div className="relative flex items-center justify-center bg-primary/90 backdrop-blur-3xl hover:bg-primary hover:py-4 hover:shadow-xl shadow-lg border-b border-neutral-50/20 px-6 py-2 rounded-b-lg transition-all duration-300">
 
         {/* Logo – far left, hidden on landing until scrolled */}
         <AnimatePresence>
