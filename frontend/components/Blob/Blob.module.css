@@ -5,13 +5,13 @@
   overflow: hidden;
   z-index: 0;
   background: #ffffff;
-  filter: blur(0px); /* Add blob blur here*/
+  filter: blur(60px); /* Add blob blur here*/
 }
 
 /* Base blob styling */
 .blob {
   position: absolute;
-  width: 22vmax;
+  width: 44vmax;
   aspect-ratio: 310 / 350;
   transform-origin: 50% 50%;
   will-change: transform;

@@ -93,8 +93,8 @@ export default async function HomePage() {
             <p className="text-xl text-black/80 mb-10 leading-relaxed max-w-md font-medium">
               RecSeekers places top-tier recruiters into agencies that know the value of great hiring capability.
             </p>
-            <Link href="/about" className="group">
-              <Button className={`px-10 py-4 bg-[#1e293b] text-white ${cooper.className} font-bold rounded-2xl border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] group-hover:translate-x-1 group-hover:translate-y-1 group-hover:shadow-none transition-all text-lg tracking-wider`}>
+            <Link href="/about">
+              <Button variant="popout" size="xl" className={cooper.className}>
                 Learn More
               </Button>
             </Link>
@@ -205,8 +205,8 @@ export default async function HomePage() {
             </div>
             
             {/* Split Button Container */}
-            <Link href="/contact" className="group flex items-stretch gap-2">
-              <Button className={`px-18 py-4 bg-[#1e293b] text-white ${cooper.className} font-bold rounded-2xl border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] group-hover:translate-x-1 group-hover:translate-y-1 group-hover:shadow-none transition-all text-lg tracking-wider flex items-center`}>
+            <Link href="/contact">
+              <Button variant="popout" size="xl" className={cooper.className}>
                 Get In Touch!
               </Button>
             </Link>
