@@ -78,26 +78,40 @@ export default async function HomePage() {
     <main className="relative w-full">
       {/* --- HERO SECTION: sticky, lower z-index so content scrolls over it --- */}
       <section 
-        className="sticky top-0 z-10 isolate min-h-screen flex items-center justify-center overflow-hidden"
+        className="sticky top-0 z-10 isolate min-h-screen flex items-center overflow-hidden px-8 py-16"
         style={{ background: '#da8da0' }}
       >
         <BlobField />
         
-        <div className="relative z-10 flex flex-col items-center text-center">
-          <img
-            src="/RecLogo.svg"
-            alt="RecSeekers"
-            className="w-auto max-w-2xl my-3.5"
-          />
+        <div className="relative z-10 max-w-6xl w-full mx-auto flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+          
+          {/* Left: Logo + Headline + CTA */}
+          <div className="flex-1 flex flex-col items-start">
+            <h1 className={`text-4xl md:text-5xl text-black mb-4 leading-tight ${cooper.className}`}>
+              The best recruiters aren't on job boards.
+            </h1>
+            <p className="text-xl text-black/80 mb-10 leading-relaxed max-w-md font-medium">
+              RecSeekers places top-tier recruiters into agencies that know the value of great hiring capability.
+            </p>
+            <Link href="/about" className="group">
+              <Button className={`px-10 py-4 bg-[#1e293b] text-white ${cooper.className} font-bold rounded-2xl border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] group-hover:translate-x-1 group-hover:translate-y-1 group-hover:shadow-none transition-all text-lg tracking-wider`}>
+                Learn More
+              </Button>
+            </Link>
+          </div>
 
-          <h2
-            className={`
-              text-6xl font-bold text-black -mt-4 
-              ${cooper.className}
-            `}
-          >
-            "Recruiters for Recruiters"
-          </h2>
+          {/* Right: Illustration placeholder */}
+          <div className="flex-1 w-full max-w-lg">
+            <div className="relative w-full aspect-square rounded-[2rem] border-4 border-black overflow-hidden">
+              <Image
+                src="/file.svg"
+                alt="Illustration"
+                fill
+                className="object-cover"
+              />
+            </div>
+          </div>
+
         </div>
       </section>
 
