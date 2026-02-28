@@ -167,7 +167,7 @@ export default async function HomePage() {
             <div className="relative w-full aspect-[4/3] rounded-[2rem] border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] overflow-hidden bg-white">
               {/* Note: Update the src below to your actual image path */}
               <Image 
-                src="/team-collaboration.jpg" 
+                src="/file.svg" 
                 alt="Our Team"
                 fill
                 className="object-cover"
