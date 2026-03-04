@@ -14,7 +14,6 @@ const cooper = localFont({
 })
 
 // Testimonials Component to reuse
-// Testimonials Component to reuse
 const TestimonialCard = ({ name, text, image }: { name: string, text: string, image: string }) => {
     
   // Logic to determine which source to use 

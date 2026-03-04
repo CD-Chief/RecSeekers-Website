@@ -167,7 +167,7 @@ export function HeroSection() {
 
           {/* Left: Headline + subtext + CTA */}
           <div className="flex-1 flex flex-col items-start">
-            <h1 className={`text-4xl md:text-5xl text-black mb-4 leading-tight ${cooper.className}`}>
+            <h1 className={`text-6xl md:text-5xl text-black mb-4 leading-tight ${cooper.className}`}>
               The best recruiters aren&apos;t on job boards.
             </h1>
             <p className="text-xl text-black/80 mb-10 leading-relaxed max-w-md font-medium">
