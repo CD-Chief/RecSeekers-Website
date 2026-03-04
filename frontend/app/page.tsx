@@ -1,6 +1,6 @@
 import { client } from "@/sanity/client";
 import { TEMPLATE_STATUS_QUERY } from "@/sanity/queries";
-import { BlobField } from "@/components/Blob/Blob";
+import { HeroSection } from "@/components/Hero/HeroSection";
 import localFont from 'next/font/local';
 import Image from "next/image";
 import Link from "next/link";
@@ -76,44 +76,8 @@ export default async function HomePage() {
 
   return (
     <main className="relative w-full">
-      {/* --- HERO SECTION: sticky, lower z-index so content scrolls over it --- */}
-      <section 
-        className="sticky top-0 z-10 isolate min-h-screen flex items-center overflow-hidden px-8 py-16"
-        style={{ background: '#da8da0' }}
-      >
-        <BlobField />
-        
-        <div className="relative z-10 max-w-6xl w-full mx-auto flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
-          
-          {/* Left: Logo + Headline + CTA */}
-          <div className="flex-1 flex flex-col items-start">
-            <h1 className={`text-4xl md:text-5xl text-black mb-4 leading-tight ${cooper.className}`}>
-              The best recruiters aren't on job boards.
-            </h1>
-            <p className="text-xl text-black/80 mb-10 leading-relaxed max-w-md font-medium">
-              RecSeekers places top-tier recruiters into agencies that know the value of great hiring capability.
-            </p>
-            <Link href="/about">
-              <Button variant="popout" size="xl" className={cooper.className}>
-                Learn More
-              </Button>
-            </Link>
-          </div>
-
-          {/* Right: Illustration placeholder */}
-          <div className="flex-1 w-full max-w-lg">
-            <div className="relative w-full aspect-square rounded-[2rem] border-4 border-black overflow-hidden">
-              <Image
-                src="/file.svg"
-                alt="Illustration"
-                fill
-                className="object-cover"
-              />
-            </div>
-          </div>
-
-        </div>
-      </section>
+      {/* --- HERO SECTION (two-stage scroll-hijacked hero) --- */}
+      <HeroSection />
 
       {/* --- FEATURES SECTION: higher z-index, scrolls up and covers hero --- */}
       <section className="relative z-20 min-h-screen rounded-t-4xl bg-pink-300 py-24 px-8 flex flex-col items-center shadow-[0_-16px_40px_0_rgba(0,0,0,0.35)]">

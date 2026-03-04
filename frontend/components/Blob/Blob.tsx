@@ -1,9 +1,20 @@
+import type { CSSProperties } from 'react';
 import styles from './Blob.module.css';
 
-export function BlobField() {
+interface BlobFieldProps {
+  /** Controls blob element width, e.g. "28vmax". Default: "24vmax" */
+  size?: string;
+  /** Controls the blur amount on the blob layer, e.g. "60px". Default: "60px" */
+  blurAmount?: string;
+}
+
+export function BlobField({ size = "24vmax", blurAmount = "60px" }: BlobFieldProps) {
   return (
     <div className="pointer-events-none absolute inset-0 -z-10">
-      <div className={styles.blobLayer}>
+      <div
+        className={styles.blobLayer}
+        style={{ '--blob-size': size, filter: `blur(${blurAmount})` } as CSSProperties}
+      >
         <div className={`${styles.blob} ${styles.blob1}`}>
           <BlobSvg />
         </div>
