@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { BlobField } from "@/components/Blob/Blob";
+import { useHeroStage } from "@/context/HeroStageContext";
 import localFont from "next/font/local";
 import Image from "next/image";
 import Link from "next/link";
@@ -28,6 +29,7 @@ export function HeroSection() {
   const [transitioning, setTransitioning] = useState(false);
   const [blobBlur, setBlobBlur]       = useState(BLOB_BLUR_STAGE1);
   const [blobSize, setBlobSize]       = useState(BLOB_SIZE_STAGE1);
+  const { setIsHeroStage1 }           = useHeroStage();
 
   const hasTransitioned = useRef(false);
   const accumulated     = useRef(0);
@@ -45,6 +47,7 @@ export function HeroSection() {
       hasTransitioned.current = true;
 
       setTransitioning(true);
+      setIsHeroStage1(false);
 
       // Step 1 – blur spikes to peak
       setBlobBlur(BLOB_BLUR_PEAK);
