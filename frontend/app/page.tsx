@@ -77,10 +77,12 @@ export default async function HomePage() {
   return (
     <main className="relative w-full">
       {/* --- HERO SECTION (two-stage scroll-hijacked hero) --- */}
-      <HeroSection />
+      <div className="snap-start">
+        <HeroSection />
+      </div>
 
       {/* --- FEATURES SECTION: higher z-index, scrolls up and covers hero --- */}
-      <section className="relative z-20 min-h-screen rounded-t-4xl bg-pink-300 py-24 px-8 flex flex-col items-center shadow-[0_-16px_40px_0_rgba(0,0,0,0.35)]">
+      <section className="snap-start relative z-20 min-h-screen rounded-t-4xl bg-pink-300 py-24 px-8 flex flex-col items-center shadow-[0_-16px_40px_0_rgba(0,0,0,0.35)]">
         <div className="max-w-6xl w-full">
           <h2 className={`text-5xl mb-16 text-black ${cooper.className}`}>
             Why RecSeekers?

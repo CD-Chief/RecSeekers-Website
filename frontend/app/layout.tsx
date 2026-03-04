@@ -37,7 +37,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="snap-y snap-proximity">
       <body
         className={` ${poppins.variable} ${quicksand.variable} ${rubik.variable} antialiased`}
       >
