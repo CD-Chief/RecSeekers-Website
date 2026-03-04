@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Poppins, Quicksand, Rubik} from "next/font/google";
 import "./globals.css";
 import { Nav } from "@/components/layout/Nav";
+import { HeroStageProvider } from "@/context/HeroStageContext";
 
 // Font imports – available as CSS variables for Tailwind
 
@@ -37,12 +38,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="snap-y snap-proximity">
       <body
         className={` ${poppins.variable} ${quicksand.variable} ${rubik.variable} antialiased`}
       >
-        <Nav />
-        {children}
+        <HeroStageProvider>
+          <Nav />
+          {children}
+        </HeroStageProvider>
       </body>
     </html>
   );

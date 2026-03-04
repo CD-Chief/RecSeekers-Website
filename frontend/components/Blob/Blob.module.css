@@ -5,15 +5,18 @@
   overflow: hidden;
   z-index: 0;
   background: #ffffff;
+  /* filter is now controlled via inline style from BlobField props */
+  transition: filter 0.5s ease;
 }
 
 /* Base blob styling */
 .blob {
   position: absolute;
-  width: 22vmax;
+  width: var(--blob-size, 24vmax);
   aspect-ratio: 310 / 350;
   transform-origin: 50% 50%;
   will-change: transform;
+  transition: width 0.5s ease;
 }
 
 .blob svg {

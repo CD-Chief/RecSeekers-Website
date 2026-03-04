@@ -1,6 +1,6 @@
 import { client } from "@/sanity/client";
 import { TEMPLATE_STATUS_QUERY } from "@/sanity/queries";
-import { BlobField } from "@/components/Blob/Blob";
+import { HeroSection } from "@/components/Hero/HeroSection";
 import localFont from 'next/font/local';
 import Image from "next/image";
 import Link from "next/link";
@@ -13,7 +13,6 @@ const cooper = localFont({
   display: 'swap',
 })
 
-// Testimonials Component to reuse
 // Testimonials Component to reuse
 const TestimonialCard = ({ name, text, image }: { name: string, text: string, image: string }) => {
     
@@ -76,33 +75,13 @@ export default async function HomePage() {
 
   return (
     <main className="relative w-full">
-      {/* --- HERO SECTION: sticky, lower z-index so content scrolls over it --- */}
-      <section 
-        className="sticky top-0 z-10 isolate min-h-screen flex items-center justify-center overflow-hidden"
-        style={{ background: '#da8da0' }}
-      >
-        <BlobField />
-        
-        <div className="relative z-10 flex flex-col items-center text-center">
-          <img
-            src="/RecLogo.svg"
-            alt="RecSeekers"
-            className="w-auto max-w-2xl my-3.5"
-          />
-
-          <h2
-            className={`
-              text-6xl font-bold text-black -mt-4 
-              ${cooper.className}
-            `}
-          >
-            "Recruiters for Recruiters"
-          </h2>
-        </div>
-      </section>
+      {/* --- HERO SECTION (two-stage scroll-hijacked hero) --- */}
+      <div className="snap-start min-h-screen">
+        <HeroSection />
+      </div>
 
       {/* --- FEATURES SECTION: higher z-index, scrolls up and covers hero --- */}
-      <section className="relative z-20 min-h-screen rounded-t-4xl bg-pink-300 py-24 px-8 flex flex-col items-center shadow-[0_-16px_40px_0_rgba(0,0,0,0.35)]">
+      <section className="snap-start relative z-20 min-h-screen bg-pink-300 py-24 px-8 flex flex-col items-center shadow-[0_-16px_40px_0_rgba(0,0,0,0.35)]">
         <div className="max-w-6xl w-full">
           <h2 className={`text-5xl mb-16 text-black ${cooper.className}`}>
             Why RecSeekers?
@@ -167,7 +146,7 @@ export default async function HomePage() {
             <div className="relative w-full aspect-[4/3] rounded-[2rem] border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] overflow-hidden bg-white">
               {/* Note: Update the src below to your actual image path */}
               <Image 
-                src="/team-collaboration.jpg" 
+                src="/file.svg" 
                 alt="Our Team"
                 fill
                 className="object-cover"
@@ -191,8 +170,8 @@ export default async function HomePage() {
             </div>
             
             {/* Split Button Container */}
-            <Link href="/contact" className="group flex items-stretch gap-2">
-              <Button className={`px-18 py-4 bg-[#1e293b] text-white ${cooper.className} font-bold rounded-2xl border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] group-hover:translate-x-1 group-hover:translate-y-1 group-hover:shadow-none transition-all text-lg tracking-wider flex items-center`}>
+            <Link href="/contact">
+              <Button variant="popout" size="xl" className={cooper.className}>
                 Get In Touch!
               </Button>
             </Link>

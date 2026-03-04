@@ -47,6 +47,16 @@
   isolation: isolate;
 }
 
+/* ── Chevron bounce animation ── */
+@keyframes chevronBounce {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(10px); }
+}
+
+.chevron-bounce {
+  animation: chevronBounce 1.4s ease-in-out infinite;
+}
+
 .btn-burst::before {
   content: "";
   position: absolute;

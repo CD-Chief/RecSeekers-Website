@@ -1,11 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "../ui/Button";
 import { NavPreview } from "./NavPreview";
+import { useHeroStage } from "@/context/HeroStageContext";
 
 const PILL_ITEMS = [
   {
@@ -47,23 +48,16 @@ export function Nav() {
   const pathname = usePathname();
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [isInside, setIsInside] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
 
-  useEffect(() => {
-    function onScroll() {
-      setScrolled(window.scrollY > 20);
-    }
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  const { isHeroStage1 } = useHeroStage();
 
   const isPreviewOpen = hoveredIndex !== null && isInside;
-  const showLogo = pathname !== "/" || scrolled;
+  // Hide logo only when on the home page AND the hero is still on Stage 1
+  const showLogo = pathname !== "/" || !isHeroStage1;
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50">
-      <div className="relative flex items-center justify-center bg-primary/90 backdrop-blur-3xl shadow-lg border-b border-neutral-50/20 px-6 py-2 rounded-b-lg">
+      <div className="relative flex items-center justify-center bg-primary/90 backdrop-blur-3xl hover:bg-primary hover:py-4 hover:shadow-xl shadow-lg border-b border-neutral-50/20 px-6 py-2 rounded-b-lg transition-all duration-300">
 
         {/* Logo – far left, hidden on landing until scrolled */}
         <AnimatePresence>
