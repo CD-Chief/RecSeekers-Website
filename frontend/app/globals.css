@@ -97,13 +97,3 @@
     transform: translateX(0);
   }
 }
-
-.card-slide-in {
-  opacity: 0;
-  animation: slideInRight 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .card-slide-in  { animation: none; opacity: 1; }
-  .accent-bar     { animation: none; height: 100%; }
-}
