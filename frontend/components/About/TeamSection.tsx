@@ -30,21 +30,26 @@ const teamMembers: TeamMember[] = [
 
 export function TeamSection() {
   return (
-    <section className="relative z-10 bg-[#da8da0] py-24 px-8">
+    <section className="relative z-10 bg-white py-24 px-8">
       <div className="max-w-6xl mx-auto">
-        <div className="mb-4">
+        <div className="mb-12">
           <h2 className={`${cooper.className} text-6xl md:text-7xl text-black`}>
             Meet the Team
           </h2>
         </div>
-        <div className="border-t-4 border-black" />
-        {teamMembers.map((member, i) => (
-          <BlobPortrait
-            key={member.name}
-            member={member}
-            imageSide={i % 2 === 0 ? 'left' : 'right'}
-          />
-        ))}
+        <div className="flex flex-col gap-8">
+          {teamMembers.map((member, i) => (
+            <div
+              key={member.name}
+              className="rounded-3xl border border-gray-200 bg-white overflow-hidden"
+            >
+              <BlobPortrait
+                member={member}
+                imageSide={i % 2 === 0 ? 'left' : 'right'}
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

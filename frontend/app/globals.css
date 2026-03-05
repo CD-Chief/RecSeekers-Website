@@ -105,12 +105,8 @@
   border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
   animation: morphBlob 14s ease-in-out infinite alternate;
   overflow: hidden;
-  border: 6px solid black;
-  box-shadow: 10px 10px 0px 0px rgba(0,0,0,1);
+  border: 1.5px solid #111;
   flex-shrink: 0;
-  /* Outline ring that morphs with the shape */
-  outline: 4px solid #da8da0;
-  outline-offset: 4px;
 }
 
 @keyframes morphBlob {
