@@ -41,7 +41,7 @@ export function TeamSection() {
           {teamMembers.map((member, i) => (
             <div
               key={member.name}
-              className="rounded-3xl border border-gray-200 bg-white overflow-hidden"
+              className="rounded-3xl border border-gray-200 bg-white overflow-hidden shadow-2xl"
               style={{
                 opacity: 0,
                 animation: 'slideInUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards',
