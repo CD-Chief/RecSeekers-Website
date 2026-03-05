@@ -20,7 +20,7 @@ interface BlobPortraitProps {
 
 export function BlobPortrait({ member, imageSide = 'left' }: BlobPortraitProps) {
   const imageCol = (
-    <div className="flex flex-col items-center gap-6 py-10 px-8">
+    <div className="flex flex-col items-center gap-4 py-6 px-8">
       {/* relative wrapper required for Next.js fill */}
       <div className="blob-portrait relative">
         <Image
@@ -43,7 +43,7 @@ export function BlobPortrait({ member, imageSide = 'left' }: BlobPortraitProps) 
   );
 
   const bioCol = (
-    <div className="flex items-center px-8 py-10">
+    <div className="flex items-center px-8 py-6">
       <p className="text-lg text-black leading-relaxed">
         {member.bio}
       </p>
