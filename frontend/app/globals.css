@@ -97,3 +97,35 @@
     transform: translateX(0);
   }
 }
+
+/* ── About page: blob portrait morphing ── */
+.blob-portrait {
+  width: 22rem;
+  height: 22rem;
+  border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  animation: morphBlob 14s ease-in-out infinite alternate;
+  overflow: hidden;
+  border: 6px solid black;
+  box-shadow: 10px 10px 0px 0px rgba(0,0,0,1);
+  flex-shrink: 0;
+  /* Outline ring that morphs with the shape */
+  outline: 4px solid #da8da0;
+  outline-offset: 4px;
+}
+
+@keyframes morphBlob {
+  0%   { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+  25%  { border-radius: 40% 60% 70% 30% / 40% 70% 30% 60%; }
+  50%  { border-radius: 50% 50% 60% 40% / 50% 60% 40% 50%; }
+  75%  { border-radius: 30% 70% 50% 60% / 70% 40% 60% 30%; }
+  100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+}
+
+@media (max-width: 1024px) {
+  .blob-portrait { width: 16rem; height: 16rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .accent-bar    { animation: none; height: 100%; }
+  .blob-portrait { animation: none; border-radius: 50%; }
+}

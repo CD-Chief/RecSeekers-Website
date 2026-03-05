@@ -1,6 +1,7 @@
 import localFont from 'next/font/local';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
+import { TeamSection } from '@/components/About/TeamSection';
 
 const cooper = localFont({
   src: '../fonts/cooper-black-cdnfonts/coopbl.ttf',
@@ -100,6 +101,7 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
+      <TeamSection />
     </main>
   );
 }
