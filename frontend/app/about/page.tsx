@@ -52,15 +52,22 @@ export default function AboutPage() {
 
             {/* Left: subtext (2/3) */}
             <div className="w-full lg:w-2/3 flex flex-col gap-8">
-              <p className="text-xl md:text-2xl text-black leading-relaxed border-l-8 border-[#da8da0] pl-6">
-                At RecSeekers, we specialise in connecting top-tier recruitment professionals
-                with the best opportunities in the industry. As a rec2rec agency, we pride
-                ourselves on understanding the unique needs of both candidates and clients,
-                ensuring the perfect match every time. Our expert team leverages deep industry
-                insights and a vast network to support the growth and success of recruitment
-                professionals across various sectors. Partner with RecSeekers and take the
-                next step in your recruitment career or find the ideal addition to your team.
-              </p>
+              <div className="relative pl-7">
+                {/* Animated rounded accent bar */}
+                <div
+                  className="accent-bar absolute left-0 top-0 w-[7px] rounded-full bg-[#da8da0]"
+                  style={{ height: 0 }}
+                />
+                <p className="text-xl md:text-2xl text-black leading-relaxed">
+                  At RecSeekers, we specialise in connecting top-tier recruitment professionals
+                  with the best opportunities in the industry. As a rec2rec agency, we pride
+                  ourselves on understanding the unique needs of both candidates and clients,
+                  ensuring the perfect match every time. Our expert team leverages deep industry
+                  insights and a vast network to support the growth and success of recruitment
+                  professionals across various sectors. Partner with RecSeekers and take the
+                  next step in your recruitment career or find the ideal addition to your team.
+                </p>
+              </div>
 
               <Link href="/contact" className="group self-start">
                 <Button className={`${cooper.className} px-10 py-4 bg-[#1e293b] text-white text-lg tracking-wider rounded-2xl border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] group-hover:translate-x-1 group-hover:translate-y-1 group-hover:shadow-none transition-all`}>
@@ -71,10 +78,11 @@ export default function AboutPage() {
 
             {/* Right: stat cards (1/3) */}
             <div className="w-full lg:w-1/3 flex flex-col gap-6">
-              {statCards.map((card) => (
+              {statCards.map((card, i) => (
                 <div
                   key={card.title}
-                  className="flex items-center gap-5 p-6 border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] bg-[#ffa4bb]"
+                  className="card-slide-in flex items-center gap-5 p-6 border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] bg-[#ffa4bb]"
+                  style={{ animationDelay: `${i * 0.15}s` }}
                 >
                   <div className="flex-shrink-0 w-14 h-14 rounded-xl border-4 border-black bg-white flex items-center justify-center shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] text-black">
                     {card.icon}
