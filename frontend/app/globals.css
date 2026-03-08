@@ -135,8 +135,23 @@
   .blob-portrait { width: 12rem; height: 12rem; }
 }
 
+/* ── Clients ticker ── */
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.animate-ticker {
+  animation: ticker 28s linear infinite;
+}
+
+.animate-ticker:hover {
+  animation-play-state: paused;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .accent-bar    { animation: none; height: 100%; }
-  .blob-portrait { animation: none; border-radius: 50%; }
-  .team-card     { opacity: 1; transform: none; transition: none; }
+  .accent-bar      { animation: none; height: 100%; }
+  .blob-portrait   { animation: none; border-radius: 50%; }
+  .team-card       { opacity: 1; transform: none; transition: none; }
+  .animate-ticker  { animation: none; }
 }
