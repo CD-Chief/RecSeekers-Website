@@ -83,7 +83,7 @@ export default function AboutPage() {
               {statCards.map((card, i) => (
                 <div
                   key={card.title}
-                  className="flex items-center gap-5 p-6 border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] bg-[#ffa4bb]"
+                  className="flex items-center gap-5 p-6 border-4 rounded-4xl bg-[#ffa4bb]"
                   style={{
                     animation: `slideInRight 0.6s cubic-bezier(0.22, 1, 0.36, 1) both`,
                     animationDelay: `${i * 0.15}s`,
