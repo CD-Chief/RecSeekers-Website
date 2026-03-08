@@ -56,23 +56,27 @@ export function TeamSection() {
   }, []);
 
   return (
-    <section className="relative z-10 bg-[#da8da0] pt-12 pb-24 px-8">
+    <section className="relative z-10 bg-[#da8da0] border-t-4 border-black pt-16 pb-28 px-8">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-12">
+        <div className="mb-14 flex flex-col gap-2">
+          <p className={`${cooper.className} text-lg text-black/50 uppercase tracking-widest`}>
+            The people behind RecSeekers
+          </p>
           <h2 className={`${cooper.className} text-6xl md:text-7xl text-black`}>
             Meet the Team
           </h2>
         </div>
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-8">
           {teamMembers.map((member, i) => (
             <div
               key={member.name}
               ref={(el) => { cardRefs.current[i] = el; }}
-              className="team-card rounded-3xl border border-gray-200 bg-white overflow-hidden shadow-2xl"
+              className="team-card border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-3xl overflow-hidden"
               style={{ transitionDelay: `${i * 0.15}s` }}
             >
               <BlobPortrait
                 member={member}
+                index={i}
                 imageSide={i % 2 === 0 ? 'left' : 'right'}
               />
             </div>
