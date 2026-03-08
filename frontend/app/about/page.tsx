@@ -1,6 +1,7 @@
 import localFont from 'next/font/local';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
+import { ValuesSection } from '@/components/About/ValuesSection';
 import { TeamSection } from '@/components/About/TeamSection';
 
 const cooper = localFont({
@@ -101,6 +102,7 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
+      <ValuesSection />
       <TeamSection />
     </main>
   );
