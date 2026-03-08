@@ -31,7 +31,7 @@ const countries = [
 
 export function WhereWeWorkSection() {
   return (
-    <section className="relative z-10 bg-white border-t-4 border-black py-24 px-8">
+    <section className="relative z-10 bg-white py-24 px-8">
       <div className="max-w-6xl mx-auto">
 
         <div className="mb-16">

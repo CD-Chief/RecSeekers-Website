@@ -11,7 +11,7 @@ const logos = Array.from({ length: 8 }, (_, i) => ({ id: i, src: '/file.svg' }))
 
 export function ClientsSection() {
   return (
-    <section className="relative z-10 bg-[#ffa4bb] border-t-4 border-black py-16 px-8 min-h-[66vh] flex flex-col justify-center overflow-hidden">
+    <section className="relative z-10 bg-[#ffa4bb] border-t-4 border-black pt-16 pb-52 px-8 min-h-[66vh] flex flex-col justify-center overflow-hidden">
       <div className="max-w-6xl mx-auto w-full mb-14">
         <p className={`${cooper.className} text-lg text-black/40 uppercase tracking-widest mb-2`}>
           Trusted by the industry
@@ -24,6 +24,9 @@ export function ClientsSection() {
           top talent with companies that know how to grow.
         </p>
       </div>
+
+      {/* Bottom fade into the next section (white) */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-[#ffa4bb] to-white z-20" />
 
       {/* Scrolling ticker — overflows intentionally */}
       <div className="relative w-full overflow-hidden">
