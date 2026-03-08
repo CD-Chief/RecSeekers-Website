@@ -41,7 +41,7 @@ export default function AboutPage() {
     <main className="relative w-full">
       {/* --- Hero / Heading Section --- */}
       <section
-        className="min-h-screen flex flex-col items-center justify-center px-8 pt-24 pb-12"
+        className="min-h-[75vh] flex flex-col items-center justify-center px-8 pt-24 pb-12"
         style={{ background: '#FFFFFF' }}
       >
         <div className="max-w-6xl w-full">
