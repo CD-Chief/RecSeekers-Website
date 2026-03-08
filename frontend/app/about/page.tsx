@@ -5,6 +5,7 @@ import { ValuesSection } from '@/components/About/ValuesSection';
 import { TeamSection } from '@/components/About/TeamSection';
 import { ClientsSection } from '@/components/About/ClientsSection';
 import { WhereWeWorkSection } from '@/components/About/WhereWeWorkSection';
+import { BottomCTA } from '@/components/employers/BottomCTA';
 
 const cooper = localFont({
   src: '../fonts/cooper-black-cdnfonts/coopbl.ttf',
@@ -108,6 +109,7 @@ export default function AboutPage() {
       <TeamSection />
       <ClientsSection />
       <WhereWeWorkSection />
+      <BottomCTA />
     </main>
   );
 }
