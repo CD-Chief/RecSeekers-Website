@@ -109,7 +109,7 @@ export default function AboutPage() {
       <TeamSection />
       <ClientsSection />
       <WhereWeWorkSection />
-      <BottomCTA />
+      <BottomCTA variant="dark" />
     </main>
   );
 }
