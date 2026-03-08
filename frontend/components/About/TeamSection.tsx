@@ -1,3 +1,6 @@
+'use client';
+
+import { useEffect, useRef } from 'react';
 import localFont from 'next/font/local';
 import { BlobPortrait } from './BlobPortrait';
 import type { TeamMember } from './BlobPortrait';
@@ -29,6 +32,29 @@ const teamMembers: TeamMember[] = [
 ];
 
 export function TeamSection() {
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    const observers: IntersectionObserver[] = [];
+
+    cardRefs.current.forEach((card) => {
+      if (!card) return;
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            card.classList.add('is-visible');
+            observer.disconnect();
+          }
+        },
+        { threshold: 0.15 },
+      );
+      observer.observe(card);
+      observers.push(observer);
+    });
+
+    return () => observers.forEach((obs) => obs.disconnect());
+  }, []);
+
   return (
     <section className="relative z-10 bg-[#da8da0] pt-12 pb-24 px-8">
       <div className="max-w-7xl mx-auto">
@@ -41,12 +67,9 @@ export function TeamSection() {
           {teamMembers.map((member, i) => (
             <div
               key={member.name}
-              className="rounded-3xl border border-gray-200 bg-white overflow-hidden shadow-2xl"
-              style={{
-                opacity: 0,
-                animation: 'slideInUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards',
-                animationDelay: `${i * 0.15}s`,
-              }}
+              ref={(el) => { cardRefs.current[i] = el; }}
+              className="team-card rounded-3xl border border-gray-200 bg-white overflow-hidden shadow-2xl"
+              style={{ transitionDelay: `${i * 0.15}s` }}
             >
               <BlobPortrait
                 member={member}
