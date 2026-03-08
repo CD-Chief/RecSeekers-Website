@@ -81,7 +81,7 @@ export function ValuesSection() {
   const [active, setActive] = useState(0);
 
   return (
-    <section className="relative z-10 bg-[#250821] py-24 px-8">
+    <section className="relative z-10 bg-primary-dark py-24 px-8">
       <div className="max-w-6xl mx-auto">
 
         <h2 className={`${cooper.className} text-6xl md:text-7xl text-white mb-16`}>
