@@ -1,21 +1,35 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Poppins, Quicksand, Rubik} from "next/font/google";
 import "./globals.css";
+import { Nav } from "@/components/layout/Nav";
+import { HeroStageProvider } from "@/context/HeroStageContext";
 
 // Font imports – available as CSS variables for Tailwind
-const geistSans = Geist({
-  variable: "--font-geist-sans", // Maps to --font-sans in @theme
+
+// Body
+const poppins = Poppins({
+  variable: "--font-poppins",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono", // Maps to --font-mono in @theme
+// Headings (or just use rubik)
+const quicksand = Quicksand({
+  variable: "--font-quicksand",
   subsets: ["latin"],
+  weight: ["400", "700"],
+});
+
+// Display
+const rubik = Rubik({
+  variable: "--font-rubik",
+  subsets: ["latin"],
+  weight: ["400", "700"],
 });
 
 export const metadata: Metadata = {
-  title: "New Site",
-  description: "Get started on this template",
+  title: "RecSeekers",
+  description: "Find your next opportunity",
 };
 
 export default function RootLayout({
@@ -24,11 +38,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="snap-y snap-proximity">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={` ${poppins.variable} ${quicksand.variable} ${rubik.variable} antialiased`}
       >
-        {children}
+        <HeroStageProvider>
+          <Nav />
+          {children}
+        </HeroStageProvider>
       </body>
     </html>
   );

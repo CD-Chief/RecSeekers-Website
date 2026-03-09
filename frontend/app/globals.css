@@ -7,6 +7,7 @@
   
   /* RecSeekers brand colors */
   --primary: #da8da0;
+  --primary-logo: #ffb2dc;
   --secondary: #d940c0;
   --tertiary: #4614aa;
   --primary-dark: #250821;
@@ -15,31 +16,142 @@
 }
 
 @theme inline {
+  /* Colours */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);
+  --color-primary-logo: var(--primary-logo);
   --color-secondary: var(--secondary);
   --color-tertiary: var(--tertiary);
   --color-primary-dark: var(--primary-dark);
   --color-neutral-50: var(--neutral-50);
   --color-neutral-900: var(--neutral-900);
   
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Fonts */
+  --font-sans: var(--font-poppins), sans-serif;
+  
+
+  /* Body */
+  --font-body: var(--font-poppins);
+  /* Headings */
+  --font-heading: var(--font-quicksand);
+  /* Display */
+  --font-display: var(--font-rubik);
+
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    --primary: #da8da0;
-    --secondary: #d940c0;
-    --tertiary: #4614aa;
+/* ── Tertiary button burst animation ── */
+.btn-burst {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* ── Chevron bounce animation ── */
+@keyframes chevronBounce {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(10px); }
+}
+
+.chevron-bounce {
+  animation: chevronBounce 1.4s ease-in-out infinite;
+}
+
+.btn-burst::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: var(--tertiary);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.5s ease, height 0.5s ease;
+  z-index: -1;
+}
+
+.btn-burst:hover::before {
+  width: 400px;
+  height: 400px;
+}
+
+/* ── About page: animated accent bar ── */
+@keyframes growHeight {
+  from { height: 0; }
+  to   { height: 100%; }
+}
+
+.accent-bar {
+  animation: growHeight 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* ── About page: member card on-scroll slide-up ── */
+.team-card {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.team-card.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── About page: stat card slide-in ── */
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(48px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ── About page: blob portrait morphing ── */
+.blob-portrait {
+  width: 16rem;
+  height: 16rem;
+  border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  animation: morphBlob 14s ease-in-out infinite alternate;
+  overflow: hidden;
+  border: 5px solid #111;
+  box-shadow: 8px 8px 22px rgba(0, 0, 0, 0.28);
+  flex-shrink: 0;
+}
+
+@keyframes morphBlob {
+  0%   { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+  25%  { border-radius: 40% 60% 70% 30% / 40% 70% 30% 60%; }
+  50%  { border-radius: 50% 50% 60% 40% / 50% 60% 40% 50%; }
+  75%  { border-radius: 30% 70% 50% 60% / 70% 40% 60% 30%; }
+  100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+}
+
+@media (max-width: 1024px) {
+  .blob-portrait { width: 12rem; height: 12rem; }
+}
+
+/* ── Clients ticker ── */
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.animate-ticker {
+  animation: ticker 28s linear infinite;
+}
+
+.animate-ticker:hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .accent-bar      { animation: none; height: 100%; }
+  .blob-portrait   { animation: none; border-radius: 50%; }
+  .team-card       { opacity: 1; transform: none; transition: none; }
+  .animate-ticker  { animation: none; }
 }
