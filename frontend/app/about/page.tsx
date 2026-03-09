@@ -109,6 +109,24 @@ export default function AboutPage() {
       <TeamSection />
       <ClientsSection />
       <WhereWeWorkSection />
+
+      {/* --- Jobs Section --- */}
+      <section className="bg-white border-t-4 border-black px-8 pt-20 pb-64">
+        <div className="max-w-6xl mx-auto w-full">
+          <p className={`${cooper.className} text-lg text-black/40 uppercase tracking-widest mb-2`}>
+            Join the team
+          </p>
+          <h2 className={`${cooper.className} text-6xl md:text-7xl text-black mb-6`}>
+            Work at RecSeekers
+          </h2>
+          <p className="text-xl text-black/60 max-w-2xl leading-relaxed">
+            We&apos;re always on the lookout for ambitious, people-first talent to grow with us.
+            Take a look at what&apos;s open — and if nothing fits yet, get in touch anyway.
+          </p>
+          {/* LinkedIn iframes will go here */}
+        </div>
+      </section>
+
       <BottomCTA variant="dark" />
     </main>
   );
