@@ -185,10 +185,10 @@ export function HeroSection() {
           </div>
 
           {/* Right: Illustration */}
-          <div className="flex-1 w-full max-w-lg">
-            <div className="relative w-full aspect-square rounded-[2rem] border-4 border-black overflow-hidden">
+            <div className="flex-1 w-full max-w-xl lg:max-w-2xl">
+            <div className="relative w-full aspect-square rounded-[2rem] overflow-hidden">
               <Image
-                src="/file.svg"
+                src="/Illustrations/JobHunt1.svg"
                 alt="Illustration"
                 fill
                 className="object-cover"
