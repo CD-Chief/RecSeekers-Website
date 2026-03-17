@@ -8,17 +8,31 @@ export default function Footer() {
         <footer className="relative w-full z-20 bg-[#d940c0] py-20 px-8 border-t-2 border-black text-white snap-start">
         <div className="max-w-6xl w-full mx-auto grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-8">
             
-            {/* Logo Graphic & Motto */}
-            <div className="flex flex-col items-start">
-            {/* Mock Logo Box mimicking your wireframe */}
-            <div className="w-20 h-12 border-4 border-white flex items-center justify-center relative mb-6">
-                <div className="absolute w-[110%] h-1 bg-white rotate-[25deg]"></div>
-                <div className="absolute w-[110%] h-1 bg-white -rotate-[25deg]"></div>
-            </div>
+        {/* Logo Graphic & Motto */}
+        <div className="flex flex-col items-start">
+            <img
+                src="/RecLogo.svg"
+                alt="RecSeekers"
+                className="w-auto max-w-50 my-3.5"
+            />
             <p className={`text-xl leading-relaxed ${cooper.className} font-medium opacity-90 max-w-xs`}>
-                &quot;Recruiters for Recruiters&quot;
+                &quot;Have a good day&quot;
             </p>
+
+            {/* Attribution Link - Now text-xl and 2px stroke */}
+            <div className="mt-12 ml-2"> 
+                <a 
+                    href="https://storyset.com/" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className={`text-xl transition-all duration-300 opacity-90
+                                hover:[text-shadow:_-1px_-1px_0_#000,1px_-1px_0_#000,-1px_1px_0_#000,1px_1px_0_#000] 
+                                ${cooper.className}`}
+                >
+                    Illustrations by Storyset
+                </a>
             </div>
+        </div>
 
             <div className="flex flex-col items-start md:items-center">
             <div className="flex flex-col gap-4">
