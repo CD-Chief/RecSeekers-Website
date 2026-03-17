@@ -48,19 +48,19 @@ export function NavPreview({
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -8 }}
             transition={{ duration: 0.2 }}
-            className="grid grid-cols-[auto_1fr] items-center gap-5 p-5"
+            className="grid grid-cols-[9.5rem_1fr] items-stretch"
           >
             {/* Image */}
-            <div className="h-20 w-20 rounded-xl overflow-hidden bg-gradient-to-br from-primary/20 to-secondary/20 shrink-0">
+            <div className="h-full min-h-34 shrink-0 overflow-hidden">
               <img
                 src={items[hoveredIndex].previewImage}
                 alt=""
-                className="h-full w-full object-cover"
+                className="h-full w-full object-contain"
               />
             </div>
 
             {/* Text */}
-            <div>
+            <div className="p-5 pl-4">
               <p className="text-base font-semibold text-neutral-900 leading-snug">
                 {items[hoveredIndex].previewTitle}
               </p>

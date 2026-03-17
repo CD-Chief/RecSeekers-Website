@@ -14,28 +14,28 @@ const PILL_ITEMS = [
     href: "/",
     previewTitle: "Welcome to RecSeekers",
     previewText: "High-impact recruiters matching top talent with their next move.",
-    previewImage: "/file.svg",
+    previewImage: "/Illustrations/Telecommute1.svg",
   },
   {
     label: "About",
     href: "/about",
     previewTitle: "About RecSeekers",
     previewText: "We specialise in recruiter-to-recruiter hiring—matching top talent with high-performing teams.",
-    previewImage: "/file.svg",
+    previewImage: "/Illustrations/GroupDiscussion1.svg",
   },
   {
     label: "Candidates",
     href: "/candidates",
     previewTitle: "For Recruiter Candidates",
     previewText: "Level up your recruiting career with roles that match your niche, targets, and way of working.",
-    previewImage: "/file.svg",
+    previewImage: "/Illustrations/HelpingPartner1.svg",
   },
   {
     label: "Employers",
     href: "/employers",
     previewTitle: "For Hiring Teams",
     previewText: "Hire proven recruiters who understand your market, your pipeline, and your growth targets.",
-    previewImage: "/file.svg",
+    previewImage: "/Illustrations/PeopleSearch2.svg",
   },
 ];
 
