@@ -59,7 +59,7 @@ export default function EmployersPage() {
               <div className="absolute inset-0 rounded-3xl border-4 border-primary-dark translate-x-3 translate-y-3" />
               <div className="relative h-full w-full rounded-3xl border-4 border-primary-dark overflow-hidden bg-white/30">
                 <img
-                  src="/file.svg"
+                  src="/Illustrations/FindingIdeas2.svg"
                   alt="Employer hiring illustration"
                   className="h-full w-full object-cover"
                 />
@@ -89,7 +89,7 @@ export default function EmployersPage() {
                 <div className="absolute inset-0 rounded-3xl border-4 border-neutral-900 translate-x-3 translate-y-3" />
                 <div className="relative h-full w-full rounded-3xl border-4 border-neutral-900 overflow-hidden bg-neutral-100">
                   <img
-                    src="/file.svg"
+                    src="/Illustrations/BusinessDeal1.svg"
                     alt="Why work with RecSeekers"
                     className="h-full w-full object-cover"
                   />
