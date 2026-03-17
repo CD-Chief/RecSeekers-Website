@@ -128,7 +128,7 @@ export function HeroSection() {
           className="w-auto max-w-2xl my-3.5"
         />
         <h2 className={`text-6xl font-bold text-black -mt-4 ${cooper.className}`}>
-          &ldquo;Recruiters for Recruiters&rdquo;
+          &ldquo;Have a good day&rdquo;
         </h2>
       </div>
 
