@@ -163,7 +163,7 @@ export default function Candidates() {
           </p>
           {/* Split Button Container */}
             <Link href="/contact">
-              <Button variant="popout" size="xl" className={cooper.className}>
+              <Button variant="primary" size="xl" className={cooper.className}>
                 Get In Touch!
               </Button>
             </Link>
