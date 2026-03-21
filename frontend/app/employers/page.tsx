@@ -45,7 +45,7 @@ export default function EmployersPage() {
 
             <div className="mt-2 flex justify-center">
               <Link href="/contact">
-                <Button variant="tertiary" size="lg">
+                <Button variant="secondary" size="lg">
                   Let&apos;s Talk Hiring
                 </Button>
               </Link>

@@ -178,9 +178,9 @@ export function HeroSection() {
               value of great hiring capability.
             </p>
             <Link href="/about">
-              <Button variant="popout" size="xl" className={cooper.className}>
-                Learn More
-              </Button>
+                <Button variant="primary" size="xl" className={cooper.className}>
+                  Learn More
+                </Button>
             </Link>
           </div>
 

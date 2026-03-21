@@ -1,6 +1,6 @@
 import React from "react";
 
-type ButtonVariant = "primary" | "secondary" | "tertiary" | "tertiary2" | "text" | "popout";
+type ButtonVariant = "primary" | "secondary" | "text";
 type ButtonSize = "sm" | "md" | "lg" | "xl";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -19,12 +19,9 @@ export function Button({
   const baseStyles = "font-medium transition-all duration-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2";
 
   const variantStyles: Record<ButtonVariant, string> = {
-    primary: "bg-primary hover:bg-primary-dark text-white focus:ring-primary",
-    secondary: "bg-secondary border-2 border-secondary hover:border-white text-white focus:ring-secondary",
-    tertiary: "btn-burst bg-transparent border-2 border-white text-white hover:border-tertiary focus:ring-tertiary",
-    tertiary2: "bg-tertiary border-2 border-tertiary hover:border-white text-white focus:ring-secondary",
+    primary: "bg-primary text-white rounded-2xl border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none transition-all focus:ring-neutral-900",
+    secondary: "bg-secondary text-white rounded-lg border-2 border-transparent hover:brightness-90 hover:-translate-y-[2px] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none focus:ring-secondary transition-all duration-200 ease-out",
     text: "group relative bg-transparent text-foreground hover:text-white focus:ring-neutral-900 transition-colors duration-400",
-    popout: "bg-primary text-white rounded-2xl border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none transition-all focus:ring-neutral-900",
   };
 
   const sizeStyles: Record<ButtonSize, string> = {
