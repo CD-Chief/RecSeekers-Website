@@ -82,20 +82,6 @@ export default async function HomePage() {
         <HeroSection />
       </div>
 
-      {/* --- TEMP: Button Variants Showcase --- */}
-      <section className="snap-start relative z-10 min-h-screen bg-white py-12 px-8 flex items-center justify-center">
-        <div className="max-w-6xl w-full">
-          <h2 className={`text-3xl mb-6 text-black ${cooper.className}`}>
-            Button Variants (Temp)
-          </h2>
-          <div className="flex flex-wrap gap-4 items-center">
-            <Button variant="primary" size="lg" className={cooper.className}>Primary</Button>
-            <Button variant="secondary" size="lg" className={cooper.className}>Secondary</Button>
-            <Button variant="text" size="lg" className={cooper.className}>Text</Button>
-          </div>
-        </div>
-      </section>
-
       {/* --- FEATURES SECTION: higher z-index, scrolls up and covers hero --- */}
       <section className="snap-start relative z-20 min-h-screen bg-pink-300 py-24 px-8 flex flex-col items-center shadow-[0_-16px_40px_0_rgba(0,0,0,0.35)]">
         <div className="max-w-6xl w-full">
