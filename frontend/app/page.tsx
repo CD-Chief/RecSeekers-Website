@@ -115,7 +115,7 @@ export default async function HomePage() {
             <WhoWeWorkWithCard
               title="Education recruitment agencies"
               description="We help agency leaders hire proven consultants and team builders who can scale high-performing desks, launch new offices, and accelerate revenue with less hiring risk."
-              ctaLabel="For Agencies"
+              ctaLabel="Find Your Next Top Recruiter"
               href="/employers"
               cooperClassName={cooper.className}
               illustrationSrc="/file.svg"
@@ -125,7 +125,7 @@ export default async function HomePage() {
             <WhoWeWorkWithCard
               title="Education recruiters"
               description="We support top billers with confidential, strategic career moves across the UK and Australia, focused on stronger earnings, better progression, and the right cultural fit."
-              ctaLabel="For Recruiters"
+              ctaLabel="Elevate Your Career"
               href="/candidates"
               cooperClassName={cooper.className}
               illustrationSrc="/file.svg"
