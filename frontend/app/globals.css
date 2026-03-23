@@ -149,9 +149,53 @@
   animation-play-state: paused;
 }
 
+/* ── Floating doodles ── */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  33% {
+    transform: translateY(-8px) rotate(2deg);
+  }
+  66% {
+    transform: translateY(-4px) rotate(-1deg);
+  }
+}
+
+@keyframes float-in {
+  0% {
+    opacity: 0;
+    transform: translateY(24px) scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-float-in {
+  animation: float-in 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.float-random:nth-child(3n+1) { animation-duration: 5s; }
+.float-random:nth-child(3n+2) { animation-duration: 7s; }
+.float-random:nth-child(3n)   { animation-duration: 6s; }
+
+@media (max-width: 640px) {
+  .animate-float {
+    animation-duration: 8s;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .accent-bar      { animation: none; height: 100%; }
   .blob-portrait   { animation: none; border-radius: 50%; }
   .team-card       { opacity: 1; transform: none; transition: none; }
   .animate-ticker  { animation: none; }
+  .animate-float   { animation: none; }
+  .animate-float-in { animation: none; opacity: 1; transform: none; }
 }
