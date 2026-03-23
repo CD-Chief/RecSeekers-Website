@@ -5,6 +5,8 @@ import localFont from 'next/font/local';
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
+import { DoodleFloat } from "@/components/ui/DoodleFloat";
+import { WhoWeWorkWithCard } from "@/components/Home/WhoWeWorkWithCard";
 
 const placeHolderProfile = '/profile.png';
 
@@ -76,20 +78,28 @@ export default async function HomePage() {
   ]
 
   return (
-    <main className="relative w-full">
+    <main className="relative w-full bg-white">
       {/* --- HERO SECTION (two-stage scroll-hijacked hero) --- */}
       <div className="min-h-screen">
         <HeroSection />
       </div>
 
       {/* --- Who We Work With --- */}
-      <section
-        className="relative z-20 py-24 px-8 flex flex-col items-center border-t-4 border-black overflow-hidden"
-        style={{ background: "#ffa4bb" }}
-      >
+      <section className="relative z-20 bg-gray-100 py-24 px-8 flex flex-col items-center border-t-4 border-black overflow-hidden">
         {/* Soft background blob accents (matched to employers page language) */}
-        <div className="absolute -top-28 -left-28 w-120 h-120 rounded-full bg-secondary/20 blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-20 right-0 w-120 h-120 rounded-full bg-primary-dark/10 blur-2xl pointer-events-none" />
+        <div className="absolute -bottom-20 right-0 w-120 h-120 rounded-full blur-2xl pointer-events-none" />
+        <DoodleFloat
+          name="paper-plane"
+          size={200}
+          delay={0.1}
+          className="absolute top-16 right-10 lg:right-16 z-0 hidden md:block pointer-events-none"
+        />
+        <DoodleFloat
+          name="pencil-1"
+          size={200}
+          delay={0.4}
+          className="absolute bottom-12 left-8 lg:left-16 z-0 hidden md:block pointer-events-none"
+        />
 
         <div className="relative z-10 max-w-6xl w-full">
           <div className="flex flex-col gap-5 mb-12">
@@ -102,74 +112,32 @@ export default async function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-            {/* Left Column: Agencies */}
-            <article className="relative h-full">
-              <div className="absolute inset-0 rounded-3xl border-4 border-primary-dark translate-x-3 translate-y-3" />
-              <div className="relative h-full bg-white border-4 border-primary-dark rounded-3xl p-10 flex flex-col">
-              <div className="relative w-14 h-14 mb-6">
-                <Image
-                  src="/file.svg"
-                  alt="Education doodle"
-                  fill
-                  className="object-contain"
-                />
-              </div>
+            <WhoWeWorkWithCard
+              title="Education recruitment agencies"
+              description="We help agency leaders hire proven consultants and team builders who can scale high-performing desks, launch new offices, and accelerate revenue with less hiring risk."
+              ctaLabel="For Agencies"
+              href="/employers"
+              cooperClassName={cooper.className}
+              illustrationSrc="/file.svg"
+              cardBgClassName="bg-tertiary"
+            />
 
-              <h3 className={`text-3xl text-primary-dark mb-6 leading-tight ${cooper.className}`}>
-                For education recruitment agencies
-              </h3>
-
-              <ul className="list-disc pl-6 text-primary-dark text-lg leading-relaxed space-y-3 mb-8">
-                <li>Hire proven consultants, team leaders, and branch managers</li>
-                <li>Scale high-performing desks or open new offices</li>
-                <li>Access recruiters already billing strongly in education</li>
-              </ul>
-
-              <Link href="/employers" className="mt-auto inline-block">
-                <Button variant="secondary" size="lg" className={`${cooper.className} !bg-primary-dark !focus:ring-primary-dark`}>
-                  For Agencies
-                </Button>
-              </Link>
-              </div>
-            </article>
-
-            {/* Right Column: Recruiters */}
-            <article className="relative h-full">
-              <div className="absolute inset-0 rounded-3xl border-4 border-primary-dark translate-x-3 translate-y-3" />
-              <div className="relative h-full bg-[#fff4f8] border-4 border-primary-dark rounded-3xl p-10 flex flex-col">
-              <div className="relative w-14 h-14 mb-6">
-                <Image
-                  src="/file.svg"
-                  alt="Education doodle"
-                  fill
-                  className="object-contain"
-                />
-              </div>
-
-              <h3 className={`text-3xl text-primary-dark mb-6 leading-tight ${cooper.className}`}>
-                For education recruiters
-              </h3>
-
-              <ul className="list-disc pl-6 text-primary-dark text-lg leading-relaxed space-y-3 mb-8">
-                <li>Confidential moves for top billers</li>
-                <li>Better commission, leadership, equity, or market</li>
-                <li>UK and Australia opportunities</li>
-              </ul>
-
-              <Link href="/candidates" className="mt-auto inline-block">
-                <Button variant="secondary" size="lg" className={`${cooper.className} !bg-primary-dark !focus:ring-primary-dark`}>
-                  For Recruiters
-                </Button>
-              </Link>
-              </div>
-            </article>
+            <WhoWeWorkWithCard
+              title="Education recruiters"
+              description="We support top billers with confidential, strategic career moves across the UK and Australia, focused on stronger earnings, better progression, and the right cultural fit."
+              ctaLabel="For Recruiters"
+              href="/candidates"
+              cooperClassName={cooper.className}
+              illustrationSrc="/file.svg"
+              cardBgClassName="bg-tertiary"
+            />
           </div>
         </div>
       </section>
 
       
       {/* --- Contact Section ---*/}
-      <section className="relative z-20 min-h-screen bg-pink-300 py-24 px-8 flex flex-col items-center">
+      <section className="relative z-20 min-h-screen bg-white py-24 px-8 flex flex-col items-center">
         <div className="max-w-6xl w-full">
           <h2 className={`text-5xl mb-16 text-black ${cooper.className}`}>
             Contact Us
