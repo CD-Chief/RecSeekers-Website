@@ -85,40 +85,40 @@ export default async function HomePage() {
       </div>
 
       {/* --- Who We Work With --- */}
-      <section className="relative z-20 bg-gray-100 py-24 px-8 flex flex-col items-center border-t-4 border-black overflow-hidden">
+      <section className="relative z-20 bg-gray-100 pt-4 pb-10 lg:pt-6 lg:pb-14 px-6 md:px-10 flex flex-col items-center border-t-4 border-black overflow-hidden">
         {/* Soft background blob accents (matched to employers page language) */}
         <div className="absolute -bottom-20 right-0 w-120 h-120 rounded-full blur-2xl pointer-events-none" />
         <DoodleFloat
           name="paper-plane"
-          size={200}
+          size={140}
           delay={0.1}
-          className="absolute top-16 right-10 lg:right-16 z-0 hidden md:block pointer-events-none"
+          className="absolute -top-4 right-2 lg:top-2 lg:right-8 hidden md:block pointer-events-none"
         />
         <DoodleFloat
           name="pencil-1"
-          size={200}
+          size={150}
           delay={0.4}
-          className="absolute bottom-12 left-8 lg:left-16 z-0 hidden md:block pointer-events-none"
+          className="absolute bottom-10 left-2 lg:bottom-14 lg:left-8 hidden md:block pointer-events-none"
         />
 
-        <div className="relative z-10 max-w-6xl w-full">
-          <div className="flex flex-col gap-5 mb-12">
+        <div className="relative z-10 max-w-7xl w-full">
+          <div className="flex flex-col gap-4 mb-8 lg:mb-10">
             <h2 className={`text-5xl lg:text-6xl leading-tight text-primary-dark ${cooper.className}`}>
               Who We Work With
             </h2>
-            <p className="text-lg text-primary-dark/80 max-w-3xl leading-relaxed">
+            <p className="text-base text-primary-dark/80 max-w-3xl leading-relaxed">
               Relationship-led, specialist support for both sides of the education recruitment market.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 items-stretch gap-8 lg:gap-10 justify-items-center">
             <WhoWeWorkWithCard
               title="Education recruitment agencies"
               description="We help agency leaders hire proven consultants and team builders who can scale high-performing desks, launch new offices, and accelerate revenue with less hiring risk."
               ctaLabel="Find Your Next Top Recruiter"
               href="/employers"
               cooperClassName={cooper.className}
-              illustrationSrc="/file.svg"
+              illustrationSrc="/Illustrations/office.svg"
               cardBgClassName="bg-tertiary"
             />
 
@@ -128,7 +128,7 @@ export default async function HomePage() {
               ctaLabel="Elevate Your Career"
               href="/candidates"
               cooperClassName={cooper.className}
-              illustrationSrc="/file.svg"
+              illustrationSrc="/Illustrations/communicator2.svg"
               cardBgClassName="bg-tertiary"
             />
           </div>
@@ -137,13 +137,13 @@ export default async function HomePage() {
 
       
       {/* --- Contact Section ---*/}
-      <section className="relative z-20 min-h-screen bg-white py-24 px-8 flex flex-col items-center">
-        <div className="max-w-6xl w-full">
+      <section className="relative z-20 min-h-screen bg-white py-24 md:py-28 px-6 md:px-10 flex flex-col items-center">
+        <div className="max-w-7xl w-full">
           <h2 className={`text-5xl mb-16 text-black ${cooper.className}`}>
             Contact Us
           </h2>
         </div>
-        <div className="max-w-6xl w-full flex flex-col lg:flex-row items-start gap-16">  
+        <div className="max-w-7xl w-full flex flex-col lg:flex-row items-start gap-16 lg:gap-20">  
           {/* Left Side: Image */}
           <div className="w-full lg:w-1/2">
             <div className="relative w-full aspect-[4/3] rounded-[2rem] border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] overflow-hidden bg-white">
