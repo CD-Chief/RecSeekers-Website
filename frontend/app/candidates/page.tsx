@@ -33,7 +33,7 @@ export default function Candidates() {
   // Reusable style for the Figma headers (Pink fill, black stroke, drop shadow)
   const headingStyle = `text-5xl mb-16 text-black ${cooper.className}`;
 
-  const headingStyle3D = `text-6xl mb:text-6xl text-[var(--primary-logo)] [-webkit-text-stroke:3.5px_black] drop-shadow-[3px_4px_0_rgba(0,0,0,1)]  ${cooper.className}`;
+  // const headingStyle3D = `drop-shadow-[3px_4px_0_rgb(249,174,215)]  `;- 3D SHADOW EFFECT
 
   return (
     <main className="relative w-full bg-white overflow-x-hidden">
@@ -42,9 +42,9 @@ export default function Candidates() {
       <section className="snap-start relative z-20 min-h-[80vh] bg-white py-24 px-8 flex flex-col justify-center items-center shadow-[0_16px_40px_0_rgba(0,0,0,0.1)]">
         <div className="max-w-6xl w-full flex flex-col md:flex-row items-center gap-12">
           {/* Left Text */}
-          <div className="w-full md:w-1/2 flex flex-col items-start gap-6">
-            <h1 className={headingStyle3D}>
-              Find the perfect role with us 
+          <div className="w-full md:w-2/3 flex flex-col items-start gap-6">
+            <h1 className={`${cooper.className} text-7xl text-black mb-12 leading-tight`}>
+              Find your next role, with Us
             </h1>
             <p className="text-lg text-black font-medium leading-relaxed">
               On the hunt for the perfect agency recruitment job? <br/><br/>
@@ -55,15 +55,10 @@ export default function Candidates() {
             </p>
           </div>
           {/* Right Image (Man on ladder) */}
-          <div className="w-full md:w-1/2 flex justify-center">
+          <div className="w-full md:w-1/3 flex justify-center">
             {/* Replace /ladder-guy.svg with your actual asset */}
             <div className="relative w-full max-w-md aspect-[4/3]">
-              <Image 
-                src="/ladder-guy.svg" 
-                alt="Find the perfect role"
-                fill
-                className="object-contain"
-              />
+              <Image />
             </div>
           </div>
         </div>
