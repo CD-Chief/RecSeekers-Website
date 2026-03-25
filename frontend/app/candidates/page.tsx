@@ -63,7 +63,7 @@ export default function Candidates() {
             <div className="relative w-full max-w-md aspect-[4/3]">
               <Image
                 src="illustrations/HelpingPartner2.svg"
-                alt="Illustration of a person climbing a ladder to support a colleague"
+                alt="Illustration of a person climbing a ladder to help a partner, representing career support"
                 width={500}
                 height={500}
               />
