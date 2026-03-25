@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import { Button } from "@/components/ui/Button";
 import { FeatureCards } from "@/components/employers/FeatureCards";
 import { BottomCTA } from "@/components/employers/BottomCTA";
+import { TestimonialsSection } from "@/components/employers/TestimonialsSection";
 
 const cooper = localFont({
   src: "../fonts/cooper-black-cdnfonts/coopbl.ttf",
@@ -103,6 +104,9 @@ export default function EmployersPage() {
           </div>
         </div>
       </section>
+      <TestimonialsSection cooperClassName={cooper.className} />
+
+       {/* ── BOTTOM CTA ── */}
       <BottomCTA />
     </main>
   );
