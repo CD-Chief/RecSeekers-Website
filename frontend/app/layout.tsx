@@ -3,6 +3,7 @@ import { Poppins, Quicksand, Rubik} from "next/font/google";
 import "./globals.css";
 import { Nav } from "@/components/layout/Nav";
 import { HeroStageProvider } from "@/context/HeroStageContext";
+import Footer from "@/components/Footer/footer";
 
 // Font imports – available as CSS variables for Tailwind
 
@@ -38,13 +39,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="snap-y snap-proximity">
+    <html lang="en">
       <body
         className={` ${poppins.variable} ${quicksand.variable} ${rubik.variable} antialiased`}
       >
         <HeroStageProvider>
           <Nav />
           {children}
+          <Footer />
         </HeroStageProvider>
       </body>
     </html>
