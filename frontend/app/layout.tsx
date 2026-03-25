@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Poppins, Quicksand, Rubik} from "next/font/google";
 import "./globals.css";
 import { Nav } from "@/components/layout/Nav";
+import { NavMobile } from "@/components/layout/NavMobile";
 import { HeroStageProvider } from "@/context/HeroStageContext";
 import Footer from "@/components/Footer/footer";
 
@@ -44,6 +45,7 @@ export default function RootLayout({
         className={` ${poppins.variable} ${quicksand.variable} ${rubik.variable} antialiased`}
       >
         <HeroStageProvider>
+          <NavMobile />
           <Nav />
           {children}
           <Footer />
