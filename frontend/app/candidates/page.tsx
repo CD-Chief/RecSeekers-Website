@@ -26,34 +26,38 @@ export default function Candidates() {
     <main className="relative w-full bg-white overflow-x-hidden">
       
       {/* --- HERO SECTION --- */}
-      <section className="snap-start relative z-20 min-h-[80vh] bg-white py-24 px-8 flex flex-col justify-center items-center shadow-[0_16px_40px_0_rgba(0,0,0,0.1)]">
-        <div className="max-w-6xl w-full flex flex-col md:flex-row items-center gap-12">
-          {/* Left Text */}
-          <div className="w-full md:w-2/3 flex flex-col items-start gap-6">
-            <h1 className={`${cooper.className} text-7xl text-black mb-12 leading-tight`}>
-              Find your next role with Us!
-            </h1>
-            <p className="text-lg text-black font-medium leading-relaxed">
-              On the hunt for the perfect agency recruitment job? <br/><br/>
-              We believe in helping talented recruiters fulfill their potential by getting them into the right industry, company, and role for them.
-            </p>
-            <p className="text-lg text-black font-medium leading-relaxed">
-              RecSeekers specializes in Rec2Rec, connecting exceptional recruiters with top-tier agencies. Let us help you find a role that aligns with your ambitions and expertise.
-            </p>
-          </div>
-          {/* Right Image (Man on ladder) */}
-          <div className="w-full md:w-1/3 flex justify-center">
-            {/* Replace /ladder-guy.svg with your actual asset */}
-            <div className="relative w-full max-w-md ">
-              <Image
-                src="illustrations/HelpingPartner2.svg"
-                alt="Illustration of a person climbing a ladder to help a partner, representing career support"
-                width={500}
-                height={500}
-              />
-            </div>
+      <section className="snap-start relative z-20 min-h-[80vh] bg-[#ffa4bb] py-24 px-8 flex flex-col justify-center items-center shadow-[0_16px_40px_0_rgba(0,0,0,0.1)]">
+      <div className="max-w-6xl w-full mx-auto flex flex-col md:flex-row items-center justify-between gap-12">
+        {/* Left Text: Changed to w-1/2 to pull the image in closer */}
+        <div className="w-full md:w-1/2 flex flex-col items-start gap-6">
+          <h1 className={`${cooper.className} text-6xl lg:text-7xl text-black mb-6 leading-tight`}>
+            Find your next role <span className="italic text-white block">with Us!</span>
+          </h1>
+          
+          {/* Removed <br/> and used a cleaner max-width */}
+          <p className="text-lg text-primary-dark/80 max-w-lg leading-relaxed">
+            On the hunt for the perfect agency recruitment job? We believe in helping 
+            talented recruiters fulfill their potential by getting them into the 
+            right industry, company, and role for them.
+            <br /><br />
+            RecSeekers specializes in Rec2Rec, connecting exceptional recruiters 
+            with top-tier agencies.
+          </p>
+        </div>
+
+        {/* Right Image: Occupies the other half */}
+        <div className="w-full md:w-1/2 flex justify-end">
+          <div className="relative w-full max-w-md">
+            <Image
+              src="illustrations/HelpingPartner2.svg"
+              alt="Career support illustration"
+              width={500}
+              height={500}
+              priority
+            />
           </div>
         </div>
+      </div>
       </section>
 
       {/* --- WHAT SETS US APART SECTION --- */}
