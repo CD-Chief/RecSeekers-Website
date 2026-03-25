@@ -171,24 +171,36 @@ export function HeroSection() {
           {/* Left: Headline + subtext + CTA */}
           <div className="flex-1 flex flex-col items-start">
             <h1 className={`text-6xl md:text-5xl text-black mb-4 leading-tight ${cooper.className}`}>
-              The best recruiters aren&apos;t on job boards.
+              We help education agencies hire proven recruiters.
             </h1>
             <p className="text-xl text-black/80 mb-10 leading-relaxed max-w-md font-medium">
-              RecSeekers places top-tier recruiters into agencies that know the
-              value of great hiring capability.
+              Specialist education Rec2Rec connecting top billing consultants,
+              team leaders and managers with agencies across the UK and
+              Australia.
             </p>
-            <Link href="/about">
-                <Button variant="primary" size="xl" className={cooper.className}>
-                  Learn More
+            <p className="text-base text-black/75 mb-8 leading-relaxed max-w-lg font-semibold">
+              Quality over volume. Built on long-term relationships.
+            </p>
+
+            <div className="flex flex-wrap gap-4">
+              <Link href="/employers">
+                <Button variant="secondary" size="xl" className={`${cooper.className} bg-primary-dark! focus:ring-primary-dark!`}>
+                  For Agencies
                 </Button>
-            </Link>
+              </Link>
+              <Link href="/candidates">
+                <Button variant="secondary" size="xl" className={`${cooper.className} bg-white! text-primary-dark! border-2 border-primary-dark hover:bg-primary-dark! hover:text-white! focus:ring-primary-dark!`}>
+                  For Recruiters
+                </Button>
+              </Link>
+            </div>
           </div>
 
           {/* Right: Illustration */}
             <div className="flex-1 w-full max-w-xl lg:max-w-2xl">
-            <div className="relative w-full aspect-square rounded-[2rem] overflow-hidden">
+            <div className="relative w-full aspect-square rounded-[2rem]">
               <Image
-                src="/Illustrations/JobHunt1.svg"
+                src="/Illustrations/selection1.svg"
                 alt="Illustration"
                 fill
                 className="object-cover"
