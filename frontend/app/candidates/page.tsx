@@ -26,6 +26,9 @@ const candidates = [
   { name: "David Chen", role: "Finance Headhunter", text: "\"I was looking for a step up in the banking sector. Their team understood exactly what I needed and delivered fast.\"" },
   { name: "Emily Rogers", role: "Marketing Talent Lead", text: "\"15 years of experience really shows. They placed me at an agency where my skills are truly valued and utilized.\"" },
   { name: "Marcus Johnson", role: "Executive Search", text: "\"A game-changer for my career. The vetted agencies they work with are top-notch.\"" },
+  { name: "Seb Cena", role: "Administrative Operator", text: "\"\"" },
+  { name: "Robert Jameson", role: "Senior Education Recruiter", text: "\"\"" },
+
 ];
 
 export default function Candidates() {
@@ -33,7 +36,7 @@ export default function Candidates() {
   // Reusable style for the Figma headers (Pink fill, black stroke, drop shadow)
   const headingStyle = `text-5xl mb-16 text-black ${cooper.className}`;
 
-  const headingStyle3D = `text-6xl mb:text-6xl text-[var(--primary-logo)] [-webkit-text-stroke:3.5px_black] drop-shadow-[3px_4px_0_rgba(0,0,0,1)]  ${cooper.className}`;
+  // const headingStyle3D = `drop-shadow-[3px_4px_0_rgb(249,174,215)]  `;- 3D SHADOW EFFECT
 
   return (
     <main className="relative w-full bg-white overflow-x-hidden">
@@ -42,9 +45,9 @@ export default function Candidates() {
       <section className="snap-start relative z-20 min-h-[80vh] bg-white py-24 px-8 flex flex-col justify-center items-center shadow-[0_16px_40px_0_rgba(0,0,0,0.1)]">
         <div className="max-w-6xl w-full flex flex-col md:flex-row items-center gap-12">
           {/* Left Text */}
-          <div className="w-full md:w-1/2 flex flex-col items-start gap-6">
-            <h1 className={headingStyle3D}>
-              Find the perfect role with us 
+          <div className="w-full md:w-2/3 flex flex-col items-start gap-6">
+            <h1 className={`${cooper.className} text-7xl text-black mb-12 leading-tight`}>
+              Find your next role with Us!
             </h1>
             <p className="text-lg text-black font-medium leading-relaxed">
               On the hunt for the perfect agency recruitment job? <br/><br/>
@@ -55,64 +58,59 @@ export default function Candidates() {
             </p>
           </div>
           {/* Right Image (Man on ladder) */}
-          <div className="w-full md:w-1/2 flex justify-center">
+          <div className="w-full md:w-1/3 flex justify-center">
             {/* Replace /ladder-guy.svg with your actual asset */}
             <div className="relative w-full max-w-md aspect-[4/3]">
-              <Image 
-                src="/ladder-guy.svg" 
-                alt="Find the perfect role"
-                fill
-                className="object-contain"
-              />
+              <Image src="illustrations/HelpingPartner2.svg" width={500} height={500}/>
             </div>
           </div>
         </div>
       </section>
 
       {/* --- WHAT SETS US APART SECTION --- */}
-      <section className="snap-start relative z-20 min-h-screen bg-white py-24 px-8 flex flex-col items-center">
+      {/* <section className="snap-start relative z-20 min-h-screen bg-white py-24 px-8 flex flex-col items-center">
         <div className="max-w-6xl w-full">
-          <h2 className={`${headingStyle} mb-16 text-center`}>
+          <h2 className={`${cooper.className} text-7xl text-black mb-12 leading-tight`}>
             What sets us apart
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 bg-[#c28f9c] p-12 border-4 border-black shadow-[12px_12px_0px_0px_rgba(0,0,0,1)]">
             {/* Box 1 */}
-            <div className="flex flex-col items-center text-center text-white gap-4">
+            {/* <div className="flex flex-col items-center text-center text-white gap-4">
               <div className="w-20 h-20 mb-2">
                  <Image src="/icon-stairs.svg" alt="Market Leading" width={80} height={80} className="object-contain filter invert"/>
               </div>
               <h3 className={`text-2xl ${cooper.className}`}>Market Leading<br/>Candidates</h3>
-            </div>
+            </div> */}
 
             {/* Box 2 */}
-            <div className="flex flex-col items-center text-center text-white gap-4">
+            {/* <div className="flex flex-col items-center text-center text-white gap-4">
               <div className="w-20 h-20 mb-2">
                  <Image src="/icon-selection.svg" alt="Wide Selection" width={80} height={80} className="object-contain filter invert"/>
               </div>
               <h3 className={`text-2xl ${cooper.className}`}>Wide Selection of<br/>Industries</h3>
-            </div>
+            </div> */}
 
             {/* Box 3 */}
-            <div className="flex flex-col items-center text-center text-white gap-4">
+            {/* <div className="flex flex-col items-center text-center text-white gap-4">
               <div className="w-20 h-20 mb-2">
                  <Image src="/icon-clock.svg" alt="15 Years Experience" width={80} height={80} className="object-contain filter invert"/>
               </div>
               <h3 className={`text-2xl ${cooper.className}`}>15 years of Recruitment<br/>Experience</h3>
             </div>
           </div>
-        </div>
-      </section>
+        </div> */}
+      {/* </section>  */}
 
       {/* --- PREVIOUS CANDIDATES SECTION --- */}
       <section className="snap-start relative z-20 min-h-[80vh] bg-pink-300 py-24 px-8 flex flex-col items-center border-t-4 border-black">
         <div className="max-w-6xl w-full">
           <div className="flex justify-between items-end mb-16">
-            <h2 className={headingStyle}>
+          <h2 className={`${cooper.className} text-7xl text-black mb-12 leading-tight`}>
               Our previous candidates
             </h2>
-            <span className="hidden md:block text-black font-bold text-lg italic [-webkit-text-stroke:0.5px_black]">
-              LinkedIn recommendations &rarr;
+            <span className="hidden md:block text-black font-bold text-lg [-webkit-text-stroke:0.5px_black]">
+              [LinkedInIcon] <a href="https://www.linkedin.com/in/sam-lawless/#recommendations" target="_blank" rel="noopener noreferrer">LinkedIn</a> recommendations &rarr;
             </span>
           </div>
           
