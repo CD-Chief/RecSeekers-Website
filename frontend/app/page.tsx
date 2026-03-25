@@ -17,6 +17,42 @@ const cooper = localFont({
 
 export { cooper };
 
+const iconBase = "h-7 w-7 text-primary-dark";
+
+const TopFiveIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" className={iconBase} aria-hidden="true">
+    <path d="M6 5h12v3l-2 2-4-2-4 2-2-2V5Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M12 10v6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    <path d="M8.5 21h7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    <circle cx="12" cy="4" r="1.5" fill="currentColor" />
+  </svg>
+);
+
+const EducationIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" className={iconBase} aria-hidden="true">
+    <path d="M4 7.5 12 4l8 3.5L12 11 4 7.5Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M6 10v6.5c2 1.7 10 1.7 12 0V10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M12 11v8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+  </svg>
+);
+
+const RelationshipIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" className={iconBase} aria-hidden="true">
+    <path d="M7 10c1.4-1.8 3.2-2.7 5-2.7s3.6.9 5 2.7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    <path d="M4.5 11.5 9 16l3-2.5 3 2.5 4.5-4.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M7 19h10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+  </svg>
+);
+
+const NetworkIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" className={iconBase} aria-hidden="true">
+    <circle cx="12" cy="12" r="8" stroke="currentColor" strokeWidth="2" />
+    <path d="M4 12h16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    <path d="M12 4c2.5 2.2 2.5 13.8 0 16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    <path d="M12 4c-2.5 2.2-2.5 13.8 0 16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+  </svg>
+);
+
 // Testimonials Component to reuse
 const TestimonialCard = ({ name, text, image }: { name: string, text: string, image: string }) => {
     
@@ -131,6 +167,70 @@ export default async function HomePage() {
               illustrationSrc="/Illustrations/communicator2.svg"
               cardBgClassName="bg-tertiary"
             />
+          </div>
+        </div>
+      </section>
+
+      {/* --- Why RecSeekers (Top 5% Positioning) --- */}
+      <section className="relative z-20 bg-white py-18 md:py-22 px-6 md:px-10 flex flex-col items-center border-t-4 border-black overflow-hidden">
+        <div className="relative z-10 max-w-7xl w-full">
+          <div className="flex flex-col gap-4 mb-8 lg:mb-10">
+            <h2 className={`text-5xl lg:text-6xl leading-tight text-primary-dark ${cooper.className}`}>
+              Why RecSeekers
+            </h2>
+            <p className="text-base md:text-lg text-primary-dark/80 max-w-3xl leading-relaxed">
+              Built for quality over volume, with a specialist model designed around elite education recruitment operators.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-7">
+            <article className="rounded-4xl border-4 border-primary-dark bg-[#fff8f1] p-5 md:p-6 shadow-[6px_6px_0px_0px_rgba(37,8,33,1)]">
+              <div className="mb-4 h-12 w-12 rounded-full border-2 border-primary-dark bg-white grid place-items-center">
+                <TopFiveIcon />
+              </div>
+              <h3 className={`text-2xl text-primary-dark mb-2 leading-tight ${cooper.className}`}>
+                Top 5% focus
+              </h3>
+              <p className="text-sm md:text-base text-primary-dark/85 leading-relaxed">
+                We typically work with what we would describe as the top 5% of operators in education recruitment.
+              </p>
+            </article>
+
+            <article className="rounded-4xl border-4 border-primary-dark bg-[#fff8f1] p-5 md:p-6 shadow-[6px_6px_0px_0px_rgba(37,8,33,1)]">
+              <div className="mb-4 h-12 w-12 rounded-full border-2 border-primary-dark bg-white grid place-items-center">
+                <EducationIcon />
+              </div>
+              <h3 className={`text-2xl text-primary-dark mb-2 leading-tight ${cooper.className}`}>
+                Education-only Rec2Rec
+              </h3>
+              <p className="text-sm md:text-base text-primary-dark/85 leading-relaxed">
+                Specialist in education recruitment, not a generalist recruiter trying to cover every market.
+              </p>
+            </article>
+
+            <article className="rounded-4xl border-4 border-primary-dark bg-[#fff8f1] p-5 md:p-6 shadow-[6px_6px_0px_0px_rgba(37,8,33,1)]">
+              <div className="mb-4 h-12 w-12 rounded-full border-2 border-primary-dark bg-white grid place-items-center">
+                <RelationshipIcon />
+              </div>
+              <h3 className={`text-2xl text-primary-dark mb-2 leading-tight ${cooper.className}`}>
+                Relationship-led, not transactional
+              </h3>
+              <p className="text-sm md:text-base text-primary-dark/85 leading-relaxed">
+                Built on trust and long-standing relationships, not one-off CV flinging and short-term placement chasing.
+              </p>
+            </article>
+
+            <article className="rounded-4xl border-4 border-primary-dark bg-[#fff8f1] p-5 md:p-6 shadow-[6px_6px_0px_0px_rgba(37,8,33,1)]">
+              <div className="mb-4 h-12 w-12 rounded-full border-2 border-primary-dark bg-white grid place-items-center">
+                <NetworkIcon />
+              </div>
+              <h3 className={`text-2xl text-primary-dark mb-2 leading-tight ${cooper.className}`}>
+                UK ↔ Australia network
+              </h3>
+              <p className="text-sm md:text-base text-primary-dark/85 leading-relaxed">
+                Deep UK network with the same relationship-driven model expanding across Australia.
+              </p>
+            </article>
           </div>
         </div>
       </section>
