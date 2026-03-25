@@ -13,24 +13,6 @@ const cooper = localFont({
   display: 'swap',
 });
 
-// --- Mock Data ---
-const sectors = [
-  { name: "IT & Technology", desc: "Software engineering, data science, and infrastructure leadership roles." },
-  { name: "Finance & Banking", desc: "Connecting quantitative analysts, advisors, and executive finance talent." },
-  { name: "Marketing & Sales", desc: "Growth hackers, CMOs, and top-tier sales directors." },
-  { name: "Healthcare", desc: "Specialized medical device sales, clinical researchers, and leadership." },
-  { name: "Engineering", desc: "Civil, mechanical, and electrical engineering professionals." },
-];
-
-const candidates = [
-  { name: "Sarah Jenkins", role: "Senior Tech Recruiter", text: "\"RecSeekers found me a role that perfectly aligned with my ambition. The process was seamless and incredibly supportive.\"" },
-  { name: "David Chen", role: "Finance Headhunter", text: "\"I was looking for a step up in the banking sector. Their team understood exactly what I needed and delivered fast.\"" },
-  { name: "Emily Rogers", role: "Marketing Talent Lead", text: "\"15 years of experience really shows. They placed me at an agency where my skills are truly valued and utilized.\"" },
-  { name: "Marcus Johnson", role: "Executive Search", text: "\"A game-changer for my career. The vetted agencies they work with are top-notch.\"" },
-  { name: "Seb Cena", role: "Administrative Operator", text: "\"\"" },
-  { name: "Robert Jameson", role: "Senior Education Recruiter", text: "\"\"" },
-
-];
 
 export default function Candidates() {
 
