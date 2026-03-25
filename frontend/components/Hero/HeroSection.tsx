@@ -47,6 +47,22 @@ export function HeroSection() {
     let t1: ReturnType<typeof setTimeout>;
     let t2: ReturnType<typeof setTimeout>;
 
+    
+    if (window.scrollY > SCROLL_THRESHOLD) {
+      updateStage(2);
+      setIsHeroStage1(false);
+      setBlobBlur(BLOB_BLUR_STAGE2);
+      setBlobSize(BLOB_SIZE_STAGE2);
+      updateTransitioning(false); // Force transitioning to false so text appears
+    } else {
+      updateStage(1);
+      setIsHeroStage1(true);
+      setBlobBlur(BLOB_BLUR_STAGE1);
+      setBlobSize(BLOB_SIZE_STAGE1);
+      updateTransitioning(false);
+    }
+
+    // 2. STANDARD SCROLL LISTENER (for natural scrolling)
     function handleScroll() {
       const scrollY = window.scrollY;
 
@@ -83,9 +99,6 @@ export function HeroSection() {
         }, 750);
       }
     }
-
-    // Run once on mount to set the correct stage if the user reloads halfway down the page
-    handleScroll();
 
     window.addEventListener("scroll", handleScroll, { passive: true });
 
@@ -180,14 +193,14 @@ export function HeroSection() {
             </p>
 
             <div className="flex flex-wrap gap-4">
-              <Link href="/employers">
-                <Button variant="secondary" size="xl" className={`${cooper.className} bg-primary-dark! focus:ring-primary-dark!`}>
-                  For Agencies
+              <Link href="/candidates">
+                <Button variant="secondary" size="xl" className={`${cooper.className} bg-white! text-primary-dark! border-2 border-primary-dark! hover:bg-primary-dark! hover:text-white! focus:ring-primary-dark!`}>
+                  For Recruiters
                 </Button>
               </Link>
-              <Link href="/candidates">
-                <Button variant="secondary" size="xl" className={`${cooper.className} bg-white! text-primary-dark! border-2 border-primary-dark hover:bg-primary-dark! hover:text-white! focus:ring-primary-dark!`}>
-                  For Recruiters
+              <Link href="/employers">
+                <Button variant="secondary" size="xl" className={`${cooper.className} bg-primary-dark! hover:bg-white! hover:text-primary-dark! hover:border-primary-dark! focus:ring-primary-dark!`}>
+                  For Agencies
                 </Button>
               </Link>
             </div>
