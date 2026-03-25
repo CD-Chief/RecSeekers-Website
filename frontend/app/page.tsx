@@ -135,6 +135,128 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* --- Deeper Split: For Agencies / For Recruiters --- */}
+      <section className="relative z-20 bg-[#fff8f1] py-20 md:py-24 px-6 md:px-10 flex flex-col items-center border-t-4 border-black overflow-hidden">
+        <DoodleFloat
+          name="pie-chart"
+          size={95}
+          delay={0.35}
+          className="absolute top-18 right-2 lg:right-12 hidden md:block pointer-events-none"
+        />
+
+        <div className="max-w-7xl w-full grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+          {/* Left: Illustration */}
+          <div className="w-full">
+            <div className="relative w-full aspect-4/3 rounded-4xl border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] overflow-hidden bg-white">
+              <Image
+                src="/Illustrations/GroupDiscussion1.svg"
+                alt="Agency team collaborating"
+                fill
+                className="object-cover"
+              />
+            </div>
+          </div>
+
+          {/* Right: Copy */}
+          <div className="w-full">
+            <h2 className={`text-4xl md:text-5xl text-primary-dark leading-tight mb-5 ${cooper.className}`}>
+              For agencies hiring proven performers
+            </h2>
+
+            <p className="text-primary-dark/85 text-base md:text-lg leading-relaxed mb-6">
+              Top recruiters rarely apply openly. Moves are usually confidential, and most leaders do not have enough time or market coverage to map competitor talent deeply.
+            </p>
+
+            <ul className="space-y-3 text-primary-dark/90 text-base md:text-lg mb-8">
+              <li className="flex items-start gap-3">
+                <span className="mt-2 h-2.5 w-2.5 rounded-full bg-primary-dark shrink-0" />
+                <span>Access to proven education billers</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="mt-2 h-2.5 w-2.5 rounded-full bg-primary-dark shrink-0" />
+                <span>Reduced hiring risk</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="mt-2 h-2.5 w-2.5 rounded-full bg-primary-dark shrink-0" />
+                <span>Faster impact on NFI</span>
+              </li>
+            </ul>
+
+            <Link href="/employers">
+              <Button variant="primary" size="lg" className={cooper.className}>
+                Talk to us about your next hire
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="relative z-20 bg-tertiary py-20 md:py-24 px-6 md:px-10 flex flex-col items-center border-t-4 border-black overflow-hidden">
+        <div className="absolute top-6 right-6 w-40 h-40 rounded-full bg-white/20 blur-2xl pointer-events-none" />
+        <DoodleFloat
+          name="gradcap-2"
+          size={96}
+          delay={0.38}
+          className="absolute top-16 right-2 lg:right-10 hidden md:block pointer-events-none"
+        />
+        <DoodleFloat
+          name="open-book"
+          size={120}
+          delay={0.45}
+          className="absolute bottom-8 left-2 lg:left-12 hidden md:block pointer-events-none"
+        />
+
+        <div className="max-w-7xl w-full grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+          {/* Left: Copy */}
+          <div className="w-full order-2 lg:order-1">
+            <h2 className={`text-4xl md:text-5xl text-primary-dark leading-tight mb-5 ${cooper.className}`}>
+              For recruiters planning their next move
+            </h2>
+
+            <p className="text-primary-dark/85 text-base md:text-lg leading-relaxed mb-6">
+              Many top recruiters are underpaid for their output, boxed into the wrong market or leadership setup, and lack a clear view of genuinely better opportunities.
+            </p>
+
+            <ul className="space-y-3 text-primary-dark/90 text-base md:text-lg mb-8">
+              <li className="flex items-start gap-3">
+                <span className="mt-2 h-2.5 w-2.5 rounded-full bg-primary-dark shrink-0" />
+                <span>Confidential career conversations</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="mt-2 h-2.5 w-2.5 rounded-full bg-primary-dark shrink-0" />
+                <span>Better commission and progression</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="mt-2 h-2.5 w-2.5 rounded-full bg-primary-dark shrink-0" />
+                <span>Leadership and equity routes</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="mt-2 h-2.5 w-2.5 rounded-full bg-primary-dark shrink-0" />
+                <span>UK and Australia roles</span>
+              </li>
+            </ul>
+
+            <Link href="/candidates">
+              <Button variant="secondary" size="lg" className={`${cooper.className} bg-primary-dark! focus:ring-primary-dark!`}>
+                Start a confidential chat
+              </Button>
+            </Link>
+          </div>
+
+          {/* Right: Illustration */}
+          <div className="w-full order-1 lg:order-2">
+            <div className="relative w-full aspect-4/3 rounded-4xl border-4 border-primary-dark shadow-[8px_8px_0px_0px_rgba(37,8,33,1)] overflow-hidden bg-white">
+              <Image
+                src="/Illustrations/JobHunt1.svg"
+                alt="Recruiter evaluating career paths"
+                fill
+                className="object-cover"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
       
       {/* --- Contact Section ---*/}
       <section className="relative z-20 min-h-screen bg-white py-24 md:py-28 px-6 md:px-10 flex flex-col items-center">
