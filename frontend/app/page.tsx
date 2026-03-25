@@ -314,14 +314,18 @@ export default async function HomePage() {
         <div className="max-w-7xl w-full flex flex-col lg:flex-row items-start gap-16 lg:gap-20">  
           {/* Left Side: Image */}
           <div className="w-full lg:w-1/2">
-            <div className="relative w-full aspect-4/3 rounded-4xl border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] overflow-hidden bg-white">
-              {/* Note: Update the src below to your actual image path */}
-              <Image 
-                src="/Illustrations/brainstorming.svg" 
-                alt="Our Team"
-                fill
-                className="object-cover"
-              />
+            <div className="relative h-full w-full max-w-130 group">
+              <div className="absolute inset-0 rounded-4xl border-4 border-black translate-x-3 translate-y-3 transition-transform duration-200 group-hover:translate-x-2 group-hover:translate-y-2" />
+
+              <div className="relative w-full aspect-4/3 rounded-4xl border-4 border-black overflow-hidden bg-white">
+                {/* Note: Update the src below to your actual image path */}
+                <Image 
+                  src="/Illustrations/brainstorming.svg" 
+                  alt="Our Team"
+                  fill
+                  className="object-cover"
+                />
+              </div>
             </div>
           </div>
 
