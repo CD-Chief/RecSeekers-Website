@@ -43,7 +43,7 @@ export default function Candidates() {
           {/* Right Image (Man on ladder) */}
           <div className="w-full md:w-1/3 flex justify-center">
             {/* Replace /ladder-guy.svg with your actual asset */}
-            <div className="relative w-full max-w-md aspect-[4/3]">
+            <div className="relative w-full max-w-md ">
               <Image
                 src="illustrations/HelpingPartner2.svg"
                 alt="Illustration of a person climbing a ladder to help a partner, representing career support"
