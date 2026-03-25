@@ -3,6 +3,7 @@ import localFont from 'next/font/local';
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
+import { TestimonialsSection } from "@/components/Candidates/TestimonialsSection";
 
 // Assuming you have the same profile placeholder and font setup
 const placeHolderProfile = '/profile.png';
@@ -108,52 +109,7 @@ export default function Candidates() {
       {/* </section>  */}
 
       {/* --- PREVIOUS CANDIDATES SECTION --- */}
-      <section className="snap-start relative z-20 min-h-[80vh] bg-pink-300 py-24 px-8 flex flex-col items-center border-t-4 border-black">
-        <div className="max-w-6xl w-full">
-          <div className="flex justify-between items-end mb-16">
-          <h2 className={`${cooper.className} text-7xl text-black mb-12 leading-tight`}>
-              Our previous candidates
-            </h2>
-            <span className="hidden md:block text-black font-bold text-lg [-webkit-text-stroke:0.5px_black]">
-              [LinkedInIcon] <a href="https://www.linkedin.com/in/sam-lawless/#recommendations" target="_blank" rel="noopener noreferrer">LinkedIn</a> recommendations &rarr;
-            </span>
-          </div>
-          
-          <div className="flex flex-wrap justify-center gap-12">
-            {candidates.map((cand, i) => (
-              <div key={i} className="relative group/cand w-72 h-40 border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] bg-white p-6 flex flex-col justify-center items-center cursor-pointer transition-all">
-                
-                {/* Default State (Collapsed) */}
-                <div className="flex items-center gap-4 w-full group-hover/cand:opacity-0 transition-opacity duration-200">
-                  <div className="w-16 h-16 rounded-full border-2 border-black overflow-hidden bg-gray-100 flex-shrink-0">
-                    <Image src={placeHolderProfile} alt={cand.name} width={64} height={64} />
-                  </div>
-                  <div className="flex flex-col">
-                    <h3 className={`text-xl text-black ${cooper.className}`}>{cand.name}</h3>
-                    <div className="w-full h-2 bg-gray-300 mt-2 rounded-full"></div>
-                    <div className="w-2/3 h-2 bg-gray-300 mt-1 rounded-full"></div>
-                  </div>
-                </div>
-
-                {/* Hover Pop-out State (Full text + Title) */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] bg-white border-4 border-black shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] p-6 opacity-0 pointer-events-none group-hover/cand:opacity-100 group-hover/cand:pointer-events-auto transition-all duration-300 z-30 flex flex-col items-center text-center gap-3">
-                  <div className="w-16 h-16 rounded-full border-2 border-black overflow-hidden bg-gray-100">
-                    <Image src={placeHolderProfile} alt={cand.name} width={64} height={64} />
-                  </div>
-                  <h3 className={`text-xl text-black ${cooper.className}`}>{cand.name}</h3>
-                  <span className="bg-[var(--primary-logo)] text-black px-3 py-1 text-sm font-bold border-2 border-black -mt-2">
-                    {cand.role}
-                  </span>
-                  <p className="text-sm font-medium italic mt-2 text-black leading-relaxed">
-                    {cand.text}
-                  </p>
-                </div>
-
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <TestimonialsSection cooperClassName={cooper.className} />
 
       {/* --- CONTACT US SECTION --- */}
       <section className="relative z-20 min-h-[60vh] bg-white py-24 px-8 flex flex-col items-center snap-start border-t-4 border-black shadow-[0_-16px_40px_0_rgba(0,0,0,0.1)]">
