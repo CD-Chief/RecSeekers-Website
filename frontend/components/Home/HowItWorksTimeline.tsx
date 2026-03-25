@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { DoodleFloat } from "@/components/ui/DoodleFloat";
 
 type HowItWorksTimelineProps = {
   cooperClassName: string;
@@ -69,7 +70,26 @@ const steps = [
 
 export function HowItWorksTimeline({ cooperClassName }: HowItWorksTimelineProps) {
   return (
-    <section className="relative z-20 bg-[#fff8f1] py-20 md:py-32 px-6 md:px-12 flex flex-col items-center border-t-4 border-black">
+    <section className="relative z-20 bg-[#fff8f1] py-20 md:py-32 px-6 md:px-12 flex flex-col items-center border-t-4 border-black overflow-hidden">
+      <DoodleFloat
+        name="books-3"
+        size={110}
+        delay={0.2}
+        className="absolute top-12 left-2 lg:left-10 hidden md:block pointer-events-none"
+      />
+      <DoodleFloat
+        name="pen"
+        size={96}
+        delay={0.4}
+        className="absolute top-40 right-2 lg:right-12 hidden md:block pointer-events-none"
+      />
+      <DoodleFloat
+        name="molecules-2"
+        size={118}
+        delay={0.55}
+        className="absolute bottom-10 left-2 lg:left-12 hidden md:block pointer-events-none"
+      />
+
       <div className="max-w-7xl w-full relative">
         <motion.div
           initial={{ opacity: 0, y: 24 }}

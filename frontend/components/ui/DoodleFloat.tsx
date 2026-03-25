@@ -44,6 +44,11 @@ export function DoodleFloat({
 		animationDelay: `${delay * 0.3}s`,
 	};
 
+	const imageStyle: CSSProperties = {
+		width: `${size}px`,
+		height: "auto",
+	};
+
 	return (
 		<div
 			ref={ref}
@@ -57,6 +62,7 @@ export function DoodleFloat({
 					width={size}
 					height={size}
 					className="select-none pointer-events-none"
+					style={imageStyle}
 					draggable={false}
 				/>
 			</div>
