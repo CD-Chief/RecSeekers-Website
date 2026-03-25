@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { TestimonialsSection } from "@/components/Candidates/TestimonialsSection";
+import { BottomCTA } from "@/components/Candidates/BottomCTA";
 
 // Assuming you have the same profile placeholder and font setup
 const placeHolderProfile = '/profile.png';
@@ -102,15 +103,16 @@ export default function Candidates() {
           <p className="text-xl text-black font-medium mb-12 max-w-2xl leading-relaxed">
             Reach out to our team today. We'll confidentially discuss your experience, your ambitions, and match you with agencies that value your expertise.
           </p>
-          {/* Split Button Container */}
+
+          <BottomCTA />
+          {/* Split Button Container
             <Link href="/contact">
               <Button variant="primary" size="xl" className={cooper.className}>
                 Get In Touch!
               </Button>
-            </Link>
+            </Link> */}
         </div>
       </section>
-      
     </main>
   );
 }

@@ -24,25 +24,22 @@ type TestimonialItem = {
 
 const testimonials: TestimonialItem[] = [
   {
-    quote:
-      "",
-    role: "Previous client",
-    agencyType: "Where they work now",
-    initials: "IN/img",
+    quote: " I can't recommend Sam enough. I wouldn't pay too much attention to speculative messages on LinkedIn, but his no-fluff approach caught my eye. Within a day he had 2 interviews lined up for me, with companies that would fit my style and personality. If you're looking for a Rec2Rec who actually listens to what you want get in touch with Sam. Outstanding service!",
+    role: "Senior Recruitment Consultant",
+    agencyType: "Empowering Learning Manchester",
+    initials: "NB",
   },
   {
-    quote:
-      "",
-    role: "Previous client",
-    agencyType: "Where they work now",
-    initials: "IN/img",
+    quote: "I’ve had the pleasure of working with Sam for a while now and have been consistently impressed by his honesty and genuine approach to finding the right people for our business. He takes the time to really listen and understand our requirements. Also great at providing insights into market trends!",
+    role: "Talent Acquisition Manager",
+    agencyType: "The Edwin Group",
+    initials: "AA",
   },
   {
-    quote:
-      "",
-    role: "Previous client",
-    agencyType: "Where they work now",
-    initials: "IN/img",
+    quote: "Highly recommend Sam. Contact was frequent but relaxed enough to not feel pressure-some. He gave the right amount of support and, from now working long-term in a role he secured for me, know that his clients respect him just as much. Thanks Sam!",
+    role: "Senior SEND Consultant",
+    agencyType: "Horizon Teachers",
+    initials: "AB",
   },
 ];
 
@@ -129,7 +126,7 @@ export function TestimonialsSection({ cooperClassName }: TestimonialsSectionProp
           transition={{ duration: 0.55, ease: "easeOut" }}
           className={`text-5xl md:text-6xl text-center mb-14 md:mb-17 text-left text-primary-dark ${cooperClassName}`}
         >
-          Title
+          What our Previous Candidates Say:
         </motion.h2>
 
         
