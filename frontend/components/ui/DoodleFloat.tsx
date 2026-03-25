@@ -44,9 +44,9 @@ export function DoodleFloat({
 		animationDelay: `${delay * 0.3}s`,
 	};
 
-	const imageStyle: CSSProperties = {
+	const containerStyle: CSSProperties = {
 		width: `${size}px`,
-		height: "auto",
+		height: `${size}px`,
 	};
 
 	return (
@@ -55,14 +55,16 @@ export function DoodleFloat({
 			className={`z-80 opacity-0 translate-y-8 ${isVisible ? "animate-float-in" : ""} ${className} z-80`}
 			style={style}
 		>
-			<div className={isVisible && float ? "animate-float float-random" : ""}>
+			<div
+				className={`relative ${isVisible && float ? "animate-float float-random" : ""}`}
+				style={containerStyle}
+			>
 				<Image
 					src={`/floats/${name}.svg`}
 					alt={`${name} doodle`}
-					width={size}
-					height={size}
-					className="select-none pointer-events-none"
-					style={imageStyle}
+					fill
+					sizes={`${size}px`}
+					className="select-none pointer-events-none object-contain"
 					draggable={false}
 				/>
 			</div>
