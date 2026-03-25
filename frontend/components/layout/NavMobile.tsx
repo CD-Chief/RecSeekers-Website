@@ -137,7 +137,7 @@ export function NavMobile() {
                 <button
                   type="button"
                   onClick={() => setIsOpen(false)}
-                  className="absolute right-8 top-8 inline-flex h-8 w-8 items-center justify-center text-black hover:text-pink-500 transition-colors"
+                  className="absolute right-7 top-4 inline-flex h-8 w-8 items-center justify-center text-black hover:text-pink-500 transition-colors"
                   aria-label="Close mobile navigation"
                 >
                   <svg
@@ -186,7 +186,11 @@ export function NavMobile() {
                             <p className={`text-[12px] font-bold uppercase tracking-[0.08em] ${isContact ? "text-pink-200" : "text-black"}`}>
                               {item.label}
                             </p>
-                            <p className={`text-[16px] leading-tight font-heading ${isContact ? "text-white" : "text-black"}`}>
+                            <p
+                              className={`text-[16px] leading-tight font-heading ${
+                                isContact ? "text-white" : isActive ? "text-pink-700" : "text-black"
+                              }`}
+                            >
                               {previewTitle}
                             </p>
                             <p className={`line-clamp-2 text-[13px] leading-snug ${isContact ? "text-white/85" : "text-black/80"}`}>
