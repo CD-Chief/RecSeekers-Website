@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { BlobField } from "@/components/Blob/Blob";
 import { useHeroStage } from "@/context/HeroStageContext";
 import localFont from "next/font/local";
@@ -14,10 +14,8 @@ const BLOB_SIZE_STAGE2  = "24vmax";   // blob size on the headline/CTA screen
 const BLOB_BLUR_STAGE1  = "0px";      // blur on stage 1 (none — blobs are sharp)
 const BLOB_BLUR_STAGE2  = "80px";     // blur on stage 2 (settled)
 const BLOB_BLUR_PEAK    = "120px";    // blur at the height of the transition
+const SCROLL_THRESHOLD  = 50; // pixels to scroll before stage 2 triggers
 // ─────────────────────────────────────────────────────────────────────────────
-
-/** How many px of accumulated wheel delta trigger the stage transition */
-const SCROLL_THRESHOLD = 60;
 
 const cooper = localFont({
   src: "../../app/fonts/cooper-black-cdnfonts/coopbl.ttf",
@@ -31,74 +29,72 @@ export function HeroSection() {
   const [blobSize, setBlobSize]       = useState(BLOB_SIZE_STAGE1);
   const { setIsHeroStage1 }           = useHeroStage();
 
-  const hasTransitioned = useRef(false);
-  const accumulated     = useRef(0);
-  const touchStartY     = useRef<number | null>(null);
+  // Refs to read latest state inside the scroll event without re-triggering the listener
+  const stageRef = useRef(1);
+  const transitioningRef = useRef(false);
+
+  const updateStage = useCallback((newStage: 1 | 2) => {
+    setStage(newStage);
+    stageRef.current = newStage;
+  }, []);
+
+  const updateTransitioning = useCallback((isTrans: boolean) => {
+    setTransitioning(isTrans);
+    transitioningRef.current = isTrans;
+  }, []);
 
   useEffect(() => {
-    // Prevent the page from scrolling while we're on Stage 1
-    document.body.style.overflow = "hidden";
-
     let t1: ReturnType<typeof setTimeout>;
     let t2: ReturnType<typeof setTimeout>;
 
-    function triggerTransition() {
-      if (hasTransitioned.current) return;
-      hasTransitioned.current = true;
+    function handleScroll() {
+      const scrollY = window.scrollY;
 
-      setTransitioning(true);
-      setIsHeroStage1(false);
+      // Transition forward to Stage 2
+      if (scrollY > SCROLL_THRESHOLD && stageRef.current === 1 && !transitioningRef.current) {
+        updateTransitioning(true);
+        setIsHeroStage1(false);
+        setBlobBlur(BLOB_BLUR_PEAK);
 
-      // Step 1 – blur spikes to peak
-      setBlobBlur(BLOB_BLUR_PEAK);
+        t1 = setTimeout(() => {
+          updateStage(2);
+          setBlobBlur(BLOB_BLUR_STAGE2);
+          setBlobSize(BLOB_SIZE_STAGE2);
+        }, 350);
 
-      // Step 2 – show stage 2, settle blur & size
-      t1 = setTimeout(() => {
-        setStage(2);
-        setBlobBlur(BLOB_BLUR_STAGE2);
-        setBlobSize(BLOB_SIZE_STAGE2);
-      }, 350);
+        t2 = setTimeout(() => {
+          updateTransitioning(false);
+        }, 750);
+      } 
+      // Transition back to Stage 1
+      else if (scrollY <= SCROLL_THRESHOLD && stageRef.current === 2 && !transitioningRef.current) {
+        updateTransitioning(true);
+        setIsHeroStage1(true);
+        setBlobBlur(BLOB_BLUR_PEAK);
 
-      // Step 3 – unlock scroll once stage 2 is fully visible
-      t2 = setTimeout(() => {
-        setTransitioning(false);
-        document.body.style.overflow = "";
-      }, 750);
-    }
+        t1 = setTimeout(() => {
+          updateStage(1);
+          setBlobBlur(BLOB_BLUR_STAGE1);
+          setBlobSize(BLOB_SIZE_STAGE1);
+        }, 350);
 
-    function onWheel(e: WheelEvent) {
-      if (hasTransitioned.current) return;
-      if (e.deltaY > 0) {
-        accumulated.current += e.deltaY;
-        if (accumulated.current >= SCROLL_THRESHOLD) {
-          triggerTransition();
-        }
+        t2 = setTimeout(() => {
+          updateTransitioning(false);
+        }, 750);
       }
     }
 
-    function onTouchStart(e: TouchEvent) {
-      touchStartY.current = e.touches[0].clientY;
-    }
+    // Run once on mount to set the correct stage if the user reloads halfway down the page
+    handleScroll();
 
-    function onTouchMove(e: TouchEvent) {
-      if (hasTransitioned.current || touchStartY.current === null) return;
-      const delta = touchStartY.current - e.touches[0].clientY;
-      if (delta > 30) triggerTransition();
-    }
-
-    window.addEventListener("wheel",      onWheel,      { passive: true });
-    window.addEventListener("touchstart", onTouchStart, { passive: true });
-    window.addEventListener("touchmove",  onTouchMove,  { passive: true });
+    window.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
       clearTimeout(t1);
       clearTimeout(t2);
-      window.removeEventListener("wheel",      onWheel);
-      window.removeEventListener("touchstart", onTouchStart);
-      window.removeEventListener("touchmove",  onTouchMove);
-      document.body.style.overflow = "";
+      window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [setIsHeroStage1, updateStage, updateTransitioning]);
 
   const stage1Visible = stage === 1 && !transitioning;
   const stage2Visible = stage === 2;
@@ -106,11 +102,12 @@ export function HeroSection() {
 
   return (
     <section
-      className="sticky top-0 z-10 isolate min-h-screen overflow-hidden"
+      // CHANGED: From min-h-screen to h-screen w-full to ensure strict sticky sizing
+      className="sticky top-0 z-10 isolate h-screen w-full overflow-hidden"
       style={{ background: "#da8da0" }}
     >
       <BlobField size={blobSize} blurAmount={blobBlur} />
-
+      
       {/* ── Stage 1: Centered logo + tagline ─────────────────────────────── */}
       <div
         className="absolute inset-0 flex flex-col items-center justify-center text-center px-8"

@@ -54,14 +54,14 @@ const NetworkIcon = () => (
 );
 
 export default async function HomePage() {
-
   return (
     <main className="relative w-full bg-white">
-      {/* --- HERO SECTION (two-stage scroll-hijacked hero) --- */}
-      <div className="min-h-screen">
+      {/* --- HERO SECTION --- */}
+      {/* CHANGED: Replaced min-h-screen with h-[120vh] to provide scroll depth */}
+      <div className="relative h-[120vh]">
         <HeroSection />
       </div>
-
+      
       {/* --- Who We Work With --- */}
       <section className="relative z-20 bg-gray-100 pt-4 pb-10 lg:pt-6 lg:pb-14 px-6 md:px-10 flex flex-col items-center border-t-4 border-black overflow-hidden">
         {/* Soft background blob accents (matched to employers page language) */}
