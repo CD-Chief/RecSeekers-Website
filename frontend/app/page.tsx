@@ -7,6 +7,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { DoodleFloat } from "@/components/ui/DoodleFloat";
 import { WhoWeWorkWithCard } from "@/components/Home/WhoWeWorkWithCard";
+import { HowItWorksTimeline } from "@/components/Home/HowItWorksTimeline";
 
 const placeHolderProfile = '/profile.png';
 
@@ -234,6 +235,8 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      <HowItWorksTimeline cooperClassName={cooper.className} />
 
       {/* --- Deeper Split: For Agencies / For Recruiters --- */}
       <section className="relative z-20 bg-[#fff8f1] py-20 md:py-24 px-6 md:px-10 flex flex-col items-center border-t-4 border-black overflow-hidden">
