@@ -104,7 +104,7 @@ export default function EmployersPage() {
           </div>
         </div>
       </section>
-      <TestimonialsSection cooperClassName={cooper.className} />
+      {/* <TestimonialsSection cooperClassName={cooper.className} /> */}
 
        {/* ── BOTTOM CTA ── */}
       <BottomCTA />
