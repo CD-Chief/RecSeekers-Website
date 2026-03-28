@@ -25,9 +25,9 @@ export default function EmployersPage() {
 
           {/* ── LEFT: Copy + CTA ── */}
           <div className="flex flex-col gap-6">
-            <p className="text-sm font-semibold tracking-widest uppercase text-primary-dark/70">
+            {/* <p className="text-sm font-semibold tracking-widest uppercase text-primary-dark/70">
               For Hiring Teams
-            </p>
+            </p> */}
 
             <h1
               className={`text-5xl lg:text-6xl leading-tight text-primary-dark ${cooper.className}`}
@@ -39,7 +39,7 @@ export default function EmployersPage() {
             <p className="text-lg text-primary-dark/80 max-w-md leading-relaxed">
               Stop onboarding recruiters who need six months to ramp. We place
               niche-specific recruitment professionals who hit the ground
-              running—already fluent in your market, your roles, and your
+              running-already fluent in your market, your roles, and your
               growth targets.
             </p>
 

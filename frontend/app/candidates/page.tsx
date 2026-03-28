@@ -3,6 +3,8 @@ import localFont from 'next/font/local';
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
+import { TestimonialsSection } from "@/components/Candidates/TestimonialsSection";
+import { BottomCTA } from "@/components/Candidates/BottomCTA";
 
 // Assuming you have the same profile placeholder and font setup
 const placeHolderProfile = '/profile.png';
@@ -12,24 +14,6 @@ const cooper = localFont({
   display: 'swap',
 });
 
-// --- Mock Data ---
-const sectors = [
-  { name: "IT & Technology", desc: "Software engineering, data science, and infrastructure leadership roles." },
-  { name: "Finance & Banking", desc: "Connecting quantitative analysts, advisors, and executive finance talent." },
-  { name: "Marketing & Sales", desc: "Growth hackers, CMOs, and top-tier sales directors." },
-  { name: "Healthcare", desc: "Specialized medical device sales, clinical researchers, and leadership." },
-  { name: "Engineering", desc: "Civil, mechanical, and electrical engineering professionals." },
-];
-
-const candidates = [
-  { name: "Sarah Jenkins", role: "Senior Tech Recruiter", text: "\"RecSeekers found me a role that perfectly aligned with my ambition. The process was seamless and incredibly supportive.\"" },
-  { name: "David Chen", role: "Finance Headhunter", text: "\"I was looking for a step up in the banking sector. Their team understood exactly what I needed and delivered fast.\"" },
-  { name: "Emily Rogers", role: "Marketing Talent Lead", text: "\"15 years of experience really shows. They placed me at an agency where my skills are truly valued and utilized.\"" },
-  { name: "Marcus Johnson", role: "Executive Search", text: "\"A game-changer for my career. The vetted agencies they work with are top-notch.\"" },
-  { name: "Seb Cena", role: "Administrative Operator", text: "\"\"" },
-  { name: "Robert Jameson", role: "Senior Education Recruiter", text: "\"\"" },
-
-];
 
 export default function Candidates() {
 
@@ -42,34 +26,38 @@ export default function Candidates() {
     <main className="relative w-full bg-white overflow-x-hidden">
       
       {/* --- HERO SECTION --- */}
-      <section className="snap-start relative z-20 min-h-[80vh] bg-white py-24 px-8 flex flex-col justify-center items-center shadow-[0_16px_40px_0_rgba(0,0,0,0.1)]">
-        <div className="max-w-6xl w-full flex flex-col md:flex-row items-center gap-12">
-          {/* Left Text */}
-          <div className="w-full md:w-2/3 flex flex-col items-start gap-6">
-            <h1 className={`${cooper.className} text-7xl text-black mb-12 leading-tight`}>
-              Find your next role with Us!
-            </h1>
-            <p className="text-lg text-black font-medium leading-relaxed">
-              On the hunt for the perfect agency recruitment job? <br/><br/>
-              We believe in helping talented recruiters fulfill their potential by getting them into the right industry, company, and role for them.
-            </p>
-            <p className="text-lg text-black font-medium leading-relaxed">
-              RecSeekers specializes in Rec2Rec, connecting exceptional recruiters with top-tier agencies. Let us help you find a role that aligns with your ambitions and expertise.
-            </p>
-          </div>
-          {/* Right Image (Man on ladder) */}
-          <div className="w-full md:w-1/3 flex justify-center">
-            {/* Replace /ladder-guy.svg with your actual asset */}
-            <div className="relative w-full max-w-md aspect-[4/3]">
-              <Image
-                src="illustrations/HelpingPartner2.svg"
-                alt="Illustration of a person climbing a ladder to help a partner, representing career support"
-                width={500}
-                height={500}
-              />
-            </div>
+      <section className="snap-start relative z-20 min-h-[80vh] bg-[#ffa4bb] py-24 px-8 flex flex-col justify-center items-center shadow-[0_16px_40px_0_rgba(0,0,0,0.1)]">
+      <div className="max-w-6xl w-full mx-auto flex flex-col md:flex-row items-center justify-between gap-12">
+        {/* Left Text: Changed to w-1/2 to pull the image in closer */}
+        <div className="w-full md:w-1/2 flex flex-col items-start gap-6">
+          <h1 className={`${cooper.className} text-6xl lg:text-7xl text-black mb-6 leading-tight`}>
+            Find your next role <span className="italic text-white block">with Us!</span>
+          </h1>
+          
+          {/* Removed <br/> and used a cleaner max-width */}
+          <p className="text-lg text-primary-dark/80 max-w-lg leading-relaxed">
+            On the hunt for the perfect agency recruitment job? We believe in helping 
+            talented recruiters fulfill their potential by getting them into the 
+            right industry, company, and role for them.
+            <br /><br />
+            RecSeekers specializes in Rec2Rec, connecting exceptional recruiters 
+            with top-tier agencies.
+          </p>
+        </div>
+
+        {/* Right Image: Occupies the other half */}
+        <div className="w-full md:w-1/2 flex justify-end">
+          <div className="relative w-full max-w-md">
+            <Image
+              src="illustrations/HelpingPartner2.svg"
+              alt="Career support illustration"
+              width={500}
+              height={500}
+              priority
+            />
           </div>
         </div>
+      </div>
       </section>
 
       {/* --- WHAT SETS US APART SECTION --- */}
@@ -108,52 +96,7 @@ export default function Candidates() {
       {/* </section>  */}
 
       {/* --- PREVIOUS CANDIDATES SECTION --- */}
-      <section className="snap-start relative z-20 min-h-[80vh] bg-pink-300 py-24 px-8 flex flex-col items-center border-t-4 border-black">
-        <div className="max-w-6xl w-full">
-          <div className="flex justify-between items-end mb-16">
-          <h2 className={`${cooper.className} text-7xl text-black mb-12 leading-tight`}>
-              Our previous candidates
-            </h2>
-            <span className="hidden md:block text-black font-bold text-lg [-webkit-text-stroke:0.5px_black]">
-              [LinkedInIcon] <a href="https://www.linkedin.com/in/sam-lawless/#recommendations" target="_blank" rel="noopener noreferrer">LinkedIn</a> recommendations &rarr;
-            </span>
-          </div>
-          
-          <div className="flex flex-wrap justify-center gap-12">
-            {candidates.map((cand, i) => (
-              <div key={i} className="relative group/cand w-72 h-40 border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] bg-white p-6 flex flex-col justify-center items-center cursor-pointer transition-all">
-                
-                {/* Default State (Collapsed) */}
-                <div className="flex items-center gap-4 w-full group-hover/cand:opacity-0 transition-opacity duration-200">
-                  <div className="w-16 h-16 rounded-full border-2 border-black overflow-hidden bg-gray-100 flex-shrink-0">
-                    <Image src={placeHolderProfile} alt={cand.name} width={64} height={64} />
-                  </div>
-                  <div className="flex flex-col">
-                    <h3 className={`text-xl text-black ${cooper.className}`}>{cand.name}</h3>
-                    <div className="w-full h-2 bg-gray-300 mt-2 rounded-full"></div>
-                    <div className="w-2/3 h-2 bg-gray-300 mt-1 rounded-full"></div>
-                  </div>
-                </div>
-
-                {/* Hover Pop-out State (Full text + Title) */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] bg-white border-4 border-black shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] p-6 opacity-0 pointer-events-none group-hover/cand:opacity-100 group-hover/cand:pointer-events-auto transition-all duration-300 z-30 flex flex-col items-center text-center gap-3">
-                  <div className="w-16 h-16 rounded-full border-2 border-black overflow-hidden bg-gray-100">
-                    <Image src={placeHolderProfile} alt={cand.name} width={64} height={64} />
-                  </div>
-                  <h3 className={`text-xl text-black ${cooper.className}`}>{cand.name}</h3>
-                  <span className="bg-[var(--primary-logo)] text-black px-3 py-1 text-sm font-bold border-2 border-black -mt-2">
-                    {cand.role}
-                  </span>
-                  <p className="text-sm font-medium italic mt-2 text-black leading-relaxed">
-                    {cand.text}
-                  </p>
-                </div>
-
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <TestimonialsSection cooperClassName={cooper.className} />
 
       {/* --- CONTACT US SECTION --- */}
       <section className="relative z-20 min-h-[60vh] bg-white py-24 px-8 flex flex-col items-center snap-start border-t-4 border-black shadow-[0_-16px_40px_0_rgba(0,0,0,0.1)]">
@@ -164,15 +107,16 @@ export default function Candidates() {
           <p className="text-xl text-black font-medium mb-12 max-w-2xl leading-relaxed">
             Reach out to our team today. We'll confidentially discuss your experience, your ambitions, and match you with agencies that value your expertise.
           </p>
-          {/* Split Button Container */}
+
+          <BottomCTA />
+          {/* Split Button Container
             <Link href="/contact">
               <Button variant="primary" size="xl" className={cooper.className}>
                 Get In Touch!
               </Button>
-            </Link>
+            </Link> */}
         </div>
       </section>
-      
     </main>
   );
 }
