@@ -95,7 +95,7 @@ interface TestimonialsSectionProps {
 
 export function TestimonialsSection({ cooperClassName }: TestimonialsSectionProps) {
   return (
-    <section className="relative z-20 bg-[#fff8f1] py-24 pb-8 px-6 md:px-12 border-t-4 border-black overflow-hidden">
+    <section className="relative z-20 bg-primary py-24 pb-8 px-6 md:px-12 border-t-4 border-black overflow-hidden">
       <DoodleFloat
         name="speech-bubble"
         size={84}
@@ -117,7 +117,7 @@ export function TestimonialsSection({ cooperClassName }: TestimonialsSectionProp
           transition={{ duration: 0.55, ease: "easeOut" }}
           className={`text-5xl md:text-6xl text-center mb-14 md:mb-17 text-primary-dark ${cooperClassName}`}
         >
-          Why Recruiters Talk About Us
+          What Recruiters Say About Us
         </motion.h2>
 
         

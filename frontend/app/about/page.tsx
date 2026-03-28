@@ -6,6 +6,7 @@ import { TeamSection } from '@/components/About/TeamSection';
 import { ClientsSection } from '@/components/About/ClientsSection';
 import { WhereWeWorkSection } from '@/components/About/WhereWeWorkSection';
 import { BottomCTA } from '@/components/employers/BottomCTA';
+import DoodleFloat from '@/components/ui/DoodleFloat';
 
 const cooper = localFont({
   src: '../fonts/cooper-black-cdnfonts/coopbl.ttf',
@@ -41,13 +42,39 @@ const statCards = [
 
 export default function AboutPage() {
   return (
-    <main className="relative w-full">
+    <main className="relative w-full overflow-hidden">
       {/* --- Hero / Heading Section --- */}
-      <section
-        className="min-h-[75vh] flex flex-col items-center justify-center px-8 pt-24 pb-12"
-        style={{ background: '#FFFFFF' }}
-      >
-        <div className="max-w-6xl w-full">
+      {/* ADDED 'relative' to this section so the doodles position relative to it */}
+      <section className="relative min-h-[50vh] flex flex-col bg-primary items-center border-black border-b-4 justify-center px-8 pt-24 pb-12">
+        
+        {/* --- Background Doodles (Hidden on mobile so they don't cover text) --- */}
+        {/* Top Left */}
+        <div className="absolute top-19 left-30 hidden 2xl:block">
+          <DoodleFloat name={"gradcap-2"} size={100} delay={0.1} />
+        </div>
+        {/* Middle Left */}
+        <div className="absolute top-1/2 -translate-y-1/2 left-30 hidden 2xl:block">
+          <DoodleFloat name={"flask-2"} size={120} delay={0.4} />
+        </div>
+        
+        <div className="absolute bottom-16 left-30 hidden md:block z-20">
+          <DoodleFloat name={"open-book"} size={140} delay={0.3} />
+        </div>
+
+        {/* Top Right */}
+        <div className="absolute top-16 right-30 hidden 2xl:block">
+          <DoodleFloat name={"pencil-2"} size={110} delay={0.2} />
+        </div>
+        {/* Middle Right */}
+        <div className="absolute top-1/2 -translate-y-1/2 right-30 hidden 2xl:block">
+          <DoodleFloat name={"atom"} size={90} delay={0.5} />
+        </div>
+        {/* Bottom Right */}
+        <div className="absolute bottom-16 right-30 hidden 2xl:block">
+          <DoodleFloat name={"globe"} size={130} delay={0.7} />
+        </div>
+
+        <div className="max-w-6xl w-full z-10">
           <h1 className={`${cooper.className} text-7xl md:text-8xl text-black mb-12 leading-tight`}>
             Who are we?
           </h1>
@@ -60,7 +87,7 @@ export default function AboutPage() {
               <div className="relative pl-7">
                 {/* Animated rounded accent bar */}
                 <div
-                  className="accent-bar absolute left-0 top-0 w-[7px] rounded-full bg-[#da8da0]"
+                  className="accent-bar absolute left-0 top-0 w-[7px] rounded-full bg-white"
                   style={{ height: 0 }}
                 />
                 <p className="text-xl md:text-2xl text-black leading-relaxed">
@@ -74,11 +101,16 @@ export default function AboutPage() {
                 </p>
               </div>
 
-              <Link href="/contact" className="group self-start">
-                <Button className={`${cooper.className} px-10 py-4 bg-[#1e293b] text-white text-lg tracking-wider rounded-2xl border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] group-hover:translate-x-1 group-hover:translate-y-1 group-hover:shadow-none transition-all`}>
-                  Get In Touch
-                </Button>
-              </Link>
+              {/* Button & Doodle Container */}
+              <div className="relative self-start mt-4">
+                
+
+                <Link href="/contact" className="group inline-block">
+                  <Button className={`${cooper.className} text-black! px-10 py-4 bg-[#1e293b] text-lg tracking-wider rounded-2xl border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] group-hover:translate-x-1 group-hover:translate-y-1 group-hover:text-white! group-hover:shadow-none transition-all`}>
+                    Get In Touch!
+                  </Button>
+                </Link>
+              </div>
             </div>
 
             {/* Right: stat cards (1/3) */}
@@ -86,13 +118,13 @@ export default function AboutPage() {
               {statCards.map((card, i) => (
                 <div
                   key={card.title}
-                  className="flex items-center gap-5 p-6 border-4 rounded-4xl bg-[#ffa4bb]"
+                  className="flex items-center gap-5 p-6 border-4 rounded-4xl bg-white relative z-10"
                   style={{
                     animation: `slideInRight 0.6s cubic-bezier(0.22, 1, 0.36, 1) both`,
                     animationDelay: `${i * 0.15}s`,
                   }}
                 >
-                  <div className="flex-shrink-0 w-14 h-14 rounded-xl border-4 border-black bg-white flex items-center justify-center shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] text-black">
+                  <div className="flex-shrink-0 w-14 h-14 rounded-xl border-4 border-black bg-primary flex items-center justify-center shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] text-black">
                     {card.icon}
                   </div>
                   <p className={`${cooper.className} text-lg leading-snug text-black`}>
@@ -101,27 +133,42 @@ export default function AboutPage() {
                 </div>
               ))}
             </div>
-
           </div>
         </div>
       </section>
+      
       <ValuesSection />
-      <TeamSection />
-      <ClientsSection />
       <WhereWeWorkSection />
+      <TeamSection />
+      {/* <ClientsSection /> */}
 
       {/* --- Jobs Section --- */}
-      <section className="bg-white border-t-4 border-black px-8 pt-20 pb-64">
-        <div className="max-w-6xl mx-auto w-full">
-          <p className={`${cooper.className} text-lg text-black/40 uppercase tracking-widest mb-2`}>
+      {/* Added 'relative' to contain the absolute positioned doodles */}
+      <section className="relative bg-white border-t-4 border-black px-8 pt-20 pb-64">
+        
+        {/* --- Background Doodles --- */}
+        {/* Left Side */}
+        <div className="absolute top-32 left-16 md:left-24 hidden xl:block z-0">
+          <DoodleFloat name={"sparkle"} size={110} delay={0.2} />
+        </div>
+
+        {/* Right Side */}
+        <div className="absolute top-32 right-16 md:right-24 hidden xl:block z-0">
+          <DoodleFloat name={"star"} size={100} delay={0.6} />
+        </div>
+        {/* --------------------------- */}
+
+        {/* Added relative z-10 so the text and future iframes stay above the doodles */}
+        <div className="relative z-10 max-w-6xl mx-auto w-full">
+          {/* <p className={`${cooper.className} text-lg text-black/40 uppercase tracking-widest mb-2`}>
             Join the team
-          </p>
+          </p> */}
           <h2 className={`${cooper.className} text-6xl md:text-7xl text-black mb-6`}>
             Work at RecSeekers
           </h2>
           <p className="text-xl text-black/60 max-w-2xl leading-relaxed">
             We&apos;re always on the lookout for ambitious, people-first talent to grow with us.
-            Take a look at what&apos;s open — and if nothing fits yet, get in touch anyway.
+            Take a look at what&apos;s open - and if nothing fits yet, get in touch anyway.
           </p>
           {/* LinkedIn iframes will go here */}
         </div>

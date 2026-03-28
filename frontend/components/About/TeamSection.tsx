@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react';
 import localFont from 'next/font/local';
 import { BlobPortrait } from './BlobPortrait';
 import type { TeamMember } from './BlobPortrait';
+import DoodleFloat from '@/components/ui/DoodleFloat'; // Imported DoodleFloat
 
 const cooper = localFont({
   src: '../../app/fonts/cooper-black-cdnfonts/coopbl.ttf',
@@ -56,12 +57,39 @@ export function TeamSection() {
   }, []);
 
   return (
-    <section className="relative z-10 bg-[#da8da0] border-t-4 border-black pt-16 pb-28 px-8">
-      <div className="max-w-7xl mx-auto">
-        <div className="mb-14 flex flex-col gap-2">
-          <p className={`${cooper.className} text-lg text-black/50 uppercase tracking-widest`}>
-            The people behind RecSeekers
-          </p>
+    // Added overflow-hidden to prevent horizontal scrolling
+    <section className="relative w-full overflow-hidden bg-[#da8da0] border-t-4 border-black pt-16 pb-28 px-8 z-10">
+      
+      {/* --- Background Doodles --- */}
+      {/* Top Left (near the title) */}
+      <div className="absolute top-24 left-24 hidden 2xl:block z-0">
+        <DoodleFloat name={"star"} size={90} delay={0.2} />
+      </div>
+
+      {/* Middle Left (next to Jed's card) */}
+      <div className="absolute top-1/2 -translate-y-1/2 left-16 hidden 2xl:block z-0">
+        <DoodleFloat name={"sparkle"} size={110} delay={0.4} />
+      </div>
+
+      {/* Bottom Left (next to Ciaran's card) */}
+      <div className="absolute bottom-32 left-32 hidden 2xl:block z-0">
+        <DoodleFloat name={"scribble"} size={80} delay={0.7} />
+      </div>
+
+      {/* Top Right (next to Sam's card) */}
+      <div className="absolute top-48 right-32 hidden 2xl:block z-0">
+        <DoodleFloat name={"sparkle"} size={100} delay={0.3} />
+      </div>
+
+      {/* Middle Right (next to Jed's card) */}
+      <div className="absolute top-2/3 -translate-y-1/2 right-20 hidden 2xl:block z-0">
+        <DoodleFloat name={"star"} size={120} delay={0.6} />
+      </div>
+      {/* --------------------------- */}
+
+      {/* Wrapped existing content in relative z-10 so it sits above doodles */}
+      <div className="relative z-10 max-w-7xl mx-auto">
+        <div className="mb-14 flex flex-col gap-2 text-center md:text-left">
           <h2 className={`${cooper.className} text-6xl md:text-7xl text-black`}>
             Meet the Team
           </h2>
@@ -71,7 +99,7 @@ export function TeamSection() {
             <div
               key={member.name}
               ref={(el) => { cardRefs.current[i] = el; }}
-              className="team-card border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-3xl overflow-hidden"
+              className="team-card border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-3xl overflow-hidden bg-white"
               style={{ transitionDelay: `${i * 0.15}s` }}
             >
               <BlobPortrait

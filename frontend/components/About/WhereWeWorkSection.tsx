@@ -1,4 +1,5 @@
 import localFont from 'next/font/local';
+import DoodleFloat from '@/components/ui/DoodleFloat'; // Don't forget the import!
 
 const cooper = localFont({
   src: '../../app/fonts/cooper-black-cdnfonts/coopbl.ttf',
@@ -31,13 +32,29 @@ const countries = [
 
 export function WhereWeWorkSection() {
   return (
-    <section className="relative z-10 bg-white py-24 px-8">
-      <div className="max-w-6xl mx-auto">
+    // Added w-full and overflow-hidden to contain the doodles
+    <section className="relative w-full overflow-hidden bg-white border-t-4 border-black py-24 px-8">
+      
+      {/* --- Background Doodles --- */}
+      {/* Middle Left (next to UK card) */}
+      <div className="absolute top-30 -translate-y-1/2 left-16 hidden 2xl:block z-0">
+        <DoodleFloat name={"globe"} size={110} delay={0.2} />
+      </div>
+
+      <div className="absolute bottom-12 -translate-y-1/2 left-16 hidden 2xl:block z-0">
+        <DoodleFloat name={"open-book"} size={120} delay={0.7} />
+      </div>
+      {/* --------------------------- */}
+
+      {/* Top Right (across from the title) */}
+      <div className="absolute top-1/3 right-24 hidden 2xl:block z-0">
+        <DoodleFloat name={"paper-plane"} size={90} delay={0.5} />
+      </div>
+
+      {/* Wrapped existing content in relative z-10 so it sits above doodles */}
+      <div className="relative z-10 max-w-6xl mx-auto">
 
         <div className="mb-16">
-          <p className={`${cooper.className} text-lg text-black/40 uppercase tracking-widest mb-2`}>
-            Our reach
-          </p>
           <h2 className={`${cooper.className} text-6xl md:text-7xl text-black`}>
             Where We Work
           </h2>
@@ -50,16 +67,16 @@ export function WhereWeWorkSection() {
               className="group flex flex-col items-center p-8 border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-1.5 hover:translate-y-1.5 hover:shadow-none transition-all duration-150 bg-white cursor-default"
             >
               {/* SVG country outline */}
-              <div className="flex items-center justify-center w-full h-48 mb-6">
+              <div className="flex items-center justify-center w-full h-48 mb-6 relative">
                 <svg
                   viewBox={country.viewBox}
-                  className="w-full h-full"
+                  className="w-full h-full relative z-10"
                   xmlns="http://www.w3.org/2000/svg"
                   preserveAspectRatio="xMidYMid meet"
                 >
                   <path
                     d={country.path}
-                    className="fill-primary"
+                    className="fill-primary" // This handles your pink color
                     stroke="black"
                     strokeWidth="4"
                     strokeLinejoin="round"

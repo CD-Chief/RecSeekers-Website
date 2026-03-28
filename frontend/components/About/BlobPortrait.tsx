@@ -23,13 +23,13 @@ export function BlobPortrait({ member, index = 0, imageSide = 'left' }: BlobPort
   const num = String(index + 1).padStart(2, '0');
 
   const imageCol = (
-    <div className="relative flex flex-col items-center justify-center gap-6 py-12 px-8 bg-primary-dark min-h-[340px]">
-      {/* Large decorative number */}
+    <div className="relative flex flex-col items-center justify-center gap-6 py-12 px-8 bg-primary-dark min-h-[340px] h-full">
+      {/* Large decorative number
       <span
         className={`${cooper.className} absolute top-4 left-6 text-7xl leading-none text-white/10 select-none`}
       >
         {num}
-      </span>
+      </span> */}
       <div className="blob-portrait relative z-10">
         <Image
           src={member.image}
@@ -66,7 +66,7 @@ export function BlobPortrait({ member, index = 0, imageSide = 'left' }: BlobPort
   );
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-0 items-stretch">
+    <div className="grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-0 items-stretch h-full">
       {imageSide === 'left' ? (
         <>
           {imageCol}
