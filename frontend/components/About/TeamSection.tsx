@@ -63,27 +63,27 @@ export function TeamSection() {
       {/* --- Background Doodles --- */}
       {/* Top Left (near the title) */}
       <div className="absolute top-24 left-24 hidden 2xl:block z-0">
-        <DoodleFloat name={"star"} size={90} delay={0.2} />
+        <DoodleFloat name={"speech-bubble"} size={90} delay={0.2} />
       </div>
 
       {/* Middle Left (next to Jed's card) */}
       <div className="absolute top-1/2 -translate-y-1/2 left-16 hidden 2xl:block z-0">
-        <DoodleFloat name={"sparkle"} size={110} delay={0.4} />
+        <DoodleFloat name={"flask-1"} size={110} delay={0.4} />
       </div>
 
       {/* Bottom Left (next to Ciaran's card) */}
       <div className="absolute bottom-32 left-32 hidden 2xl:block z-0">
-        <DoodleFloat name={"scribble"} size={80} delay={0.7} />
+        <DoodleFloat name={"open-book"} size={100} delay={0.7} />
       </div>
 
       {/* Top Right (next to Sam's card) */}
       <div className="absolute top-48 right-32 hidden 2xl:block z-0">
-        <DoodleFloat name={"sparkle"} size={100} delay={0.3} />
+        <DoodleFloat name={"books-3"} size={100} delay={0.3} />
       </div>
 
       {/* Middle Right (next to Jed's card) */}
       <div className="absolute top-2/3 -translate-y-1/2 right-20 hidden 2xl:block z-0">
-        <DoodleFloat name={"star"} size={120} delay={0.6} />
+        <DoodleFloat name={"lightbulb"} size={120} delay={0.6} />
       </div>
       {/* --------------------------- */}
 

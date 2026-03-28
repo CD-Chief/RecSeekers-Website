@@ -5,6 +5,8 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import localFont from "next/font/local";
 import { Button } from "@/components/ui/Button";
+import { DoodleFloat } from "../ui/DoodleFloat";
+import { div } from "framer-motion/m";
 
 const cooper = localFont({
   src: "../../app/fonts/cooper-black-cdnfonts/coopbl.ttf",
@@ -72,6 +74,11 @@ export function BottomCTA({ variant = "tertiary" }: BottomCTAProps) {
             </h3>
           </div>
 
+          {/* Right Side */}
+          <div className="absolute bottom-35 right-30 hidden 2xl:block">
+            <DoodleFloat name={"gradcap-1"} size={160} delay={0.5} />
+          </div>
+
           {/* Right: Button */}
           <div className="shrink-0 flex justify-center">
             <Link href="/contact">
@@ -80,6 +87,7 @@ export function BottomCTA({ variant = "tertiary" }: BottomCTAProps) {
               </Button>
             </Link>
           </div>
+          
         </motion.div>
       </div>
     </section>

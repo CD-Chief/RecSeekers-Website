@@ -24,7 +24,7 @@ const values: Value[] = [
       </svg>
     ),
     description:
-      'Always delivering our services on time and in a professional manner. We hold ourselves to the highest standards, ensuring every commitment we make is a commitment we keep — whether it\'s a candidate update, a client brief, or a promised callback. In an industry built on trust, our word is our bond.',
+      'Always delivering our services on time and in a professional manner. We hold ourselves to the highest standards, ensuring every commitment we make is a commitment we keep - whether it\'s a candidate update, a client brief, or a promised callback. In an industry built on trust, our word is our bond.',
   },
   {
     name: 'Resourcefulness',
@@ -34,7 +34,7 @@ const values: Value[] = [
       </svg>
     ),
     description:
-      'Our creative and ambitious team specialise in finding solutions to any problem. Where others see roadblocks, we see opportunities. We bring ingenuity and determination to every challenge — thinking outside conventional hiring frameworks to deliver results that other agencies simply can\'t.',
+      'Our creative and ambitious team specialise in finding solutions to any problem. Where others see roadblocks, we see opportunities. We bring ingenuity and determination to every challenge - thinking outside conventional hiring frameworks to deliver results that other agencies simply can\'t.',
   },
   {
     name: 'Recognition',
@@ -44,7 +44,7 @@ const values: Value[] = [
       </svg>
     ),
     description:
-      'Recognising the talent that our candidates possess to help them unlock their full career potential. We see beyond CVs and job titles — we see the person, their ambitions, and what they\'re truly capable of. Our job is to make sure the right people in the market know exactly how exceptional you are.',
+      'Recognising the talent that our candidates possess to help them unlock their full career potential. We see beyond CVs and job titles - we see the person, their ambitions, and what they\'re truly capable of. Our job is to make sure the right people in the market know exactly how exceptional you are.',
   },
   {
     name: 'Rationale',
@@ -54,7 +54,7 @@ const values: Value[] = [
       </svg>
     ),
     description:
-      'Always offering our experienced judgement with well-balanced advice for both candidates and employers. Our decisions are grounded in deep industry knowledge and a genuine understanding of what makes both sides thrive. We don\'t just tell you what you want to hear — we tell you what you need to know.',
+      'Always offering our experienced judgement with well-balanced advice for both candidates and employers. Our decisions are grounded in deep industry knowledge and a genuine understanding of what makes both sides thrive. We don\'t just tell you what you want to hear - we tell you what you need to know.',
   },
   {
     name: 'Resilience',
@@ -64,7 +64,7 @@ const values: Value[] = [
       </svg>
     ),
     description:
-      'Proven track record of overcoming challenges and thriving where others have struggled. The recruitment world moves fast and demands adaptability — qualities that are embedded in everything we do at RecSeekers. We push through adversity with energy and optimism, emerging stronger every time.',
+      'Proven track record of overcoming challenges and thriving where others have struggled. The recruitment world moves fast and demands adaptability - qualities that are embedded in everything we do at RecSeekers. We push through adversity with energy and optimism, emerging stronger every time.',
   },
   {
     name: 'Rapport',
@@ -74,7 +74,7 @@ const values: Value[] = [
       </svg>
     ),
     description:
-      'Long-term relationships are at the heart of what we do. Building trust and deep understanding over time means our candidates and clients return to us again and again — not because they have to, but because they want to. At RecSeekers, every interaction is the start of something lasting.',
+      'Long-term relationships are at the heart of what we do. Building trust and deep understanding over time means our candidates and clients return to us again and again - not because they have to, but because they want to. At RecSeekers, every interaction is the start of something lasting.',
   },
 ];
 
@@ -87,28 +87,28 @@ export function ValuesSection() {
       
       {/* --- Background Doodles --- */}
       {/* Top Left (near the title) */}
-      <div className="absolute top-20 left-12 hidden 2xl:block z-0">
-        <DoodleFloat name={"star"} size={100} delay={0.2} />
+      <div className="absolute top-30 left-22 hidden 2xl:block z-0">
+        <DoodleFloat name={"books-3"} size={100} delay={0.2} />
       </div>
       
       {/* Bottom Left (near the bottom left of the pink box) */}
-      <div className="absolute bottom-20 left-16 hidden 2xl:block z-0">
-        <DoodleFloat name={"scribble"} size={120} delay={0.5} />
+      <div className="absolute bottom-45 left-16 hidden 2xl:block z-0">
+        <DoodleFloat name={"pen"} size={120} delay={0.5} />
       </div>
 
       {/* Top Right (near the contact button area above) */}
       <div className="absolute top-12 right-20 hidden 2xl:block z-0">
-        <DoodleFloat name={"sparkle"} size={90} delay={0.3} />
+        <DoodleFloat name={"proctator"} size={90} delay={0.3} />
       </div>
 
       {/* Middle Right (near the right side of the tabs/box) */}
       <div className="absolute top-1/2 -translate-y-1/2 right-12 hidden 2xl:block z-0">
-        <DoodleFloat name={"star"} size={110} delay={0.6} />
+        <DoodleFloat name={"paper-plane"} size={110} delay={0.6} />
       </div>
 
       {/* Bottom Right (near the bottom right of the pink box) */}
       <div className="absolute bottom-16 right-24 hidden 2xl:block z-0">
-        <DoodleFloat name={"sparkle"} size={130} delay={0.8} />
+        <DoodleFloat name={"molecules-2"} size={130} delay={0.8} />
       </div>
       {/* --------------------------- */}
 
@@ -120,13 +120,13 @@ export function ValuesSection() {
         </h2>
 
         {/* Value tab buttons */}
-        <div className="flex flex-wrap gap-4 mb-10">
+        <div className="flex flex-wrap gap-3 mb-10">
           {values.map((value, i) => (
             <button
               key={value.name}
               onClick={() => setActive(i)}
               className={`
-                flex items-center gap-3 px-6 py-4 border-4 text-lg
+                flex items-center gap-3 px-4 py-4 border-4 text-lg
                 transition-all duration-150 cursor-pointer
                 ${active === i
                   ? 'bg-[#da8da0] border-[#da8da0] text-black translate-x-1 translate-y-1 shadow-none'

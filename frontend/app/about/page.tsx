@@ -54,24 +54,24 @@ export default function AboutPage() {
         </div>
         {/* Middle Left */}
         <div className="absolute top-1/2 -translate-y-1/2 left-30 hidden 2xl:block">
-          <DoodleFloat name={"flask-2"} size={120} delay={0.4} />
+          <DoodleFloat name={"flask-2"} size={120} delay={0.7} />
         </div>
         
         <div className="absolute bottom-16 left-30 hidden md:block z-20">
-          <DoodleFloat name={"open-book"} size={140} delay={0.3} />
+          <DoodleFloat name={"open-book"} size={140} delay={1.5} />
         </div>
 
         {/* Top Right */}
         <div className="absolute top-16 right-30 hidden 2xl:block">
-          <DoodleFloat name={"pencil-2"} size={110} delay={0.2} />
+          <DoodleFloat name={"pencil-2"} size={110} delay={0.1} />
         </div>
         {/* Middle Right */}
         <div className="absolute top-1/2 -translate-y-1/2 right-30 hidden 2xl:block">
-          <DoodleFloat name={"atom"} size={90} delay={0.5} />
+          <DoodleFloat name={"atom"} size={90} delay={0.7} />
         </div>
         {/* Bottom Right */}
         <div className="absolute bottom-16 right-30 hidden 2xl:block">
-          <DoodleFloat name={"globe"} size={130} delay={0.7} />
+          <DoodleFloat name={"globe"} size={130} delay={1.5} />
         </div>
 
         <div className="max-w-6xl w-full z-10">
@@ -148,15 +148,14 @@ export default function AboutPage() {
         
         {/* --- Background Doodles --- */}
         {/* Left Side */}
-        <div className="absolute top-32 left-16 md:left-24 hidden xl:block z-0">
-          <DoodleFloat name={"sparkle"} size={110} delay={0.2} />
+        <div className="absolute top-72 left-16 md:left-24 hidden xl:block z-0">
+          <DoodleFloat name={"proctator"} size={160} delay={0.2} />
         </div>
 
         {/* Right Side */}
-        <div className="absolute top-32 right-16 md:right-24 hidden xl:block z-0">
-          <DoodleFloat name={"star"} size={100} delay={0.6} />
+        <div className="absolute top-22 right-16 md:right-24 hidden xl:block z-0">
+          <DoodleFloat name={"lamp-1"} size={200} delay={0.6} />
         </div>
-        {/* --------------------------- */}
 
         {/* Added relative z-10 so the text and future iframes stay above the doodles */}
         <div className="relative z-10 max-w-6xl mx-auto w-full">
@@ -172,8 +171,8 @@ export default function AboutPage() {
           </p>
           {/* LinkedIn iframes will go here */}
         </div>
+        
       </section>
-
       <BottomCTA variant="dark" />
     </main>
   );
