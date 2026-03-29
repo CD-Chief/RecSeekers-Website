@@ -113,7 +113,7 @@ export default async function HomePage() {
       </section>
 
       {/* --- Why RecSeekers (Top 5% Positioning) --- */}
-      <section className="relative z-20 bg-white py-18 md:py-22 px-6 md:px-10 flex flex-col items-center border-t-4 border-black overflow-hidden">
+      <section className="relative z-20 bg-primary py-18 md:py-22 px-6 md:px-10 flex flex-col items-center border-t-4 border-black overflow-hidden">
         <div className="relative z-10 max-w-7xl w-full">
           <div className="flex flex-col gap-4 mb-8 lg:mb-10">
             <h2 className={`text-5xl lg:text-6xl leading-tight text-primary-dark ${cooper.className}`}>
@@ -306,7 +306,7 @@ export default async function HomePage() {
 
       
       {/* --- Contact Section ---*/}
-      <section className="relative z-20 min-h-screen bg-white py-24 md:py-28 px-6 md:px-10 flex flex-col items-center">
+      <section className="relative z-20 min-h-screen bg-white border-t-4 border-black py-24 md:py-28 px-6 md:px-10 flex flex-col items-center">
         <div className="max-w-7xl w-full">
           <h2 className={`text-5xl mb-16 text-black ${cooper.className}`}>
             Contact Us

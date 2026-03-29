@@ -18,7 +18,7 @@ export const PILL_ITEMS: NavPreviewItem[] = [
     label: "About",
     href: "/about",
     previewTitle: "About RecSeekers",
-    previewText: "We specialise in recruiter-to-recruiter hiring-matching top talent with high-performing teams.",
+    previewText: "We specialise in recruiter-to-recruiter hiring-matching top talent in the Education sector",
     previewImage: "/Illustrations/GroupDiscussion1.svg",
   },
   {

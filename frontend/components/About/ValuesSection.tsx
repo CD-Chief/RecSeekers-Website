@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import localFont from 'next/font/local';
+import DoodleFloat from '@/components/ui/DoodleFloat'; // Don't forget to import!
 
 const cooper = localFont({
   src: '../../app/fonts/cooper-black-cdnfonts/coopbl.ttf',
@@ -23,7 +24,7 @@ const values: Value[] = [
       </svg>
     ),
     description:
-      'Always delivering our services on time and in a professional manner. We hold ourselves to the highest standards, ensuring every commitment we make is a commitment we keep — whether it\'s a candidate update, a client brief, or a promised callback. In an industry built on trust, our word is our bond.',
+      'Always delivering our services on time and in a professional manner. We hold ourselves to the highest standards, ensuring every commitment we make is a commitment we keep - whether it\'s a candidate update, a client brief, or a promised callback. In an industry built on trust, our word is our bond.',
   },
   {
     name: 'Resourcefulness',
@@ -33,7 +34,7 @@ const values: Value[] = [
       </svg>
     ),
     description:
-      'Our creative and ambitious team specialise in finding solutions to any problem. Where others see roadblocks, we see opportunities. We bring ingenuity and determination to every challenge — thinking outside conventional hiring frameworks to deliver results that other agencies simply can\'t.',
+      'Our creative and ambitious team specialise in finding solutions to any problem. Where others see roadblocks, we see opportunities. We bring ingenuity and determination to every challenge - thinking outside conventional hiring frameworks to deliver results that other agencies simply can\'t.',
   },
   {
     name: 'Recognition',
@@ -43,7 +44,7 @@ const values: Value[] = [
       </svg>
     ),
     description:
-      'Recognising the talent that our candidates possess to help them unlock their full career potential. We see beyond CVs and job titles — we see the person, their ambitions, and what they\'re truly capable of. Our job is to make sure the right people in the market know exactly how exceptional you are.',
+      'Recognising the talent that our candidates possess to help them unlock their full career potential. We see beyond CVs and job titles - we see the person, their ambitions, and what they\'re truly capable of. Our job is to make sure the right people in the market know exactly how exceptional you are.',
   },
   {
     name: 'Rationale',
@@ -53,7 +54,7 @@ const values: Value[] = [
       </svg>
     ),
     description:
-      'Always offering our experienced judgement with well-balanced advice for both candidates and employers. Our decisions are grounded in deep industry knowledge and a genuine understanding of what makes both sides thrive. We don\'t just tell you what you want to hear — we tell you what you need to know.',
+      'Always offering our experienced judgement with well-balanced advice for both candidates and employers. Our decisions are grounded in deep industry knowledge and a genuine understanding of what makes both sides thrive. We don\'t just tell you what you want to hear - we tell you what you need to know.',
   },
   {
     name: 'Resilience',
@@ -63,7 +64,7 @@ const values: Value[] = [
       </svg>
     ),
     description:
-      'Proven track record of overcoming challenges and thriving where others have struggled. The recruitment world moves fast and demands adaptability — qualities that are embedded in everything we do at RecSeekers. We push through adversity with energy and optimism, emerging stronger every time.',
+      'Proven track record of overcoming challenges and thriving where others have struggled. The recruitment world moves fast and demands adaptability - qualities that are embedded in everything we do at RecSeekers. We push through adversity with energy and optimism, emerging stronger every time.',
   },
   {
     name: 'Rapport',
@@ -73,7 +74,7 @@ const values: Value[] = [
       </svg>
     ),
     description:
-      'Long-term relationships are at the heart of what we do. Building trust and deep understanding over time means our candidates and clients return to us again and again — not because they have to, but because they want to. At RecSeekers, every interaction is the start of something lasting.',
+      'Long-term relationships are at the heart of what we do. Building trust and deep understanding over time means our candidates and clients return to us again and again - not because they have to, but because they want to. At RecSeekers, every interaction is the start of something lasting.',
   },
 ];
 
@@ -81,51 +82,82 @@ export function ValuesSection() {
   const [active, setActive] = useState(0);
 
   return (
-    <section className="relative z-10 bg-primary-dark py-24 px-8">
-      <div className="max-w-6xl mx-auto">
+    // Section remains overflow-hidden so pushed-out doodles don't cause horizontal scroll
+    <section className="relative w-full overflow-hidden bg-white py-24 px-8">
+      
+      {/* We center the doodles on THIS container, and make sure it has w-full */}
+      <div className="relative z-10 max-w-6xl mx-auto w-full">
 
-        <h2 className={`${cooper.className} text-6xl md:text-7xl text-white mb-16`}>
-          Our Core Values
-        </h2>
-
-        {/* Value tab buttons */}
-        <div className="flex flex-wrap gap-4 mb-10">
-          {values.map((value, i) => (
-            <button
-              key={value.name}
-              onClick={() => setActive(i)}
-              className={`
-                flex items-center gap-3 px-6 py-4 border-4 text-lg
-                transition-all duration-150 cursor-pointer
-                ${active === i
-                  ? 'bg-[#da8da0] border-[#da8da0] text-black translate-x-1 translate-y-1 shadow-none'
-                  : 'bg-transparent border-white text-white shadow-[4px_4px_0px_0px_rgba(255,255,255,0.6)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[2px_2px_0px_0px_rgba(255,255,255,0.6)]'
-                }
-              `}
-            >
-              <span className="shrink-0">{value.icon}</span>
-              <span className={cooper.className}>{value.name}</span>
-            </button>
-          ))}
+        {/* --- Background Doodles (Pushed strictly to the OUTSIDE) --- */}
+        {/* Left Side */}
+        <div className="absolute top-20 -left-12 lg:-left-24 xl:-left-36 hidden md:block z-0 pointer-events-none">
+          <DoodleFloat name={"books-3"} size={100} delay={0.2} />
+        </div>
+        
+        <div className="absolute bottom-20 -left-16 lg:-left-28 xl:-left-40 hidden md:block z-0 pointer-events-none">
+          <DoodleFloat name={"pen"} size={120} delay={0.7} />
         </div>
 
-        {/* Content panel */}
-        <div
-          key={active}
-          className="border-4 border-white/30 p-10 md:p-14 bg-white/5"
-          style={{ animation: 'slideInRight 0.35s cubic-bezier(0.22, 1, 0.36, 1) both' }}
-        >
-          <div className="flex items-start gap-6 mb-6">
-            <div className="shrink-0 w-14 h-14 bg-[#da8da0] border-4 border-white flex items-center justify-center text-black shadow-[4px_4px_0px_0px_rgba(255,255,255,0.5)]">
-              {values[active].icon}
-            </div>
-            <h3 className={`${cooper.className} text-5xl md:text-6xl text-[#da8da0] leading-none`}>
-              {values[active].name}
-            </h3>
+        {/* Right Side */}
+        <div className="absolute top-0 -right-12 lg:-right-24 xl:-right-32 hidden md:block z-0 pointer-events-none">
+          <DoodleFloat name={"proctator"} size={90} delay={0.2} />
+        </div>
+
+        <div className="absolute top-1/2 -translate-y-1/2 -right-16 lg:-right-32 xl:-right-44 hidden md:block z-0 pointer-events-none">
+          <DoodleFloat name={"paper-plane"} size={110} delay={0.6} />
+        </div>
+
+        <div className="absolute bottom-10 -right-12 lg:-right-24 xl:-right-36 hidden md:block z-0 pointer-events-none">
+          <DoodleFloat name={"molecules-2"} size={130} delay={0.9} />
+        </div>
+        {/* --------------------------- */}
+
+
+        {/* --- Main Content --- */}
+        <div className="relative z-10">
+          <h2 className={`${cooper.className} text-6xl md:text-7xl text-black mb-16`}>
+            Our Core Values
+          </h2>
+
+          {/* Value tab buttons */}
+          <div className="flex flex-wrap gap-3 mb-10">
+            {values.map((value, i) => (
+              <button
+                key={value.name}
+                onClick={() => setActive(i)}
+                className={`
+                  flex items-center gap-3 px-4 py-4 border-4 text-lg
+                  transition-all duration-150 cursor-pointer
+                  ${active === i
+                    ? 'bg-[#da8da0] border-[#da8da0] text-black translate-x-1 translate-y-1 shadow-none'
+                    : 'bg-transparent border-black text-black shadow-[4px_4px_0px_0px_rgba(255,255,255,0.6)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[2px_2px_0px_0px_rgba(255,255,255,0.6)]'
+                  }
+                `}
+              >
+                <span className="shrink-0">{value.icon}</span>
+                <span className={cooper.className}>{value.name}</span>
+              </button>
+            ))}
           </div>
-          <p className="text-lg md:text-xl text-white/80 leading-relaxed max-w-3xl">
-            {values[active].description}
-          </p>
+
+          {/* Content panel */}
+          <div
+            key={active}
+            className="border-4 border-black p-10 md:p-14 bg-primary relative bg-[#da8da0]" 
+            style={{ animation: 'slideInRight 0.35s cubic-bezier(0.22, 1, 0.36, 1) both' }}
+          >
+            <div className="flex items-start gap-6 mb-6">
+              <div className="shrink-0 w-14 h-14 bg-[#da8da0] border-4 border-black flex items-center justify-center text-black shadow-[4px_4px_0px_0px_rgba(255,255,255,0.5)]">
+                {values[active].icon}
+              </div>
+              <h3 className={`${cooper.className} text-5xl md:text-6xl text-primary-dark leading-none`}>
+                {values[active].name}
+              </h3>
+            </div>
+            <p className="text-lg md:text-xl text-black/80 leading-relaxed max-w-3xl">
+              {values[active].description}
+            </p>
+          </div>
         </div>
 
       </div>

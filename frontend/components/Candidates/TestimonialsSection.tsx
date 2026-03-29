@@ -190,7 +190,7 @@ export function TestimonialsSection({ cooperClassName }: TestimonialsSectionProp
       </div>
 
         <span className="hidden md:flex items-center justify-center gap-2 text-black font-bold text-lg [-webkit-text-stroke:0.5px_black]">
-            <a href="https://www.linkedin.com/in/sam-lawless/#recommendations" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.linkedin.com/in/sam-lawless/details/recommendations/?detailScreenTabIndex=0" target="_blank" rel="noopener noreferrer">
               See more &rarr;
             </a> 
             <LinkedinIcon /> 

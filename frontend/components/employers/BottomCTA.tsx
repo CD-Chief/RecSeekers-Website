@@ -5,6 +5,8 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import localFont from "next/font/local";
 import { Button } from "@/components/ui/Button";
+import { DoodleFloat } from "../ui/DoodleFloat";
+import { div } from "framer-motion/m";
 
 const cooper = localFont({
   src: "../../app/fonts/cooper-black-cdnfonts/coopbl.ttf",
@@ -55,6 +57,9 @@ export function BottomCTA({ variant = "tertiary" }: BottomCTAProps) {
   return (
     <section className={`${cfg.sectionBg} px-8 pb-24`}>
       <div className="max-w-6xl mx-auto w-full">
+      <h2 className={`${cooper.className} text-6xl md:text-7xl text-black mb-6`}>
+            Like what you see?
+          </h2>
         <motion.div
           ref={ref}
           initial={{ opacity: 0, y: 48 }}
@@ -71,7 +76,6 @@ export function BottomCTA({ variant = "tertiary" }: BottomCTAProps) {
               Let&apos;s find your next great recruiter.
             </h3>
           </div>
-
           {/* Right: Button */}
           <div className="shrink-0 flex justify-center">
             <Link href="/contact">
@@ -80,8 +84,15 @@ export function BottomCTA({ variant = "tertiary" }: BottomCTAProps) {
               </Button>
             </Link>
           </div>
+          
         </motion.div>
       </div>
+      {/* Right Side */}
+          <div className="absolute bottom-35 right-20 hidden 2xl:block">
+            <DoodleFloat name={"gradcap-1"} size={180} delay={1.2} />
+          </div>
+
     </section>
+    
   );
 }
