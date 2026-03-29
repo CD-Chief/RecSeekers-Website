@@ -37,7 +37,7 @@ export default function Footer() {
         <footer className="relative z-20 w-full border-t-4 border-black bg-primary-dark px-6 py-14 text-white md:px-10 md:py-18">
             <div className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-12 md:grid-cols-[1.2fr_1.8fr_1fr] md:gap-10">
                 <section className="flex flex-col items-start">
-                    <img src="/RecLogo.svg" alt="RecSeekers" className="h-10 w-auto" />
+                    <img src="/logo-white.svg" alt="RecSeekers" className="h-10 w-auto" />
                     <p className={`mt-3 text-xl ${cooper.className} leading-tight opacity-95`}>
                         Have a nice day
                     </p>
