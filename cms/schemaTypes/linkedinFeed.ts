@@ -1,6 +1,6 @@
 export default {
     name: 'linkedinPost',
-    title: 'LinkedIn Post',
+    title: 'LinkedIn Feed',
     type: 'document',
     fields: [
       { name: 'content', title: 'Post Content', type: 'text' },

@@ -7,6 +7,7 @@ import { ClientsSection } from '@/components/About/ClientsSection';
 import { WhereWeWorkSection } from '@/components/About/WhereWeWorkSection';
 import { BottomCTA } from '@/components/employers/BottomCTA';
 import DoodleFloat from '@/components/ui/DoodleFloat';
+import GetLinkedInFeed from '@/components/About/GetLinkedInFeed';
 
 const cooper = localFont({
   src: '../fonts/cooper-black-cdnfonts/coopbl.ttf',
@@ -172,11 +173,16 @@ export default function AboutPage() {
 
 
           {/* LinkedIn iframes will go here */}
-           {/* Elfsight LinkedIn Feed | Untitled LinkedIn Feed  */}
+           
           <div className="flex flex-col items-center gap-10 w-full">
+
+            {/* FREE Method with RSS and Make.com (doesnt work) <GetLinkedInFeed /> */}
+          
+            {/* PAID/bad free tier with Elfsight */}
           <script src="https://elfsightcdn.com/platform.js" async></script>
           <div className="elfsight-app-c7a855cb-2263-4d63-a89f-bf213e5f5623" data-elfsight-app-lazy></div>
-            {/* Note: In React, 'frameborder' and 'allowfullscreen' should be camelCase */}
+          
+            {/* MANUAL WAY */}
             {/* <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:share:7438882540100354048" height="496" width="504" frameBorder="0" allowFullScreen title="Embedded post"></iframe>
             <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:share:7439125575396392960" height="1113" width="504" frameBorder="0" allowFullScreen title="Embedded post"></iframe>
             <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:share:7437692741268115456" height="727" width="504" frameBorder="0" allowFullScreen title="Embedded post"></iframe> */}

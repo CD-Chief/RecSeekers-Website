@@ -1,5 +1,5 @@
 import status from './templateStatus'
 import linkedIn from './linkedinEmbed'
-import linkedinPost from './linkedinFeed'
+import linkedinFeed from './linkedinFeed'
 
-export const schemaTypes = [status, linkedIn, linkedinPost]
+export const schemaTypes = [status, linkedIn, linkedinFeed]
