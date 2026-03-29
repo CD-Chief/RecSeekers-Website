@@ -1,4 +1,4 @@
-import localFont from 'next/font/local';
+import { cooper } from '@/lib/fonts';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
 import { ValuesSection } from '@/components/About/ValuesSection';
@@ -8,11 +8,6 @@ import { WhereWeWorkSection } from '@/components/About/WhereWeWorkSection';
 import { BottomCTA } from '@/components/employers/BottomCTA';
 import DoodleFloat from '@/components/ui/DoodleFloat';
 import GetLinkedInFeed from '@/components/About/GetLinkedInFeed';
-
-const cooper = localFont({
-  src: '../fonts/cooper-black-cdnfonts/coopbl.ttf',
-  display: 'swap',
-});
 
 const statCards = [
   {

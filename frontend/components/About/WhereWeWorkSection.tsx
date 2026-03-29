@@ -1,10 +1,5 @@
-import localFont from 'next/font/local';
+import { cooper } from '@/lib/fonts';
 import DoodleFloat from '@/components/ui/DoodleFloat'; 
-
-const cooper = localFont({
-  src: '../../app/fonts/cooper-black-cdnfonts/coopbl.ttf',
-  display: 'swap',
-});
 
 const countries = [
   {

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins, Quicksand, Rubik} from "next/font/google";
 import "./globals.css";
+import { cooper } from "@/lib/fonts";
 import { Nav } from "@/components/layout/Nav";
 import { NavMobile } from "@/components/layout/NavMobile";
 import { HeroStageProvider } from "@/context/HeroStageContext";
@@ -42,7 +43,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={` ${poppins.variable} ${quicksand.variable} ${rubik.variable} antialiased`}
+        className={`${cooper.variable} ${poppins.variable} ${quicksand.variable} ${rubik.variable} antialiased`}
       >
         <HeroStageProvider>
           <NavMobile />

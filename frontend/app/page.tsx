@@ -1,7 +1,7 @@
 import { client } from "@/sanity/client";
 import { TEMPLATE_STATUS_QUERY } from "@/sanity/queries";
 import { HeroSection } from "@/components/Hero/HeroSection";
-import localFont from 'next/font/local';
+import { cooper } from "@/lib/fonts";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
@@ -9,13 +9,6 @@ import { DoodleFloat } from "@/components/ui/DoodleFloat";
 import { WhoWeWorkWithCard } from "@/components/Home/WhoWeWorkWithCard";
 import { HowItWorksTimeline } from "@/components/Home/HowItWorksTimeline";
 import { TestimonialsSection } from "@/components/Home/TestimonialsSection";
-
-const cooper = localFont({
-  src: './fonts/cooper-black-cdnfonts/coopbl.ttf',
-  display: 'swap',
-})
-
-export { cooper };
 
 const iconBase = "h-7 w-7 text-primary-dark";
 
