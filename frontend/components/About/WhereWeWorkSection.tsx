@@ -29,67 +29,72 @@ export function WhereWeWorkSection() {
   return (
     <section className="relative w-full overflow-hidden bg-white border-t-4 border-black py-24 px-8">
       
-      {/* --- Background Doodles --- */}
-      <div className="absolute top-30 -translate-y-1/2 left-16 hidden 2xl:block z-0">
-        <DoodleFloat name={"globe"} size={120} delay={0.2} />
-      </div>
+      {/* We center the doodles on THIS container, adding w-full to ensure it sizes correctly */}
+      <div className="relative z-10 max-w-5xl mx-auto w-full">
 
-      <div className="absolute top-1/3 right-30 hidden 2xl:block z-0">
-        <DoodleFloat name={"paper-plane"} size={130} delay={0.7} />
-      </div>
-
-      <div className="absolute bottom-9 -translate-y-1/2 left-16 hidden 2xl:block z-0">
-        <DoodleFloat name={"open-book"} size={170} delay={1.2} />
-      </div>
-
-      {/* Tweaked to max-w-5xl so the two wider cards don't stretch too far out */}
-      <div className="relative z-10 max-w-5xl mx-auto">
-
-        <div className="mb-16 text-center md:text-left">
-          <h2 className={`${cooper.className} text-6xl md:text-7xl text-black`}>
-            Where We Work
-          </h2>
+        {/* --- Background Doodles (Pushed strictly to the OUTSIDE) --- */}
+        {/* Top Left */}
+        <div className="absolute top-10 -left-16 lg:-left-32 xl:-left-44 hidden md:block z-0 pointer-events-none">
+          <DoodleFloat name={"globe"} size={120} delay={0.2} />
         </div>
 
-        {/* CHANGED: md:grid-cols-2 will make the two cards fill the whole container */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-          {countries.map((country) => (
-            <div
-              key={country.name}
-              className="group flex flex-col items-center p-8 md:p-12 border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-1.5 hover:translate-y-1.5 hover:shadow-none transition-all duration-150 bg-white cursor-default"
-            >
-              {/* CHANGED: Increased h-48 to h-56 to give the maps a bit more breathing room in the larger cards */}
-              <div className="flex items-center justify-center w-full h-56 mb-8 relative">
-                <svg
-                  viewBox={country.viewBox}
-                  className="w-full h-full relative z-10"
-                  xmlns="http://www.w3.org/2000/svg"
-                  preserveAspectRatio="xMidYMid meet"
-                >
-                  <path
-                    d={country.path}
-                    className="fill-primary" 
-                    stroke="black"
-                    strokeWidth="3"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </div>
+        {/* Middle Right */}
+        <div className="absolute top-1/3 -right-16 lg:-right-36 xl:-right-48 hidden md:block z-0 pointer-events-none">
+          <DoodleFloat name={"paper-plane"} size={130} delay={0.7} />
+        </div>
 
-              {/* Divider */}
-              <div className="w-full border-t-4 border-black mb-8" />
+        {/* Bottom Left */}
+        <div className="absolute bottom-10 -left-20 lg:-left-40 xl:-left-56 hidden md:block z-0 pointer-events-none">
+          <DoodleFloat name={"open-book"} size={170} delay={1.2} />
+        </div>
+        {/* --------------------------- */}
 
-              {/* Text */}
-              <div className="text-center px-4">
-                <h3 className={`${cooper.className} text-3xl text-black mb-4`}>
-                  {country.flag} {country.name}
-                </h3>
-                <p className="text-lg text-black/70 leading-relaxed">
-                  {country.description}
-                </p>
+        {/* Main Content */}
+        <div className="relative z-10">
+          <div className="mb-16 text-center md:text-left">
+            <h2 className={`${cooper.className} text-6xl md:text-7xl text-black`}>
+              Where We Work
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+            {countries.map((country) => (
+              <div
+                key={country.name}
+                className="group flex flex-col items-center p-8 md:p-12 border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-1.5 hover:translate-y-1.5 hover:shadow-none transition-all duration-150 bg-white cursor-default"
+              >
+                <div className="flex items-center justify-center w-full h-56 mb-8 relative">
+                  <svg
+                    viewBox={country.viewBox}
+                    className="w-full h-full relative z-10"
+                    xmlns="http://www.w3.org/2000/svg"
+                    preserveAspectRatio="xMidYMid meet"
+                  >
+                    <path
+                      d={country.path}
+                      className="fill-primary" 
+                      stroke="black"
+                      strokeWidth="3"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </div>
+
+                {/* Divider */}
+                <div className="w-full border-t-4 border-black mb-8" />
+
+                {/* Text */}
+                <div className="text-center px-4">
+                  <h3 className={`${cooper.className} text-3xl text-black mb-4`}>
+                    {country.flag} {country.name}
+                  </h3>
+                  <p className="text-lg text-black/70 leading-relaxed">
+                    {country.description}
+                  </p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
 
       </div>

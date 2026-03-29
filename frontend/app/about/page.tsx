@@ -45,94 +45,89 @@ export default function AboutPage() {
   return (
     <main className="relative w-full overflow-hidden">
       {/* --- Hero / Heading Section --- */}
-      {/* ADDED 'relative' to this section so the doodles position relative to it */}
-      <section className="relative min-h-[50vh] flex flex-col bg-primary items-center border-black border-b-4 justify-center px-8 pt-24 pb-12">
+      <section className="relative min-h-[50vh] flex flex-col bg-primary items-center border-black border-b-4 justify-center px-8 pt-24 pb-12 overflow-hidden">
         
-        {/* --- Background Doodles (Hidden on mobile so they don't cover text) --- */}
-        {/* Top Left */}
-        <div className="absolute top-19 left-30 hidden 2xl:block">
-          <DoodleFloat name={"gradcap-2"} size={100} delay={0.1} />
-        </div>
-        {/* Middle Left */}
-        <div className="absolute top-1/2 -translate-y-1/2 left-30 hidden 2xl:block">
-          <DoodleFloat name={"flask-2"} size={120} delay={0.7} />
-        </div>
-        
-        <div className="absolute bottom-16 left-30 hidden md:block z-20">
-          <DoodleFloat name={"open-book"} size={140} delay={1.5} />
-        </div>
+        {/* We moved the 'relative' container here. 
+            All doodles are now positioned relative to THIS central text block, not the screen. */}
+        <div className="relative max-w-6xl w-full z-20">
+          
+          {/* --- Background Doodles (Pushed strictly to the OUTSIDE of the content) --- */}
+          {/* Left Side */}
+          <div className="absolute top-0 -left-12 lg:-left-32 xl:-left-40 hidden md:block z-0 pointer-events-none">
+            <DoodleFloat name={"gradcap-2"} size={100} delay={0.1} />
+          </div>
+          {/* This is the book that was overlapping the button */}
+          <div className="absolute bottom-15 -left-10 lg:-left-28 xl:-left-36 hidden md:block z-0 pointer-events-none">
+            <DoodleFloat name={"open-book"} size={140} delay={1.5} />
+          </div>
 
-        {/* Top Right */}
-        <div className="absolute top-16 right-30 hidden 2xl:block">
-          <DoodleFloat name={"pencil-2"} size={110} delay={0.1} />
-        </div>
-        {/* Middle Right */}
-        <div className="absolute top-1/2 -translate-y-1/2 right-30 hidden 2xl:block">
-          <DoodleFloat name={"atom"} size={90} delay={0.7} />
-        </div>
-        {/* Bottom Right */}
-        <div className="absolute bottom-16 right-30 hidden 2xl:block">
-          <DoodleFloat name={"globe"} size={130} delay={1.5} />
-        </div>
+          {/* Right Side */}
+          <div className="absolute top-8 -right-12 lg:-right-32 xl:-right-40 hidden md:block z-0 pointer-events-none">
+            <DoodleFloat name={"pencil-2"} size={110} delay={0.1} />
+          </div>
+          
+          <div className="absolute bottom-4 -right-12 lg:-right-28 xl:-right-40 hidden md:block z-0 pointer-events-none">
+            <DoodleFloat name={"globe"} size={130} delay={1.5} />
+          </div>
 
-        <div className="max-w-6xl w-full z-10">
-          <h1 className={`${cooper.className} text-7xl md:text-8xl text-black mb-12 leading-tight`}>
-            Who are we?
-          </h1>
+          {/* --- Content --- */}
+          <div className="relative z-10">
+            <h1 className={`${cooper.className} text-7xl md:text-8xl text-black mb-12 leading-tight`}>
+              Who are we?
+            </h1>
 
-          {/* Two-column layout */}
-          <div className="flex flex-col lg:flex-row gap-24 items-start">
+            {/* Two-column layout */}
+            <div className="flex flex-col lg:flex-row gap-24 items-start">
 
-            {/* Left: subtext (2/3) */}
-            <div className="w-full lg:w-2/3 flex flex-col gap-8">
-              <div className="relative pl-7">
-                {/* Animated rounded accent bar */}
-                <div
-                  className="accent-bar absolute left-0 top-0 w-[7px] rounded-full bg-white"
-                  style={{ height: 0 }}
-                />
-                <p className="text-xl md:text-2xl text-black leading-relaxed">
-                  At RecSeekers, we specialise in connecting top-tier recruitment professionals
-                  with the best opportunities in the industry. As a rec2rec agency, we pride
-                  ourselves on understanding the unique needs of both candidates and clients,
-                  ensuring the perfect match every time. Our expert team leverages deep industry
-                  insights and a vast network to support the growth and success of recruitment
-                  professionals across various sectors. Partner with RecSeekers and take the
-                  next step in your recruitment career or find the ideal addition to your team.
-                </p>
-              </div>
-
-              {/* Button & Doodle Container */}
-              <div className="relative self-start mt-4">
-                
-
-                <Link href="/contact" className="group inline-block">
-                  <Button className={`${cooper.className} text-black! px-10 py-4 bg-[#1e293b] text-lg tracking-wider rounded-2xl border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] group-hover:translate-x-1 group-hover:translate-y-1 group-hover:text-white! group-hover:shadow-none transition-all`}>
-                    Get In Touch!
-                  </Button>
-                </Link>
-              </div>
-            </div>
-
-            {/* Right: stat cards (1/3) */}
-            <div className="w-full lg:w-1/3 flex flex-col gap-6">
-              {statCards.map((card, i) => (
-                <div
-                  key={card.title}
-                  className="flex items-center gap-5 p-6 border-4 rounded-4xl bg-white relative z-10"
-                  style={{
-                    animation: `slideInRight 0.6s cubic-bezier(0.22, 1, 0.36, 1) both`,
-                    animationDelay: `${i * 0.15}s`,
-                  }}
-                >
-                  <div className="flex-shrink-0 w-14 h-14 rounded-xl border-4 border-black bg-primary flex items-center justify-center shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] text-black">
-                    {card.icon}
-                  </div>
-                  <p className={`${cooper.className} text-lg leading-snug text-black`}>
-                    {card.title}
+              {/* Left: subtext (2/3) */}
+              <div className="w-full lg:w-2/3 flex flex-col gap-8">
+                <div className="relative pl-7">
+                  {/* Animated rounded accent bar */}
+                  <div
+                    className="accent-bar absolute left-0 top-0 w-[7px] rounded-full bg-white"
+                    style={{ height: 0 }}
+                  />
+                  <p className="text-xl md:text-2xl text-black leading-relaxed">
+                    At RecSeekers, we specialise in connecting top-tier recruitment professionals
+                    with the best opportunities in the industry. As a rec2rec agency, we pride
+                    ourselves on understanding the unique needs of both candidates and clients,
+                    ensuring the perfect match every time. Our expert team leverages deep industry
+                    insights and a vast network to support the growth and success of recruitment
+                    professionals across various sectors. Partner with RecSeekers and take the
+                    next step in your recruitment career or find the ideal addition to your team.
                   </p>
                 </div>
-              ))}
+
+                {/* Button & Doodle Container */}
+                <div className="relative self-start mt-4">
+                  <Link href="/contact" className="group inline-block">
+                    <Button className={`${cooper.className} text-black! px-10 py-4 bg-[#1e293b] text-lg tracking-wider rounded-2xl border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] group-hover:translate-x-1 group-hover:translate-y-1 group-hover:text-white! group-hover:shadow-none transition-all`}>
+                      Get In Touch!
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+
+              {/* Right: stat cards (1/3) */}
+              <div className="w-full lg:w-1/3 flex flex-col gap-6">
+                {statCards.map((card, i) => (
+                  <div
+                    key={card.title}
+                    className="flex items-center gap-5 p-6 border-4 rounded-4xl bg-white relative z-10"
+                    style={{
+                      animation: `slideInRight 0.6s cubic-bezier(0.22, 1, 0.36, 1) both`,
+                      animationDelay: `${i * 0.15}s`,
+                    }}
+                  >
+                    <div className="flex-shrink-0 w-14 h-14 rounded-xl border-4 border-black bg-primary flex items-center justify-center shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] text-black">
+                      {card.icon}
+                    </div>
+                    <p className={`${cooper.className} text-lg leading-snug text-black`}>
+                      {card.title}
+                    </p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -149,12 +144,12 @@ export default function AboutPage() {
         
         {/* --- Background Doodles --- */}
         {/* Left Side */}
-        <div className="absolute top-72 left-16 md:left-24 hidden xl:block z-0">
+        <div className="absolute top-72 left-10 md:left-24 hidden xl:block z-0 pointer-events-none">
           <DoodleFloat name={"proctator"} size={160} delay={0.2} />
         </div>
 
         {/* Right Side */}
-        <div className="absolute top-22 right-16 md:right-24 hidden xl:block z-0">
+        <div className="absolute top-22 right-10 md:right-24 hidden xl:block z-0 pointer-events-none">
           <DoodleFloat name={"lamp-1"} size={200} delay={0.7} />
         </div>
 

@@ -82,81 +82,82 @@ export function ValuesSection() {
   const [active, setActive] = useState(0);
 
   return (
-    // Added overflow-hidden so large doodles don't cause horizontal scrolling
+    // Section remains overflow-hidden so pushed-out doodles don't cause horizontal scroll
     <section className="relative w-full overflow-hidden bg-white py-24 px-8">
       
-      {/* --- Background Doodles --- */}
-      {/* Top Left (near the title) */}
-      <div className="absolute top-30 left-22 hidden 2xl:block z-0">
-        <DoodleFloat name={"books-3"} size={100} delay={0.2} />
-      </div>
-      
-      {/* Bottom Left (near the bottom left of the pink box) */}
-      <div className="absolute bottom-45 left-16 hidden 2xl:block z-0">
-        <DoodleFloat name={"pen"} size={120} delay={0.7} />
-      </div>
+      {/* We center the doodles on THIS container, and make sure it has w-full */}
+      <div className="relative z-10 max-w-6xl mx-auto w-full">
 
-      {/* Top Right (near the contact button area above) */}
-      <div className="absolute top-12 right-20 hidden 2xl:block z-0">
-        <DoodleFloat name={"proctator"} size={90} delay={0.2} />
-      </div>
-
-      {/* Middle Right (near the right side of the tabs/box) */}
-      <div className="absolute top-1/2 -translate-y-1/2 right-12 hidden 2xl:block z-0">
-        <DoodleFloat name={"paper-plane"} size={110} delay={0.6} />
-      </div>
-
-      {/* Bottom Right (near the bottom right of the pink box) */}
-      <div className="absolute bottom-16 right-24 hidden 2xl:block z-0">
-        <DoodleFloat name={"molecules-2"} size={130} delay={0.9} />
-      </div>
-      {/* --------------------------- */}
-
-      {/* Wrapped existing content in relative z-10 */}
-      <div className="relative z-10 max-w-6xl mx-auto">
-
-        <h2 className={`${cooper.className} text-6xl md:text-7xl text-black mb-16`}>
-          Our Core Values
-        </h2>
-
-        {/* Value tab buttons */}
-        <div className="flex flex-wrap gap-3 mb-10">
-          {values.map((value, i) => (
-            <button
-              key={value.name}
-              onClick={() => setActive(i)}
-              className={`
-                flex items-center gap-3 px-4 py-4 border-4 text-lg
-                transition-all duration-150 cursor-pointer
-                ${active === i
-                  ? 'bg-[#da8da0] border-[#da8da0] text-black translate-x-1 translate-y-1 shadow-none'
-                  : 'bg-transparent border-black text-black shadow-[4px_4px_0px_0px_rgba(255,255,255,0.6)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[2px_2px_0px_0px_rgba(255,255,255,0.6)]'
-                }
-              `}
-            >
-              <span className="shrink-0">{value.icon}</span>
-              <span className={cooper.className}>{value.name}</span>
-            </button>
-          ))}
+        {/* --- Background Doodles (Pushed strictly to the OUTSIDE) --- */}
+        {/* Left Side */}
+        <div className="absolute top-20 -left-12 lg:-left-24 xl:-left-36 hidden md:block z-0 pointer-events-none">
+          <DoodleFloat name={"books-3"} size={100} delay={0.2} />
+        </div>
+        
+        <div className="absolute bottom-20 -left-16 lg:-left-28 xl:-left-40 hidden md:block z-0 pointer-events-none">
+          <DoodleFloat name={"pen"} size={120} delay={0.7} />
         </div>
 
-        {/* Content panel */}
-        <div
-          key={active}
-          className="border-4 border-black p-10 md:p-14 bg-primary relative bg-[#da8da0]" // Ensure background color matches your design if 'bg-primary' isn't explicitly defined as pink in your Tailwind config.
-          style={{ animation: 'slideInRight 0.35s cubic-bezier(0.22, 1, 0.36, 1) both' }}
-        >
-          <div className="flex items-start gap-6 mb-6">
-            <div className="shrink-0 w-14 h-14 bg-[#da8da0] border-4 border-black flex items-center justify-center text-black shadow-[4px_4px_0px_0px_rgba(255,255,255,0.5)]">
-              {values[active].icon}
-            </div>
-            <h3 className={`${cooper.className} text-5xl md:text-6xl text-primary-dark leading-none`}>
-              {values[active].name}
-            </h3>
+        {/* Right Side */}
+        <div className="absolute top-0 -right-12 lg:-right-24 xl:-right-32 hidden md:block z-0 pointer-events-none">
+          <DoodleFloat name={"proctator"} size={90} delay={0.2} />
+        </div>
+
+        <div className="absolute top-1/2 -translate-y-1/2 -right-16 lg:-right-32 xl:-right-44 hidden md:block z-0 pointer-events-none">
+          <DoodleFloat name={"paper-plane"} size={110} delay={0.6} />
+        </div>
+
+        <div className="absolute bottom-10 -right-12 lg:-right-24 xl:-right-36 hidden md:block z-0 pointer-events-none">
+          <DoodleFloat name={"molecules-2"} size={130} delay={0.9} />
+        </div>
+        {/* --------------------------- */}
+
+
+        {/* --- Main Content --- */}
+        <div className="relative z-10">
+          <h2 className={`${cooper.className} text-6xl md:text-7xl text-black mb-16`}>
+            Our Core Values
+          </h2>
+
+          {/* Value tab buttons */}
+          <div className="flex flex-wrap gap-3 mb-10">
+            {values.map((value, i) => (
+              <button
+                key={value.name}
+                onClick={() => setActive(i)}
+                className={`
+                  flex items-center gap-3 px-4 py-4 border-4 text-lg
+                  transition-all duration-150 cursor-pointer
+                  ${active === i
+                    ? 'bg-[#da8da0] border-[#da8da0] text-black translate-x-1 translate-y-1 shadow-none'
+                    : 'bg-transparent border-black text-black shadow-[4px_4px_0px_0px_rgba(255,255,255,0.6)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[2px_2px_0px_0px_rgba(255,255,255,0.6)]'
+                  }
+                `}
+              >
+                <span className="shrink-0">{value.icon}</span>
+                <span className={cooper.className}>{value.name}</span>
+              </button>
+            ))}
           </div>
-          <p className="text-lg md:text-xl text-black/80 leading-relaxed max-w-3xl">
-            {values[active].description}
-          </p>
+
+          {/* Content panel */}
+          <div
+            key={active}
+            className="border-4 border-black p-10 md:p-14 bg-primary relative bg-[#da8da0]" 
+            style={{ animation: 'slideInRight 0.35s cubic-bezier(0.22, 1, 0.36, 1) both' }}
+          >
+            <div className="flex items-start gap-6 mb-6">
+              <div className="shrink-0 w-14 h-14 bg-[#da8da0] border-4 border-black flex items-center justify-center text-black shadow-[4px_4px_0px_0px_rgba(255,255,255,0.5)]">
+                {values[active].icon}
+              </div>
+              <h3 className={`${cooper.className} text-5xl md:text-6xl text-primary-dark leading-none`}>
+                {values[active].name}
+              </h3>
+            </div>
+            <p className="text-lg md:text-xl text-black/80 leading-relaxed max-w-3xl">
+              {values[active].description}
+            </p>
+          </div>
         </div>
 
       </div>
