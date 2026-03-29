@@ -29,6 +29,7 @@
   
   /* Fonts */
   --font-sans: var(--font-poppins), sans-serif;
+  --font-cooper: var(--font-cooper), serif;
   
 
   /* Body */
@@ -38,6 +39,12 @@
   /* Display */
   --font-display: var(--font-rubik);
 
+}
+
+@layer base {
+  body {
+    @apply font-sans;
+  }
 }
 
 /* ── Tertiary button burst animation ── */

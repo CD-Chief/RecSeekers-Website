@@ -1,15 +1,10 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import localFont from 'next/font/local';
+import { cooper } from '@/lib/fonts';
 import { BlobPortrait } from './BlobPortrait';
 import type { TeamMember } from './BlobPortrait';
 import DoodleFloat from '@/components/ui/DoodleFloat'; // Imported DoodleFloat
-
-const cooper = localFont({
-  src: '../../app/fonts/cooper-black-cdnfonts/coopbl.ttf',
-  display: 'swap',
-});
 
 const teamMembers: TeamMember[] = [
   {

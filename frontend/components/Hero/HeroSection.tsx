@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { BlobField } from "@/components/Blob/Blob";
 import { useHeroStage } from "@/context/HeroStageContext";
-import localFont from "next/font/local";
+import { cooper } from "@/lib/fonts";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
@@ -16,11 +16,6 @@ const BLOB_BLUR_STAGE2  = "80px";     // blur on stage 2 (settled)
 const BLOB_BLUR_PEAK    = "120px";    // blur at the height of the transition
 const SCROLL_THRESHOLD  = 50; // pixels to scroll before stage 2 triggers
 // ─────────────────────────────────────────────────────────────────────────────
-
-const cooper = localFont({
-  src: "../../app/fonts/cooper-black-cdnfonts/coopbl.ttf",
-  display: "swap",
-});
 
 export function HeroSection() {
   const [stage, setStage]             = useState<1 | 2>(1);

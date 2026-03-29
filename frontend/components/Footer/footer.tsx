@@ -1,4 +1,4 @@
-import { cooper } from '@/app/page';
+import { cooper } from '@/lib/fonts';
 
 import Link from 'next/link';
 

@@ -1,13 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import localFont from 'next/font/local';
+import { cooper } from '@/lib/fonts';
 import DoodleFloat from '@/components/ui/DoodleFloat'; // Don't forget to import!
-
-const cooper = localFont({
-  src: '../../app/fonts/cooper-black-cdnfonts/coopbl.ttf',
-  display: 'swap',
-});
 
 type Value = {
   name: string;

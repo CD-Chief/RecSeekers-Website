@@ -1,10 +1,5 @@
-import localFont from 'next/font/local';
+import { cooper } from '@/lib/fonts';
 import Image from 'next/image';
-
-const cooper = localFont({
-  src: '../../app/fonts/cooper-black-cdnfonts/coopbl.ttf',
-  display: 'swap',
-});
 
 // Duplicate the array so the ticker loops seamlessly
 const logos = Array.from({ length: 8 }, (_, i) => ({ id: i, src: '/file.svg' }));

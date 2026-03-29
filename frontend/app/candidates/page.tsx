@@ -1,5 +1,5 @@
 import { HeroSection } from "@/components/Hero/HeroSection";
-import localFont from 'next/font/local';
+import { cooper } from '@/lib/fonts';
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
@@ -8,12 +8,6 @@ import { BottomCTA } from "@/components/Candidates/BottomCTA";
 
 // Assuming you have the same profile placeholder and font setup
 const placeHolderProfile = '/profile.png';
-
-const cooper = localFont({
-  src: '../fonts/cooper-black-cdnfonts/coopbl.ttf', // Adjust path if necessary
-  display: 'swap',
-});
-
 
 export default function Candidates() {
 

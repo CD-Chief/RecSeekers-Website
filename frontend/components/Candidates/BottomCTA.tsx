@@ -3,13 +3,8 @@
 import Link from "next/link";
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import localFont from "next/font/local";
+import { cooper } from "@/lib/fonts";
 import { Button } from "@/components/ui/Button";
-
-const cooper = localFont({
-  src: "../../app/fonts/cooper-black-cdnfonts/coopbl.ttf",
-  display: "swap",
-});
 
 type CTAVariant = "tertiary" | "dark" | "pink";
 
@@ -22,7 +17,7 @@ const variantConfig: Record<CTAVariant, {
   bannerBg: string;
   eyebrow: string;
   heading: string;
-  buttonVariant: "secondary" | "primary" | "popout";
+  buttonVariant: "secondary" | "primary" | "text";
 }> = {
   tertiary: {
     sectionBg: "bg-white",
@@ -43,7 +38,7 @@ const variantConfig: Record<CTAVariant, {
     bannerBg: "bg-primary",
     eyebrow: "text-black/50",
     heading: "text-black",
-    buttonVariant: "popout",
+    buttonVariant: "primary",
   },
 };
 

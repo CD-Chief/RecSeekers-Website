@@ -1,14 +1,9 @@
 import Link from "next/link";
-import localFont from "next/font/local";
+import { cooper } from "@/lib/fonts";
 import { Button } from "@/components/ui/Button";
 import { FeatureCards } from "@/components/employers/FeatureCards";
 import { BottomCTA } from "@/components/employers/BottomCTA";
 import { TestimonialsSection } from "@/components/employers/TestimonialsSection";
-
-const cooper = localFont({
-  src: "../fonts/cooper-black-cdnfonts/coopbl.ttf",
-  display: "swap",
-});
 
 export default function EmployersPage() {
   return (
