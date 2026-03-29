@@ -63,27 +63,27 @@ export function TeamSection() {
       {/* --- Background Doodles --- */}
       {/* Top Left (near the title) */}
       <div className="absolute top-24 left-24 hidden 2xl:block z-0">
-        <DoodleFloat name={"speech-bubble"} size={90} delay={0.2} />
+        <DoodleFloat name={"speech-bubble"} size={120} delay={0.2} />
       </div>
 
       {/* Middle Left (next to Jed's card) */}
       <div className="absolute top-1/2 -translate-y-1/2 left-16 hidden 2xl:block z-0">
-        <DoodleFloat name={"flask-1"} size={110} delay={0.4} />
+        <DoodleFloat name={"flask-1"} size={130} delay={0.7} />
       </div>
 
       {/* Bottom Left (next to Ciaran's card) */}
-      <div className="absolute bottom-32 left-32 hidden 2xl:block z-0">
-        <DoodleFloat name={"open-book"} size={100} delay={0.7} />
+      <div className="absolute bottom-32 left-12 hidden 2xl:block z-0">
+        <DoodleFloat name={"open-book"} size={170} delay={1.3} />
       </div>
 
       {/* Top Right (next to Sam's card) */}
-      <div className="absolute top-48 right-32 hidden 2xl:block z-0">
-        <DoodleFloat name={"books-3"} size={100} delay={0.3} />
+      <div className="absolute top-48 right-19 hidden 2xl:block z-0">
+        <DoodleFloat name={"books-3"} size={140} delay={0.3} />
       </div>
 
       {/* Middle Right (next to Jed's card) */}
       <div className="absolute top-2/3 -translate-y-1/2 right-20 hidden 2xl:block z-0">
-        <DoodleFloat name={"lightbulb"} size={120} delay={0.6} />
+        <DoodleFloat name={"lightbulb"} size={140} delay={0.7} />
       </div>
       {/* --------------------------- */}
 
@@ -99,7 +99,7 @@ export function TeamSection() {
             <div
               key={member.name}
               ref={(el) => { cardRefs.current[i] = el; }}
-              className="team-card border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-3xl overflow-hidden bg-white"
+              className="team-card border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-3xl overflow-hidden bg-black!"
               style={{ transitionDelay: `${i * 0.15}s` }}
             >
               <BlobPortrait

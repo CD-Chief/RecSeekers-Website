@@ -31,15 +31,15 @@ export function WhereWeWorkSection() {
       
       {/* --- Background Doodles --- */}
       <div className="absolute top-30 -translate-y-1/2 left-16 hidden 2xl:block z-0">
-        <DoodleFloat name={"globe"} size={110} delay={0.2} />
+        <DoodleFloat name={"globe"} size={120} delay={0.2} />
       </div>
 
-      <div className="absolute bottom-12 -translate-y-1/2 left-16 hidden 2xl:block z-0">
-        <DoodleFloat name={"open-book"} size={120} delay={0.7} />
+      <div className="absolute top-1/3 right-30 hidden 2xl:block z-0">
+        <DoodleFloat name={"paper-plane"} size={130} delay={0.7} />
       </div>
 
-      <div className="absolute top-1/3 right-24 hidden 2xl:block z-0">
-        <DoodleFloat name={"paper-plane"} size={90} delay={0.5} />
+      <div className="absolute bottom-9 -translate-y-1/2 left-16 hidden 2xl:block z-0">
+        <DoodleFloat name={"open-book"} size={170} delay={1.2} />
       </div>
 
       {/* Tweaked to max-w-5xl so the two wider cards don't stretch too far out */}

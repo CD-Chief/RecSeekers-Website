@@ -154,7 +154,7 @@ export default function AboutPage() {
 
         {/* Right Side */}
         <div className="absolute top-22 right-16 md:right-24 hidden xl:block z-0">
-          <DoodleFloat name={"lamp-1"} size={200} delay={0.6} />
+          <DoodleFloat name={"lamp-1"} size={200} delay={0.7} />
         </div>
 
         {/* Added relative z-10 so the text and future iframes stay above the doodles */}

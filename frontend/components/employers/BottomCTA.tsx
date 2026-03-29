@@ -73,12 +73,6 @@ export function BottomCTA({ variant = "tertiary" }: BottomCTAProps) {
               Let&apos;s find your next great recruiter.
             </h3>
           </div>
-
-          {/* Right Side */}
-          <div className="absolute bottom-35 right-30 hidden 2xl:block">
-            <DoodleFloat name={"gradcap-1"} size={160} delay={0.5} />
-          </div>
-
           {/* Right: Button */}
           <div className="shrink-0 flex justify-center">
             <Link href="/contact">
@@ -90,6 +84,12 @@ export function BottomCTA({ variant = "tertiary" }: BottomCTAProps) {
           
         </motion.div>
       </div>
+      {/* Right Side */}
+          <div className="absolute bottom-35 right-20 hidden 2xl:block">
+            <DoodleFloat name={"gradcap-1"} size={180} delay={1.2} />
+          </div>
+
     </section>
+    
   );
 }

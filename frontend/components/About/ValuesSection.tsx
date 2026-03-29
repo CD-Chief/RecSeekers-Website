@@ -93,12 +93,12 @@ export function ValuesSection() {
       
       {/* Bottom Left (near the bottom left of the pink box) */}
       <div className="absolute bottom-45 left-16 hidden 2xl:block z-0">
-        <DoodleFloat name={"pen"} size={120} delay={0.5} />
+        <DoodleFloat name={"pen"} size={120} delay={0.7} />
       </div>
 
       {/* Top Right (near the contact button area above) */}
       <div className="absolute top-12 right-20 hidden 2xl:block z-0">
-        <DoodleFloat name={"proctator"} size={90} delay={0.3} />
+        <DoodleFloat name={"proctator"} size={90} delay={0.2} />
       </div>
 
       {/* Middle Right (near the right side of the tabs/box) */}
@@ -108,7 +108,7 @@ export function ValuesSection() {
 
       {/* Bottom Right (near the bottom right of the pink box) */}
       <div className="absolute bottom-16 right-24 hidden 2xl:block z-0">
-        <DoodleFloat name={"molecules-2"} size={130} delay={0.8} />
+        <DoodleFloat name={"molecules-2"} size={130} delay={0.9} />
       </div>
       {/* --------------------------- */}
 
