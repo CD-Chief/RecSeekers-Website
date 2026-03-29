@@ -22,7 +22,7 @@ const variantConfig: Record<CTAVariant, {
   bannerBg: string;
   eyebrow: string;
   heading: string;
-  buttonVariant: "secondary" | "primary" | "popout";
+  buttonVariant: "secondary" | "primary";
 }> = {
   tertiary: {
     sectionBg: "bg-white",
@@ -43,7 +43,7 @@ const variantConfig: Record<CTAVariant, {
     bannerBg: "bg-primary",
     eyebrow: "text-black/50",
     heading: "text-black",
-    buttonVariant: "popout",
+    buttonVariant: "primary",
   },
 };
 
