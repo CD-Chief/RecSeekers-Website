@@ -162,17 +162,29 @@ export default function AboutPage() {
           {/* <p className={`${cooper.className} text-lg text-black/40 uppercase tracking-widest mb-2`}>
             Join the team
           </p> */}
-          <h2 className={`${cooper.className} text-6xl md:text-7xl text-black mb-6`}>
-            Work at RecSeekers
+          <h2 className={`${cooper.className} text-center text-6xl md:text-7xl text-black mb-6`}>
+            Check us out in LinkedIn
           </h2>
-          <p className="text-xl text-black/60 max-w-2xl leading-relaxed">
+          {/* <p className="text-xl text-black/60 max-w-2xl leading-relaxed">
             We&apos;re always on the lookout for ambitious, people-first talent to grow with us.
             Take a look at what&apos;s open - and if nothing fits yet, get in touch anyway.
-          </p>
+          </p> */}
+
+
           {/* LinkedIn iframes will go here */}
+           {/* Elfsight LinkedIn Feed | Untitled LinkedIn Feed  */}
+          <div className="flex flex-col items-center gap-10 w-full">
+          <script src="https://elfsightcdn.com/platform.js" async></script>
+          <div className="elfsight-app-c7a855cb-2263-4d63-a89f-bf213e5f5623" data-elfsight-app-lazy></div>
+            {/* Note: In React, 'frameborder' and 'allowfullscreen' should be camelCase */}
+            {/* <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:share:7438882540100354048" height="496" width="504" frameBorder="0" allowFullScreen title="Embedded post"></iframe>
+            <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:share:7439125575396392960" height="1113" width="504" frameBorder="0" allowFullScreen title="Embedded post"></iframe>
+            <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:share:7437692741268115456" height="727" width="504" frameBorder="0" allowFullScreen title="Embedded post"></iframe> */}
+          </div>
         </div>
         
       </section>
+  
       <BottomCTA variant="dark" />
     </main>
   );
