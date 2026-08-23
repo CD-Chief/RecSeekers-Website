@@ -1,0 +1,628 @@
+# RECSEEKERS Website — Developer Handoff
+
+**Repo:** `https://github.com/RECSEEKERS/RECSEEKERS-Website`
+**Documented from:** `main` @ `3448ecb` (2026-05-20) — see [§9 Branch state](#9-branch-state--git-notes), because **`main` is not the current line of development**.
+**Prepared:** August 2026
+
+This document exists so a developer who has never seen this codebase can open it, understand what every file does, run it, change content, and ship it. It is deliberately blunt about the rough edges — see [§8](#8-known-issues--todos).
+
+---
+
+## 1. What this is
+
+A marketing website for **RECSEEKERS**, a specialist "Rec2Rec" (recruitment-to-recruitment) agency in the **education sector**. It places recruitment consultants into education recruitment agencies across the **UK and Australia**. Two audiences: *candidates* (education recruiters looking to move) and *employers* (agencies hiring recruiters).
+
+There is no login, no database, no job board. It is a brochure site with two lead-capture forms that push into HubSpot and email via Resend.
+
+### The stack
+
+| Layer | Choice |
+|---|---|
+| Framework | **Next.js `^16.1.6`** (lockfile resolves 16.2.1), App Router, `output: "standalone"`, Turbopack for both `dev` and `build` |
+| UI | **React 19.2.3**, **Tailwind CSS v4** (CSS-first `@theme inline` — *no `tailwind.config.js`*) |
+| Animation | **framer-motion 12**, plus hand-written CSS keyframes in `globals.css` |
+| Language | TypeScript 5, `strict: true` |
+| CMS | **Sanity Studio v5** in `cms/` — **wired up but currently rendering nothing** (see §5.3) |
+| Email | **Resend** (`resend` 6.x) |
+| CRM | **HubSpot** CRM v3 REST API (via `fetch`, no SDK) |
+| Anti-spam | **Google reCAPTCHA** — *client-side only, never verified server-side* |
+| Social proof | **Elfsight** LinkedIn feed widget (third-party CDN script) |
+| Node | `>=22.13.0` (pinned in `.nvmrc` as `22.13.0`), npm `>=10` |
+
+### Repo shape
+
+```
+RECSEEKERS-Website/
+├── .github/workflows/     CI: GHCR docker build + PR build check
+├── cms/                   Sanity Studio (separate npm project)
+├── frontend/              Next.js app (separate npm project)
+└── README.md
+```
+
+Two independent npm projects. There is **no workspace/monorepo tooling** — you `npm install` in each folder separately.
+
+---
+
+## 2. Quick start
+
+```bash
+git clone https://github.com/RECSEEKERS/RECSEEKERS-Website.git
+cd RECSEEKERS-Website
+
+# Frontend
+cd frontend
+nvm use            # reads .nvmrc → 22.13.0
+npm install
+cp .env.example .env.local   # then fill it in — see below, .env.example is INCOMPLETE
+npm run dev        # http://localhost:3000
+
+# CMS (separate terminal)
+cd ../cms
+npm install
+npm run dev        # http://localhost:3333
+```
+
+### Environment variables — the real list
+
+`frontend/.env.example` is **out of date**: it documents three variables, one of which is never read, and omits four that the app actually uses. This is the accurate list:
+
+| Variable | Used by | Required? | What happens if missing |
+|---|---|---|---|
+| `NEXT_PUBLIC_SANITY_PROJECT_ID` | `frontend/sanity/client.ts` | Yes (module-level `!` assertion) | Currently harmless — nothing fetches — but the module is still imported by `app/page.tsx` |
+| `NEXT_PUBLIC_SANITY_DATASET` | `frontend/sanity/client.ts` | Yes | as above |
+| `RESEND_API_KEY` | `app/api/contact/route.ts` | Yes, for the contact form | `500 {"error":"Email service is not configured."}` |
+| `SAM_EMAIL` | `app/api/contact/route.ts` | Yes, for the contact form | same 500 — this is the internal notification recipient |
+| `HUBSPOT_ACCESS_TOKEN` | `app/api/contact/route.ts` | Optional | `console.warn`, CRM step silently skipped |
+| `NEXT_PUBLIC_RECAPTCHA_SITE_KEY` | `app/contact/page.tsx`, `app/sign-up/page.tsx` | Yes, for the forms | reCAPTCHA renders with `sitekey=""`; on `/sign-up` the submit button stays disabled, on `/contact` the button is live but `handleInitialSubmit` blocks submission with an `alert()` |
+| ~~`SANITY_API_TOKEN`~~ | — | **No** | Listed in `.env.example` but **read by nothing**. Ignore it. |
+
+Known Sanity values (they are not secret — the project ID is public by design):
+
+```
+NEXT_PUBLIC_SANITY_PROJECT_ID=3o1ax6lm
+NEXT_PUBLIC_SANITY_DATASET=production
+```
+
+**There is no `RECAPTCHA_SECRET_KEY` anywhere in the repo**, because the server never verifies the captcha. See §8.
+
+---
+
+## 3. Architecture at a glance
+
+```
+Browser
+  │
+  ├─ Marketing pages (all copy hardcoded in JSX; /contact and /sign-up are Client Components)
+  │     / /about /candidates /employers /edtech /subscription /contact /sign-up /privacy /terms
+  │
+  ├─ /privacy and /terms  ──reads──►  frontend/content/legal.en.json  (committed JSON, NOT Sanity)
+  │
+  ├─ /about LinkedIn feed ──script──►  Elfsight CDN widget  (elfsightcdn.com)
+  │
+  └─ Forms on /contact, /sign-up, and the BookCall modal
+        │  POST { name, email, ... }
+        ▼
+     app/api/contact/route.ts  (the ONLY backend in the project)
+        ├─► HubSpot CRM  (GET contact by email → POST create if absent)
+        └─► Resend       (email #1 → SAM_EMAIL, email #2 → the user)
+
+  Sanity Studio (cms/)  ──►  Sanity dataset  ──X──  NOTHING ON THE SITE READS IT
+```
+
+**The single most important thing to understand:** almost every word on this site is hardcoded in `.tsx` files. Editing marketing copy means editing React components and redeploying. The Sanity CMS exists, is configured, and has three schemas — but **zero rendered content comes from it**. See §5.3 and §7.
+
+### Layout composition
+
+`app/layout.tsx` wraps every route in:
+
+```
+<HeroStageProvider>          ← context/HeroStageContext.tsx
+  <NavMobile />              ← md:hidden  full-screen hamburger menu
+  <Nav />                    ← hidden md:block  desktop pill nav + hover preview
+  {children}
+  <Footer />
+</HeroStageProvider>
+```
+
+Fonts: **Poppins** (body, Google Fonts, `--font-poppins`) and **Cooper Black** (headings, self-hosted `.ttf`, `--font-cooper`, exported from `lib/fonts.ts` as `cooper`). Headings almost always apply it via `className={cooper.className}` rather than a Tailwind utility; a handful of places use the `font-cooper` / `font-heading` utilities instead (`footer.tsx`, `NavMobile.tsx`, `carousel.tsx`).
+
+---
+
+## 4. Where the content lives (read this before touching copy)
+
+If a client asks "change the wording on X", this table tells you which file to open.
+
+| Content | File |
+|---|---|
+| Nav labels, hrefs, hover-preview text and images | `components/layout/navItems.ts` |
+| Footer links, socials, credits | `components/Footer/footer.tsx` |
+| Homepage hero headline + CTAs | `components/Hero/HeroSection.tsx` |
+| Homepage "Who We Work With" cards | `app/page.tsx` (props to `WhoWeWorkWithCard`) |
+| Homepage "Why RECSEEKERS?" 4 cards | `app/page.tsx` (four hardcoded `<article>` blocks) |
+| Homepage "How It Works" 4 steps | `components/Home/HowItWorksTimeline.tsx` (`steps` array) |
+| Homepage testimonials | `components/Home/TestimonialsSection.tsx` |
+| About: intro paragraphs + 3 stat cards | `app/about/page.tsx` (`statCards` array; **two different paragraphs for mobile vs desktop**) |
+| About: the six core values | `components/About/ValuesSection.tsx` |
+| About: UK / Australia copy | `components/About/WhereWeWorkSection.tsx` |
+| About: team members, roles, bios, photos | `components/About/TeamSection.tsx` |
+| About: LinkedIn feed | `components/About/ElfsightLinkedInFeed.tsx` (Elfsight widget UUID) |
+| Candidates: hero + "candidate promise" | `app/candidates/page.tsx` |
+| Candidates: "what we look for" panels | `components/Candidates/FitSplitCard.tsx` |
+| Candidates: real testimonials | `components/Candidates/TestimonialsSection.tsx` |
+| Employers: hero + engagement models | `app/employers/page.tsx` |
+| Employers: 3 feature cards | `components/employers/FeatureCards.tsx` |
+| Bottom CTA banners | `components/employers/BottomCTA.tsx` (props) |
+| "Book a call with Sam" modal + qualification rules | `components/About/BookCall.tsx` |
+| Contact page copy + phone numbers | `app/contact/page.tsx` |
+| Contact form qualification → outcome logic | `app/contact/page.tsx` (lines ~58–77) |
+| Sign-up page copy | `app/sign-up/page.tsx` |
+| Privacy Policy & Terms text | `frontend/content/legal.en.json` ← **the one file a non-dev could plausibly edit** |
+| Email subject lines and bodies | `app/api/contact/route.ts` |
+| Brand colours | `app/globals.css` (`:root` block) |
+
+### Brand colour tokens (`app/globals.css`)
+
+| Token | Hex | Role |
+|---|---|---|
+| `--primary` | `#da8da0` | dusty rose — hero background, most section backgrounds |
+| `--primary-logo` | `#ffb2dc` | |
+| `--secondary` | `#e868b1` | hot pink — `Button variant="secondary"` |
+| `--tertiary` | `#ffa4bb` | light pink — form pages, cards |
+| `--primary-dark` | `#250821` | near-black plum — text, borders, offset shadows |
+| `--background` / `--foreground` | `#ffffff` / `#171717` | |
+| `--neutral-50` / `--neutral-900` | `#f9fafb` / `#111827` | |
+
+⚠️ These hexes are **also hardcoded literally** all over the components, so a rebrand is not a one-file change. Values that appear in JSX but are *not* tokens: `#fff8f1` (cream — 8 files; the full-page background on `/privacy` and `/terms`), `#e26d9f` (testimonial quote icon), `#FF69B4` (timeline badge and `NavMobile`), `#f490b1` (404 link), `#1e293b` (About CTA button and `FitSplitCard`), `#f3f3f3`, `#ffeaf5`, `#1f0c1a`, `#7c3f7a`, `#0077b5` (LinkedIn brand), `#FBBC05` (Google star), plus Tailwind's own `text-pink-500` on `/edtech`, `/subscription` and `NavMobile`.
+
+---
+
+## 5. File-by-file inventory
+
+Legend: 🔴 = broken or blocking · 🟠 = dead / unused code · 🟡 = worth knowing
+
+### 5.1 Repository root
+
+| File | Purpose |
+|---|---|
+| `README.md` | Project overview and quick start. Broadly accurate; its env-var list is incomplete (see §2). |
+| `.gitignore` | **One line: `Design.md`.** That's the entire root ignore file — all real ignoring happens in `frontend/.gitignore` and `cms/.gitignore`. 🟡 The ignored `Design.md` is a design reference doc that some contributors have locally and that is deliberately kept out of the repo — **ask for a copy**. |
+
+### 5.2 `.github/workflows/`
+
+| File | Purpose |
+|---|---|
+| `docker.yml` | **"Build and Push to GHCR".** On push to `main` **or `dev`**: builds `frontend/Dockerfile` and pushes to `ghcr.io/<owner-lowercased>/recseekers-website`, tagged `type=ref,event=branch` and `type=sha`. Auth uses the built-in `GITHUB_TOKEN` — no extra secrets needed. |
+| `frontend-build-pr.yml` | **"Frontend Build Check".** On PRs into `dev` or `main`: `npm ci` + `npm run build` in `frontend/`. 🟡 It runs the **build only — never `npm run lint`**, which matters because there are currently several unused-import lint errors in the codebase (§8). |
+
+🟡 Neither workflow touches `cms/`. The Sanity Studio has no CI and is deployed by hand (`npm run deploy`).
+
+### 5.3 `cms/` — Sanity Studio
+
+**Sanity project ID `3o1ax6lm`, dataset `production`.** Studio v5, plugins `structureTool()` and `visionTool()`.
+
+| File | Purpose |
+|---|---|
+| `sanity.config.ts` | Studio config: `name: 'default'`, `title: 'RecSeekers Website'`, projectId, dataset, plugins, schema registration. |
+| `sanity.cli.ts` | CLI config with the same projectId/dataset; `deployment.autoUpdates: true`. |
+| `package.json` | 🟡 Still named **`"my-sanity-project"`** from the scaffold. Scripts: `dev`, `start`, `build`, `deploy`, `deploy-schema`, `deploy-graphql`. Deps: `sanity ^5.7.0`, `@sanity/vision ^5.7.0`, React 19, `styled-components`. No `engines` field. |
+| `package-lock.json` | Committed lockfile (16,722 lines). Install with `npm ci`, not `npm install`, to respect it. |
+| `schemaTypes/index.ts` | Registers exactly three document types. |
+| `schemaTypes/templateStatus.ts` | `templateStatus` — fields `status` (string, required), `isReady` (boolean, required). 🟠 This is the **scaffold's smoke-test document**, not real content. |
+| `schemaTypes/linkedinEmbed.ts` | `linkedinEmbed` — one field `link`, title `'LinkedIn Post Link 🔗'`: array of string, description `'Paste Embed URL here (you can do more than one)'`. 🟡 Its validation is a **no-op stub**: `Rule.custom((isIframe: string) => { return true; })` — the intended iframe check was never written. |
+| `schemaTypes/linkedinFeed.ts` | 🟡 **Filename and type name disagree** — the file is `linkedinFeed.ts` but the document type is `name: 'linkedinPost'`. Fields: `content` (text), `postUrl` (url), `publishedAt` (datetime), `imageUrl` (url). |
+| `tsconfig.json`, `eslint.config.mjs` | Standard Sanity scaffold. ESLint is three lines re-exporting `@sanity/eslint-config-studio`. |
+| `.gitignore` | 🟡 Ignores `/node_modules`, `/.sanity`, `/dist`, logs, `*.local`. **No explicit `.env` rule** — a plain `cms/.env` holding a write token would not be ignored. Worth adding. |
+| `static/.gitkeep` | Placeholder for Studio-served static files. Empty in practice. |
+| `cms-README.md` | 🔴 **Generic boilerplate that was never adapted to this project.** Title is "CMS: Sanity Studio Template". It never mentions RECSEEKERS or `3o1ax6lm`; it uses a fake project ID `2nd7mzk3`; it documents a `post`/`author` blog schema **that does not exist here**; whole sections address "cloning this template for a new client". Its Windows Rollup fix and `deploy-schema` guidance are correct — treat everything schema-specific as fiction. |
+
+#### 🔴 The CMS drives nothing
+
+| Schema | Query defined? | Actually rendered? |
+|---|---|---|
+| `templateStatus` | `TEMPLATE_STATUS_QUERY` in `sanity/queries.ts` | **No.** Imported by `app/page.tsx` and never called. |
+| `linkedinEmbed` | `LINKED_IN_QUERY` in `sanity/queries.ts` | **No.** Imported by zero files. |
+| `linkedinPost` | inline in `GetLinkedInFeed.tsx` | **No.** Its only consumer is commented out in `app/about/page.tsx`. |
+
+The one `client.fetch()` in the whole frontend lives in `components/About/GetLinkedInFeed.tsx`, which is commented out with the note `FREE Method with RSS and Make.com (doesnt work)`. It was replaced by the paid Elfsight widget.
+
+**Decision needed:** either adopt Sanity properly (move the ~15 hardcoded copy blocks in), or remove `cms/`, `frontend/sanity/`, and the `@sanity/client` / `@sanity/image-url` / `next-sanity` dependencies. Leaving it half-wired is what makes this repo confusing.
+
+### 5.4 `frontend/` — config and tooling
+
+| File | Purpose |
+|---|---|
+| `package.json` | Scripts `dev` / `build` (both `--turbopack`), `start`, `lint`. Pins `engines: node >=22.13.0, npm >=10` and React exactly at `19.2.3`. |
+| `package-lock.json` | Committed lockfile (19,356 lines). CI uses `npm ci` — respect it rather than regenerating casually. |
+| `next.config.ts` | `output: "standalone"` (required by the Dockerfile) and `images.remotePatterns` allowing `cdn.sanity.io/images/**`. |
+| `tsconfig.json` | `strict: true`, path alias `@/*` → `./*`. |
+| `eslint.config.mjs` | Flat config: `eslint-config-next` core-web-vitals + typescript. |
+| `postcss.config.mjs` | Just `@tailwindcss/postcss`. **Tailwind v4 has no config file** — theme lives in `app/globals.css`. |
+| `.nvmrc` | `22.13.0` — CI reads this via `node-version-file`. |
+| `.env.example` | 🔴 Incomplete and partly wrong. See §2 for the real list. |
+| `.gitignore` | Standard `create-next-app` set, including `.env` and `.env.local*`. |
+| `.dockerignore` | Excludes `node_modules`, `.next`, `.git`, env files, `Dockerfile*`. |
+| `Dockerfile` | Three-stage build (`deps` → `builder` → `runner`) on `node:22.13.1-bookworm-slim`, running as a non-root `nextjs` user, `EXPOSE 3000`, `CMD ["node","server.js"]`. 🟡 **The builder stage deletes `next.config.ts` and writes its own `next.config.mjs` with `images.unoptimized: true`** — a comment calls this a "test-only config override". So **the Docker image serves unoptimised images while `npm run dev`/Vercel would not.** If image quality or bandwidth differs between environments, this is why. |
+| `frontend-README.md` | 🔴 **Generic Next.js + Sanity template README, not adapted to this project.** It documents a folder structure that does not exist here (`app/about/[slug]`, `components/layout/Header.tsx`, `lib/utils.ts`, `tailwind.config.js`) and a blog schema that was never built. The Tailwind-v4 theming section and the Sanity usage examples are still conceptually useful. |
+
+### 5.5 `frontend/app/` — routes
+
+| File | Route | Type | Notes |
+|---|---|---|---|
+| `layout.tsx` | all | Server | Root shell: fonts, `globals.css`, `HeroStageProvider`, `NavMobile`, `Nav`, `Footer`. 🔴 Holds the **only** `metadata` in the app (`title: "RECSEEKERS"`, `description: "Find your next opportunity"`) — no page overrides it, so every route shares one title. No OG tags, no `sitemap.ts`, no `robots.ts`. |
+| `page.tsx` | `/` | Server | Homepage. Sections in order: `HeroSection` → Who We Work With (2 cards) → Why RECSEEKERS (4 cards) → `HowItWorksTimeline` → For candidates → For agencies → `TestimonialsSection` → Contact CTA. 🟠 Declared `async` but awaits nothing; imports `client` and `TEMPLATE_STATUS_QUERY` and uses neither. 🟡 `main` uses `-mt-16` to slide under the fixed nav — removing it breaks the hero. |
+| `globals.css` | — | — | Tailwind v4 entry + `:root` brand tokens + `@theme inline` mappings + every custom keyframe (`chevronBounce`, `growHeight`, `slideInRight`, `morphBlob`, `ticker`, `float`, `float-in`) and the `.team-card` / `.blob-portrait` / `.animate-ticker` classes the components depend on. Has a `prefers-reduced-motion` block. 🟠 `.btn-burst` is defined and used nowhere. |
+| `not-found.tsx` | 404 boundary | Server | The real 404 page. Illustration + "Let's go back home". 🟡 Entirely inline `style={{}}` — no Tailwind, so brand tokens don't apply; `fontFamily: 'cooper'` does not match the generated font family and silently falls back. |
+| `404/page.tsx` | `/404` | Client | 🔴 **A near-duplicate of `not-found.tsx` that Next.js never uses as a 404** — it only creates a literal, publicly reachable `/404` URL. Pages-Router leftover. **Delete it.** |
+| `about/page.tsx` | `/about` | Server | Hero + `statCards` → `ValuesSection` → `WhereWeWorkSection` → `TeamSection` → (commented-out `ClientsSection`) → Elfsight LinkedIn feed → `BottomCTA`. 🔴 Renders `<DoodleFloat name="pencil-2" />` but `/public/floats/pencil-2.svg` was deleted (commit `6888adc`) — **a live 404 on `main`; already fixed on `dev`.** 🟠 Imports `ClientsSection` but its usage is commented out. |
+| `api/contact/route.ts` | `POST /api/contact` | Route handler | **The only backend.** Detailed below. |
+| `candidates/page.tsx` | `/candidates` | Server | Hero → `FitSplitCard` → candidate promise → `TestimonialsSection` → CTA. 🟠 Imports `HeroSection` and declares `placeHolderProfile` — both unused. 🟡 Lines ~85–117 are a large commented-out "What sets us apart" block containing **nested** `{/* */}` comments — fragile, and the three icons it references (`/icon-stairs.svg`, `/icon-selection.svg`, `/icon-clock.svg`) no longer exist. Delete the block. |
+| `contact/page.tsx` | `/contact` | Client | Two-step form: details → qualifying modal → outcome (`calendar` / `email` / `nothing`). Detailed below. |
+| `edtech/page.tsx` | `/edtech` | Server | "Coming soon" placeholder. 🟠 `Link` and `Button` imported but only used in a commented-out CTA. 🟡 Copy error: *"Education technology it's growing fast"*. Uses raw `<a>` and `text-pink-500`. |
+| `employers/page.tsx` | `/employers` | Server | Hero → Why work with us + `FeatureCards` → Types of Recruitment (contingent/retained) → `BottomCTA`. 🔴 Two `<h1>`s with identical text, differing only in responsive visibility classes → **two `<h1>` elements in the DOM**. 🟡 `<BottomCTA />` is rendered **twice** (mobile/desktop wrappers) — two `useInView` motion observers and a duplicate CTA banner, for a difference of one margin class (`mt-1` vs `mt-12`). No `BookCallModal` mounts here, since `primaryOpensBookCallModal` defaults to false. 🟡 Uses raw `<img>` here (as do `Nav`, `NavMobile`, `NavPreview` and `footer`), `next/image` elsewhere. |
+| `privacy/page.tsx` | `/privacy` | Server | 6 lines: `<LegalPageTemplate section="privacy" content={legalContent} />`. |
+| `terms/page.tsx` | `/terms` | Server | Same, `section="terms"`. |
+| `sign-up/page.tsx` | `/sign-up` | Client | Newsletter/community signup → `POST /api/contact` → confetti + modal. 🟡 **Orphaned from navigation** — not in `navItems.ts`, not in the footer; the only inbound link is `router.push('/sign-up')` from inside `BookCallModal`. 🔴 Typo in live copy: **"Edech"**. 🟠 `isExistingUser` state is set but never rendered, so a duplicate signup sees the identical "Welcome to the community!" modal. 🟡 Its description paragraph is `hidden md:block` with **no mobile fallback** — mobile users get no explanation of what they're signing up for. |
+| `subscription/page.tsx` | `/subscription` (nav: "Subscribe") | Server | "Coming soon", announces **Q3 2026**. 🟠 `Link` and `Button` imported, never used at all. 🟡 `<br></br>`; a 500×500 logo `<Image>` inside the `<h1>`; hardcoded date that will go stale. |
+| `favicon.ico` | — | — | App Router favicon convention. |
+| `fonts/cooper-black-cdnfonts/coopbl.ttf` | — | — | Self-hosted Cooper Black, loaded by `lib/fonts.ts`. |
+
+#### 🔎 `app/api/contact/route.ts` in detail
+
+The one server-side file in the project. Handles **both** the `/contact` enquiry form and the `/sign-up` signup, plus the `BookCallModal`.
+
+**Only `POST` is exported.** Runs on the default Node serverless runtime.
+
+**Request body** (JSON): `{ name, email, number, role, message, q1, q2, outcome }` are destructured. `q2` is destructured and never used. `captchaToken` is sent by both forms and **is not destructured at all**.
+
+**Flow:**
+1. Parse JSON.
+2. `const calendlyLink = "";` 🔴 — this empty string is interpolated into the user's confirmation email after the words *"you can easily book your time with Sam right here: "*. **Live bug.**
+3. **HubSpot** (only if `HUBSPOT_ACCESS_TOKEN` and `email` are present):
+   `GET https://api.hubapi.com/crm/v3/objects/contacts/{email}?idProperty=email`
+   - 🟡 `email` is interpolated into the URL **unencoded** — addresses containing `+` will break the lookup.
+   - If it returns 200 and there is no `message`, respond `409 {"message":"User already exists in HubSpot"}`.
+   - Otherwise `POST` a new contact `{email, firstname: name, phone: number || ''}`. 🟡 The create response is **never checked**, so failures are silent — and because the branch triggers on *any* non-200 (not just 404), a transient HubSpot 500 causes a duplicate-create attempt.
+4. Early-return `{success: true}` when there is no `message` and no `role` — this is the `/sign-up` exit path, which sends **no email at all**.
+5. Build two emails, branching on `outcome`: `'calendar'` → internal subject `🔥 HOT LEAD: {name} wants to chat!`; otherwise `New Website Inquiry: {name} ({role})`.
+6. **Resend send #1** → `SAM_EMAIL`, `replyTo` the enquirer. **Send #2** → the enquirer.
+   🔴 Sender is `onboarding@resend.dev` — **Resend's shared sandbox domain, not a verified RECSEEKERS domain.** This must change before launch; deliverability will be poor and delivery may be restricted.
+   🟡 Both sends are awaited but their `{data, error}` return values are never inspected — Resend does not throw on API-level failures, so a failed send can still produce `{success: true}`.
+
+**Responses:** `200 {success:true}` · `409 {message:"User already exists in HubSpot"}` · `500 {error:"Email service is not configured."}` · `500 {error: error.message}`.
+🟡 That last one returns the raw error message to the browser — it can leak Resend/HubSpot internals.
+
+**Validation:** effectively none — no schema, no email format check, no length caps, no trimming, no escaping. Client-side `required` / `maxLength` are the only limits and are trivially bypassed.
+
+**Rate limiting:** 🔴 **none.** No IP throttle, no `middleware.ts`.
+
+**reCAPTCHA:** 🔴 **collected and discarded.** Both forms render `<ReCAPTCHA>` and include `captchaToken` in the payload; the server never reads it and never calls `siteverify`. There is no secret key in the repo. **Combined with the missing rate limit, `/api/contact` is an open, unauthenticated email + CRM relay.** This is the highest-priority fix in the codebase.
+
+#### 🔎 `app/contact/page.tsx` — the qualification funnel
+
+Step 1 collects `name`, `email`, `role` (`recruiter` | `agency`), `message`. Step 2 opens a modal with two role-dependent questions (`q1`, `q2`) and derives an `outcome`:
+
+- **Recruiter:** `q1==='browsing' || q2==='no'` → `nothing`; `q1==='active' && q2==='yes'` → `calendar`; else `email`.
+- **Agency:** `q1==='pipeline' || q2==='no'` → `nothing`; `q1==='immediate' && q2==='yes'` → `calendar`; else `email`.
+
+🔴 The `calendar` outcome — the highest-value path in the funnel — links to **`https://calendly.com/your-link`**, an unreplaced placeholder. Pairs with the empty `calendlyLink` in the API route and with `https://calendly.com/YOUR_CALENDLY_LINK` in `BookCall.tsx`. **Three dead Calendly links.** ⚠️ Despite its name, the branch `origin/update-remove-calendly` does **not** remove any of them — all three are still present there, and on `dev`.
+
+🟡 Other notes: `cooper` is re-declared here with `localFont()` instead of importing `@/lib/fonts` (same on `/sign-up`) — duplicate `@font-face` in the bundle. Validation and errors use `alert()`. `<label htmlFor="role">` etc. point at selects with **no `id`**. The modal has no `role="dialog"`, no focus trap, no Escape handler, no scroll lock. Phone numbers are hardcoded here: **`+44 (0) 7552 188 056`** and **`+44 (0) 191 743 0418`**.
+
+### 5.6 `frontend/components/`
+
+#### `layout/` — navigation
+
+| File | Type | Purpose |
+|---|---|---|
+| `navItems.ts` | data | Single source of truth for the nav. Exports `NavPreviewItem`, `PILL_ITEMS`, `CONTACT_ITEM`. |
+| `Nav.tsx` | Client | Desktop nav (`hidden md:block`): logo + "HAVE A NICE DAY!" tagline, six-item pill (plain `Button variant="text"` links with a CSS underline), a framer-motion `NavPreview` card on hover, and a "Contact us" button. Reads `useHeroStage()` — the logo is hidden on `/` until the hero leaves stage 1. 🟡 A `setTimeout(...,120)` on mouse-leave is never cleared. |
+| `NavMobile.tsx` | Client | Mobile nav (`md:hidden`): hamburger → full-screen animated menu of link cards. Correctly sets `role="dialog"` / `aria-modal` / `aria-expanded`, but has **no focus trap, no Escape handler, and no body scroll lock**. 🟡 Menu tiles use `aria-label={previewTitle}`, so "Candidates" is announced as "Looking for jobs?". |
+| `NavPreview.tsx` | Client | The hover card under the desktop pill. **In use** (from `Nav.tsx`). Props: `{ items, hoveredIndex, isOpen, onMouseEnter, onMouseLeave }`. 🟡 Hover-only — the preview copy is unreachable by keyboard. |
+
+**The nav items, verbatim:**
+
+| Label | href | Preview title |
+|---|---|---|
+| Home | `/` | Welcome to RECSEEKERS |
+| About | `/about` | Who are we? |
+| Candidates | `/candidates` | Looking for jobs? |
+| Employers | `/employers` | Looking for new hires? |
+| EdTech | `/edtech` | Education technology |
+| Subscribe | `/subscription` | Subscribe to RECSEEKERS now! |
+
+Plus `CONTACT_ITEM = { label: "Contact us", href: "/contact" }`.
+
+#### `Footer/footer.tsx` (Server, default export)
+
+Separate desktop (`hidden md:grid`) and mobile (`flex md:hidden`) markup. The *markup* is duplicated between the two branches; the link *data* is shared via module-level `sitemapGroups` / `socialLinks` arrays.
+
+- **Site map:** Home `/` · About `/about` · Candidates `/candidates` · Employers `/employers` · **Jobs `/jobs`** · Contact `/contact`
+- **Legal:** Terms `/terms` · Privacy `/privacy`
+- **Socials:** Instagram `https://www.instagram.com/recseekers` · LinkedIn `https://www.linkedin.com/company/recseekers-r2r/`
+- **Commented out:** `mailto:hello@recseekers.com` and `tel:+1234567890`
+- **Credit:** "Illustrations by Storyset" → `https://storyset.com/` · Copyright `RECSEEKERS © {currentYear}`
+
+🔴 **`/jobs` has no page** — it 404s from every page on the site. 🟡 No email or phone is exposed anywhere except the two hardcoded numbers on `/contact`. 🟡 Mobile "Contact us" button is `bg-primary` on a `bg-primary` footer — invisible until hover. 🟡 The mobile branch indexes `sitemapGroups[0]`/`[1]` positionally, so reordering that array breaks mobile.
+
+#### `Hero/HeroSection.tsx` (Client) — the most complex component in the repo
+
+A **two-stage scroll-hijacking hero** used on `/` only.
+
+- Stage 1: full-screen logo on `#da8da0` with a bouncing chevron.
+- On wheel/touch past `SCROLL_THRESHOLD = 60` accumulated delta, it **locks page scroll** (saving and restoring ~10 `html`/`body` inline styles in `scrollLockSnapshot`), cross-fades to Stage 2 (headline, sub-copy, two CTAs, `selection2.svg`), then unlocks.
+- Blob backdrop via `BlobField`, with tunable constants at the top of the file (`BLOB_SIZE_STAGE1/2`, `BLOB_BLUR_STAGE1/2/PEAK`).
+- Writes `setIsHeroStage1(false)` into `HeroStageContext` so the navs restyle.
+
+🟡 It is the **only** writer of hero-stage context, and it maintains its own local `stage` state as well — two sources of truth for one concept. Manual `wheel`/`touchstart`/`touchmove` listeners plus a scroll lock is inherently fragile: **test this first after any Next/React upgrade**, and test it on real iOS Safari.
+
+#### `Home/`
+
+| File | Type | Purpose |
+|---|---|---|
+| `HowItWorksTimeline.tsx` | Client | Four-step alternating timeline. Steps: *We get to know you* · *We understand the detail* · *We introduce only genuine upgrades* · *Success-based model ("No placement, no fee. For key hires, we work on a retained basis.")*. 🟡 Body copy is clamped to **2 lines** via inline `WebkitLineClamp: 2` — longer copy is silently truncated. |
+| `TestimonialsSection.tsx` | Client | Heading "What recruiters say about us". 🟡 The three testimonials are **anonymised placeholders** (`SC`, `BM`, `DR` — no real names). Renders `GoogleRating` hardcoded to `5.0` with an **empty `href=""`** and the comment `add google reviews profile here`. |
+| `WhoWeWorkWithCard.tsx` | Server | Reusable audience card. Props: `{ title, description, ctaLabel, href, cooperClassName, illustrationSrc?, cardBgClassName? }`. `illustrationSrc` defaults to `/file.svg` — the Next.js scaffold placeholder icon. |
+
+#### `About/`
+
+| File | Type | Purpose |
+|---|---|---|
+| `ValuesSection.tsx` | Client | "Our Core Values" — desktop tabs + mobile accordion. Six "R" values: **Reliability, Resourcefulness, Recognition, Rationale, Resilience, Rapport**, each with a paragraph and an inline Heroicons SVG stored *inside the data array as JSX* (a CMS migration would have to extract these). 🟡 Desktop tabs are plain `<button>`s with no `role="tab"`/`aria-selected`. |
+| `WhereWeWorkSection.tsx` | Client | "Where do we work?" — exactly two entries, **countries not offices**: **United Kingdom** 🇬🇧 (*"Our core market… London, Manchester, and beyond"*) and **Australia** 🇦🇺 (*"a separate section for our Aussie talents wanting a move to the UK"*). Maps are giant inline SVG `path` strings. 🟠 Imports `DoodleFloat` and never uses it. 🟡 Descriptions are `ReactNode` containing `<Link>`s, so they can't move to JSON without a refactor. |
+| `TeamSection.tsx` | Client | "Meet the Team" — `IntersectionObserver` scroll-reveal, one `BlobPortrait` per member. **Sam Lawless** (Co-Founder and Lead Consultant, `/team/sam.png`) · **Joe James** (`/team/joe.png`) · **Ciaran Turton** (Co-Founder, Operations and Finance, `/team/ciaran.png`) · **Jed Corner** (Co-Founder, Marketing and Growth, `/team/jed.png`). 🔴 **Joe James's role is the literal placeholder `'Expert consultant??'` and his bio is `'...'`** — fix before launch. 🟠 Imports `DoodleFloat`; all seven usages in the file are commented out. |
+| `BlobPortrait.tsx` | Client | One team card: morphing blob photo (global `.blob-portrait`) + name/role badge + bio, with a 220-char "Read more" toggle on mobile. Exports the canonical `TeamMember` type. 🟠 The `index` prop feeds only a commented-out decorative number. 🟡 The bio is rendered **twice** in the DOM (mobile + desktop copies). |
+| `BookCall.tsx` | Client | Exports `BookCall` (a CTA banner — 🟠 **used nowhere**) and `BookCallModal` (used by `employers/BottomCTA`). The modal is a **two-step, 9-field qualification form** (`name, email, number, role, company, market, experience, billings, motivation`) that posts to `/api/contact`, then scores the lead. 🔴 The success CTA links to `https://calendly.com/YOUR_CALENDLY_LINK`. 🟡 **Business rule:** qualifies only if `role === 'recruiter'` AND (`market` is Education/Tech with 1-3/3-5/5+ years, or Other with 3-5/5+) — **every agency owner gets the "fail" screen** ("Sam is currently busy!") and is redirected to `/sign-up`. 🟡 The contact is created in HubSpot *before* qualification is evaluated, so "fail" leads are still stored. 🟡 Billings placeholder says `"e.g. $250k in the last 12 months"` — **USD on a UK/AU site**. |
+| `ElfsightLinkedInFeed.tsx` | Client | The live LinkedIn feed on `/about`. Loads `https://elfsightcdn.com/platform.js` via `next/script` and mounts a div with class **`elfsight-app-c7a855cb-2263-4d63-a89f-bf213e5f5623`**. **That UUID is the Elfsight widget identity** — changing the widget means editing it. Paid third-party service; also a CSP/privacy consideration. |
+| `GetLinkedInFeed.tsx` | Server | 🟠 **Dead.** The abandoned self-hosted alternative: fetches `linkedinPost` docs from Sanity. 🔴 Hardcodes `projectId: "3o1ax6lm"` instead of using env. 🔴 Injects `post.content` with `dangerouslySetInnerHTML`. Its GROQ queries `linkedinPost`, which *does* match the registered schema type even though the schema file is named `linkedinFeed.ts`. **Delete or fix — do not uncomment as-is.** |
+| `ClientsSection.tsx` | Server | 🟠 Imported by `/about` but its JSX is commented out. "Companies we've placed in" — an infinite CSS ticker. 🔴 **All eight logos are the same placeholder `/file.svg`.** |
+
+#### `Candidates/`
+
+| File | Type | Purpose |
+|---|---|---|
+| `FitSplitCard.tsx` | Client | Three auto-rotating panels — **Proven performance**, **Growth mindset**, **Strategic moves** — with a `matchMedia` mobile check and a `prefers-reduced-motion` check before starting the interval. Props: `{ cooperClassName }`. |
+| `TestimonialsSection.tsx` | Client | 🟢 **The only real testimonials on the site**, and they name real employers: **NB**, Senior Recruitment Consultant, *Empowering Learning Manchester* · **AA**, Talent Acquisition Manager, *The Edwin Group* · **AB**, Senior SEND consultant, *Horizon Teachers*. Uniquely, each has a shorter `mobileQuote`. Links to `https://www.linkedin.com/in/sam-lawless/details/recommendations/?detailScreenTabIndex=0`. |
+| `BottomCTA.tsx` | Client | 🟠 **Dead** — imported by nothing. A near-copy of `employers/BottomCTA`. 🟡 Its **default parameter** `headingText = "Let&apos;s find your next great recruiter."` is a JS string, not a JSX attribute, so it is *not* entity-decoded — it would render the literal text `Let&apos;s` if this component were ever used. |
+| `carousel.tsx` | Server | 🟠 **Dead** — imported by nothing. A "What do we look for?" ticker over five sectors (education, sales, leadership, growth, culture). |
+
+#### `employers/`
+
+| File | Type | Purpose |
+|---|---|---|
+| `FeatureCards.tsx` | Client | Three framer-motion cards: **Niche-Ready Talent**, **Faster Time-to-Hire**, **Flexible Engagement Models**. |
+| `BottomCTA.tsx` | Client | The CTA banner used by `/employers` and `/about`. Props: `{ variant?: "tertiary"\|"dark"\|"pink", eyebrowText?, headingText?, primaryButtonText?, primaryHref?, primaryOpensBookCallModal?, secondaryHref?, ... }`. When `primaryOpensBookCallModal` is true it renders `BookCallModal` instead of a link. |
+| `TestimonialsSection.tsx` | Client | 🟠 **Dead and unfinished.** Heading is literally `"Title"`; every `quote` is `""`; every `role` is `"Previous client"` (→ duplicate React keys). Delete it. |
+
+🟡 **The three `TestimonialsSection.tsx` files are the same component forked three times** — near-identical `TestimonialItem` type (`Candidates` adds `mobileQuote`), identical `desktopHeights`, identical `QuoteBubbleIcon`, identical `GoogleRating`, identical grid and motion stagger. `diff Home Candidates` is 96 lines; `diff Candidates employers` is 78. **This is the single biggest consolidation opportunity in the codebase** — one component taking `testimonials` and `heading` props replaces all three. The same is true of the two `BottomCTA.tsx` files and of the `variantConfig` object, which is copy-pasted verbatim into three files.
+
+#### `ui/` and `Blob/`
+
+| File | Type | Purpose |
+|---|---|---|
+| `ui/Button.tsx` | Server | The design system's only primitive. Extends `ButtonHTMLAttributes`. **Variants:** `primary` (pink fill, 4px black border, `4px 4px 0 0` offset shadow, press-in hover), `secondary` (hot pink, brightness hover), `text` (transparent with an animated underline). **Sizes:** `sm` `md` `lg` `xl`. 🟡 Callers override it heavily with Tailwind v4 important suffixes (`bg-primary-dark!`, `focus:ring-primary-dark!`), which is a smell — some of those overrides deserve to be real variants. |
+| `ui/DoodleFloat.tsx` | Client | The floating hand-drawn accents. Props `{ name, size=48, className, delay=0, float=true }`. **It resolves `name` to `` `/floats/${name}.svg` ``** — so a typo produces a silent 404, and grepping for a float filename finds nothing. Uses an `IntersectionObserver` to trigger `.animate-float-in`, then `.animate-float float-random`. Exported **both** named and default (both import styles appear in the codebase). |
+| `Blob/Blob.tsx` | Server | `BlobField` — five blurred, animated organic blobs behind the hero. Props `{ size?="24vmax", blurAmount?="60px" }` — `size` becomes the `--blob-size` custom property, `blurAmount` an inline `filter: blur(...)`. |
+| `Blob/Blob.module.css` | — | The only CSS Module in the project. Positions/animates the five blobs. |
+
+**Valid `DoodleFloat` names** (files that exist in `public/floats/`): `apple`, `atom`, `backpack-1`, `book`, `books-1`, `books-2`, `books-3`, `books-large`, `Celebration-1`, `compass`, `flask-1`, `flask-2`, `globe`, `gradcap-1`, `gradcap-2`, `lamp-1`, `lightbulb`, `molecules-1`, `molecules-2`, `molecules-3`, `open-book`, `paper-plane`, `pen`, `pie-chart`, `proctator`, `speech-bubble`. 🔴 **`pencil-2` is used on `/about` but does not exist.**
+
+#### `legal/LegalPageTemplate.tsx` (Client)
+
+Props: `{ section: "privacy" | "terms", content: { privacy, terms } }`. Renders **both** legal documents on the page, then scroll-jumps to the requested one in a `useEffect` (`document.getElementById` + `setTimeout(...,100)`), measuring nav height via `document.querySelector("nav")` with an `80` fallback and a `SECTION_SCROLL_GAP = 52` magic number. Also honours `#privacy` / `#terms` in the URL hash.
+
+🟡 Consequence: `/privacy` ships the full Terms text too, and the page **visibly jumps after hydration**. Both routes lack a `metadata` export, so the browser tab reads "RECSEEKERS" on a legal page.
+
+### 5.7 `frontend/` — supporting modules
+
+| File | Purpose |
+|---|---|
+| `lib/fonts.ts` | Exports `cooper` — `next/font/local` wrapping `coopbl.ttf`. 🟡 Registers the **same file twice** (weights 400 and 700). Cooper Black has no true bold, so `font-bold` on headings produces faux-bold. |
+| `context/HeroStageContext.tsx` | One boolean, `isHeroStage1`, so the navs can restyle over the hero. 🔴 **Two real bugs:** (1) it defaults to `true` on every route, and only `HeroSection` (which renders on `/` only) ever sets it false, so non-home pages permanently believe they sit over a stage-1 hero; (2) the provider lives in the root layout and **never resets on navigation** — going `/` → scroll past hero → `/about` leaves the flag `false` with nothing to restore it. 🟡 `useHeroStage()` does not throw outside the provider; it silently returns a no-op default. |
+| `sanity/client.ts` | `createClient` from env vars, `apiVersion: "2024-01-01"`, `useCdn: true`. |
+| `sanity/image.ts` | `urlFor()` image URL builder. 🟠 Referenced nowhere. |
+| `sanity/queries.ts` | `TEMPLATE_STATUS_QUERY` and `LINKED_IN_QUERY`. 🟠 Neither is ever executed. |
+| `content/legal.en.json` | Privacy Policy + Terms text. Shape: `{ locale, temporaryNotice, privacy, terms }`, each doc `{ title, lastUpdated, intro, sections: [{ heading, paragraphs[], bullets? }] }`. 🔴 **`temporaryNotice.showNotice` is `true`**, so a banner currently reads *"This legal content is placeholder boilerplate and should be reviewed by qualified legal counsel before publication."* — flip it to `false` once real copy lands. 🟡 The privacy policy names HubSpot but **not Resend, Google reCAPTCHA, or Elfsight**, all of which process visitor data — a compliance gap worth raising with the client. 🟡 The `.en` suffix implies an i18n scheme that doesn't otherwise exist. |
+
+### 5.8 `frontend/public/` — static assets
+
+65 files, ~4.1 MB. Four groups:
+
+- **`Illustrations/` (31)** — full-scene illustrations, also used (scaled down) as the "icons" on the homepage and timeline. ⚠️ **Provenance is not recorded in the files.** The footer credits Storyset, but no file carries a Storyset marker; 8 of the 31 carry `id="freepik--…"` markers (`Telecommute1`, `Innovation-amico`, `FindingIdeas1`, `HelpingPartner1`, `GroupDiscussion1`, `PeopleSearch1`, `PeopleSearch3`, `BusinessDeal1`). **Worth a licensing check across the whole folder.**
+- **`floats/` (26)** — small hand-drawn doodles referenced *indirectly* by `<DoodleFloat name="…" />`.
+- **`team/` (4)** — `sam.png`, `joe.png`, `ciaran.png`, `jed.png`.
+- **root** — `rec-logo.svg` (the logo, used 8×), `profile.png` (a placeholder — dead, see below), `file.svg` (the Next.js scaffold icon, still doing duty as a placeholder in `ClientsSection` and as `WhoWeWorkWithCard`'s default), `apple-touch-icon.png` (works by browser convention; not declared in `metadata`).
+
+🟠 **Dead assets — 16 files, ~819 KB, referenced nowhere:**
+`Illustrations/FindingIdeas1.svg`, `HelpingPartner1.svg`, `PeopleSearch1.svg`, `PeopleSearch3.svg`, `Signed-up.svg`, `communicator.svg`, `selection1.svg`, `upgradeIcon.svg`; `floats/book.svg`, `books-1.svg`, `books-2.svg`, `books-large.svg`, `gradcap-1.svg`, `molecules-1.svg`, `molecules-3.svg`; and **`profile.png` (241 KB)** — its only reference is the unused `placeHolderProfile` constant in `app/candidates/page.tsx`. Plus `floats/flask-1.svg`, reachable only from commented-out code.
+
+🔴 **Broken references — code pointing at files that don't exist:**
+1. `/floats/pencil-2.svg` — **live**, `app/about/page.tsx`. Deleted by commit `6888adc` whose message calls the pencil SVGs "unused". Fixed on `dev`, broken on `main`.
+2–4. `/icon-stairs.svg`, `/icon-selection.svg`, `/icon-clock.svg` — inside the commented-out block in `app/candidates/page.tsx`. Harmless today, but that block **cannot simply be uncommented**.
+
+🟡 **Payload problems.** Several "icons" are full-scene illustrations scaled to 28–32 px: `top5icon.svg` is **140 KB rendered at 32×32**, `networkIcon.svg` 80 KB at 28×28, `dealIcon.svg` 52 KB. `rec-logo.svg` is **123 KB** for a logo rendered at `h-8`/`h-10` — and it loads on every page in both the nav and the footer. `team/joe.png` is **496 KB** (10× `sam.png` at the same display size). `PeopleSearch2.svg` is 286 KB for a nav hover preview. Running these through SVGO and compressing the PNGs is the cheapest performance win available.
+
+---
+
+## 6. Deployment & CI
+
+### What the pipeline actually does
+
+1. **Push to `main` or `dev`** → `.github/workflows/docker.yml` builds `frontend/Dockerfile` and pushes to **GitHub Container Registry**: `ghcr.io/recseekers/recseekers-website`, tagged with the branch name and the commit SHA. Auth uses the built-in `GITHUB_TOKEN`; no extra secrets are configured.
+2. **PR into `main` or `dev`** → `frontend-build-pr.yml` runs `npm ci && npm run build` in `frontend/`. **Build only — lint is never run in CI.**
+
+### Where it's hosted
+
+The repo produces a container image; **it does not contain the hosting configuration.** There is no `vercel.json`, no Terraform, no compose file, no deploy workflow beyond the GHCR push. The site is currently served from somewhere outside this repo, so **whoever takes this over needs to be told separately**: the host, the DNS/domain setup, and where the runtime environment variables are configured.
+
+### Running the container
+
+```bash
+docker build -t recseekers-web ./frontend
+docker run -p 3000:3000 \
+  -e NEXT_PUBLIC_SANITY_PROJECT_ID=3o1ax6lm \
+  -e NEXT_PUBLIC_SANITY_DATASET=production \
+  -e RESEND_API_KEY=... \
+  -e SAM_EMAIL=... \
+  -e HUBSPOT_ACCESS_TOKEN=... \
+  recseekers-web
+```
+
+⚠️ **Two Docker gotchas:**
+
+- The builder stage **deletes `next.config.ts` and writes its own config with `images.unoptimized: true`.** A comment calls it a "test-only config override" that was never removed. The Docker image therefore serves unoptimised images while local dev does not.
+- `NEXT_PUBLIC_*` variables are **inlined at build time**, not read at runtime. The Dockerfile passes **no build args**, so `NEXT_PUBLIC_RECAPTCHA_SITE_KEY` and the Sanity vars are baked in as empty strings — **reCAPTCHA will not work in the container image as built.** There is a branch, `origin/docker/fix_build_args` ("fix: add build arguments for reCAPTCHA site key in Docker configuration"), that addresses exactly this and is already merged into `dev`.
+
+### Deploying the CMS
+
+Manual, from `cms/`:
+
+```bash
+npm run deploy          # deploys the Studio to <project>.sanity.studio
+npm run deploy-schema   # push schema changes — do this BEFORE the frontend relies on new fields
+```
+
+---
+
+## 7. Editing content in Sanity (and why you probably can't yet)
+
+**Current reality: the Studio is live and connected, but nothing on the website reads from it.** Sam can log in, create documents, publish them, and see no change on the site. Setting expectations on this is the first conversation to have.
+
+### For the client — using the Studio today
+
+1. Go to `https://sanity.io/manage`, open the **RecSeekers Website** project (`3o1ax6lm`), or run the Studio locally with `cd cms && npm run dev` → `http://localhost:3333`.
+2. Three document types are available: **Template Status** (a wiring smoke-test), **LinkedIn Embed** (a list of LinkedIn post URLs), and **LinkedIn Feed** (post content/URL/date/image).
+3. Content only becomes visible to the frontend once **Published** — the site queries published documents through the CDN.
+
+### For a developer — what wiring it up would take
+
+The plumbing is already in place: `sanity/client.ts` (configured client), `sanity/queries.ts` (GROQ), `sanity/image.ts` (`urlFor` image builder), and `next.config.ts` already allows `cdn.sanity.io`. A page becomes CMS-driven with:
+
+```tsx
+import { client } from "@/sanity/client";
+
+export default async function Page() {
+  const data = await client.fetch(SOME_QUERY);   // add the query to sanity/queries.ts
+  return <Section {...data} />;
+}
+```
+
+The realistic scope of migrating this site to the CMS:
+
+| Priority | Content | Difficulty |
+|---|---|---|
+| High | Team members (names, roles, bios, photos) | Easy — already a plain array in `TeamSection.tsx` |
+| High | Testimonials | Easy — plain arrays, but consolidate the three forked components first |
+| High | Legal pages | Easy — `legal.en.json` already has the right shape |
+| Medium | "How It Works" steps, employer feature cards, `FitSplitCard` panels | Easy — plain arrays |
+| Medium | Core values | Medium — the icons are **inline JSX inside the data array** and would need extracting to files or an icon-name enum |
+| Low | Page hero copy | Medium — heavy mobile/desktop copy forking (see §8) means each block is really two |
+| Hard | `WhereWeWorkSection` | Hard — descriptions are `ReactNode` with embedded `<Link>`s, and the maps are inline SVG paths |
+
+**Recommendation:** decide this explicitly before doing anything else. The half-wired state is the main thing that will confuse the next developer. If the client won't be editing content, delete `cms/`, `frontend/sanity/`, and the three Sanity dependencies and the repo gets meaningfully simpler.
+
+---
+
+## 8. Known issues & TODOs
+
+Ordered by what would hurt most.
+
+### 🔴 Blocking / security
+
+| # | Issue | Where |
+|---|---|---|
+| 1 | **`/api/contact` has no rate limiting and never verifies reCAPTCHA.** Both forms collect a `captchaToken`; the server doesn't even destructure it, and there's no `siteverify` call and no secret key in the repo. The endpoint is an open, unauthenticated email + CRM relay — one POST loop can spam Sam's inbox and fill HubSpot. | `app/api/contact/route.ts` |
+| 2 | **Three dead Calendly links on the highest-value conversion paths.** `https://calendly.com/your-link`, `https://calendly.com/YOUR_CALENDLY_LINK`, and `const calendlyLink = ""` interpolated into the confirmation email after "book your time with Sam right here: ". | `app/contact/page.tsx`, `components/About/BookCall.tsx`, `app/api/contact/route.ts` |
+| 3 | **Emails send from `onboarding@resend.dev`** — Resend's shared sandbox domain. Not a verified RECSEEKERS domain; deliverability will be poor and delivery may be restricted. | `app/api/contact/route.ts` |
+| 4 | **Missing asset 404 on `/about`** — `<DoodleFloat name="pencil-2" />` but `public/floats/pencil-2.svg` was deleted. Broken on `main`, fixed on `dev`. | `app/about/page.tsx` |
+| 5 | **Placeholder content is live:** Joe James's role is `'Expert consultant??'` and his bio is `'...'`; the homepage testimonials are anonymised placeholders; the Google rating links to `href=""`; `legal.en.json` still shows the "placeholder boilerplate, review with counsel" banner. | `TeamSection.tsx`, `Home/TestimonialsSection.tsx`, `content/legal.en.json` |
+| 6 | **`/jobs` is linked from every page's footer and does not exist.** | `components/Footer/footer.tsx` |
+| 7 | **Typo in live copy: "Edech"** (should be "EdTech"). Also `/edtech`: *"Education technology it's growing fast"*. | `app/sign-up/page.tsx`, `app/edtech/page.tsx` |
+| 8 | **The Docker image bakes empty `NEXT_PUBLIC_*` values** — no build args are passed, so reCAPTCHA can't work in the container. Fix exists on `origin/docker/fix_build_args`, already merged into `dev`. | `frontend/Dockerfile` |
+| 9 | **No API validation.** No schema, no email-format check, no length caps, no escaping. `error.message` is returned raw to the browser. | `app/api/contact/route.ts` |
+
+### 🟠 Dead code (safe to delete)
+
+- `components/Candidates/BottomCTA.tsx`, `components/Candidates/carousel.tsx`, `components/employers/TestimonialsSection.tsx` — imported by nothing.
+- `components/About/GetLinkedInFeed.tsx` — dead, hardcodes the Sanity project ID, uses `dangerouslySetInnerHTML`.
+- `components/About/ClientsSection.tsx` — imported but its JSX is commented out; its logos are all `/file.svg`.
+- The `BookCall` export inside `BookCall.tsx` (only `BookCallModal` is used).
+- `app/404/page.tsx` — a duplicate of `not-found.tsx` that Next never uses as a 404.
+- `sanity/image.ts` (`urlFor`), `LINKED_IN_QUERY`, `TEMPLATE_STATUS_QUERY` — never executed.
+- `.btn-burst` in `globals.css`.
+- 16 unreferenced assets, ~819 KB (listed in §5.8).
+- Large commented-out JSX blocks in `app/candidates/page.tsx` (with **nested comments** — fragile), `app/about/page.tsx`, `app/edtech/page.tsx`, `TeamSection.tsx`.
+
+### 🟠 Lint will fail
+
+`npm run lint` was not executed for this document (no `node_modules` in a fresh clone), but the following unused imports/vars were confirmed by inspection: `app/page.tsx` (`client`, `TEMPLATE_STATUS_QUERY`), `app/candidates/page.tsx` (`HeroSection`, `placeHolderProfile`), `app/about/page.tsx` (`ClientsSection`), `app/edtech/page.tsx` (`Link`, `Button`), `app/subscription/page.tsx` (`Link`, `Button`), `TeamSection.tsx` (`DoodleFloat`), `WhereWeWorkSection.tsx` (`DoodleFloat`), `BlobPortrait.tsx` (`num`). Plus `@next/next/no-img-element` (raw `<img>` in `Nav`, `NavMobile`, `footer`, `NavPreview`, `employers/page`) and `react/no-unescaped-entities` in several files. **CI never runs lint**, which is why this accumulated — adding `npm run lint` to `frontend-build-pr.yml` would stop it getting worse.
+
+### 🟡 Architecture & maintainability
+
+| Issue | Detail |
+|---|---|
+| **Three forked `TestimonialsSection`s** | Same component copy-pasted three times. Consolidate into one taking `testimonials` + `heading` props. Biggest single win. |
+| **Two forked `BottomCTA`s** + `variantConfig` duplicated three times | Same story. |
+| **Mobile/desktop copy forking** | `block md:hidden` + `hidden md:block` twins on `/about`, `/candidates`, `/contact`, `/employers`, `/sign-up`. On `/employers` the `<h1>` twins are identical (so the `<h1>` is duplicated for nothing), but the paragraph twins **diverge** — as they do everywhere else — creating two sources of truth for the same claim. On `/sign-up` the mobile variant is simply missing. Use responsive CSS, not duplicated markup. |
+| **`<BottomCTA />` rendered twice on `/employers`** | Mounts two `BookCallModal`s and two motion observers to change one margin class. |
+| **`HeroStageContext` never resets on navigation** | Provider lives in the root layout; only `HeroSection` writes to it, and only on `/`. Navigating away leaves stale state. |
+| **Colour drift** | Brand hexes are hardcoded throughout instead of using the tokens; several colours in use aren't tokens at all. A rebrand is currently a find-and-replace across dozens of files. |
+| **Font fragmentation** | `lib/fonts.ts` registers the same TTF twice; `/contact` and `/sign-up` each declare their own `localFont` instance instead of importing it; the two 404 pages reference a `fontFamily: 'cooper'` that resolves to nothing. |
+| **Scroll-hijacking hero** | Manual wheel/touch listeners plus a full `html`/`body` scroll lock. Inherently fragile — regression-test it on real iOS Safari after any dependency upgrade. |
+| **No `metadata` per page** | Every route serves `title: "RECSEEKERS"`. No OG tags, no `sitemap.ts`, no `robots.ts`. Low-effort, high-value SEO fix. |
+| **Both project READMEs are unadapted boilerplate** | `frontend/frontend-README.md` and `cms/cms-README.md` describe a folder structure and a blog schema that don't exist here. Actively misleading — rewrite or delete. |
+
+### 🟡 Accessibility
+
+- Modals on `/contact`, `/sign-up` and `BookCallModal` have no `role="dialog"`, no focus trap, no Escape handler, no backdrop-click close, no body scroll lock. (`NavMobile` gets the ARIA right but still lacks a focus trap and scroll lock.)
+- `<button>` nested inside `<a>` — the `<Link><Button/></Link>` pattern is used site-wide. Invalid HTML and double-focusable.
+- `<label htmlFor>` pointing at controls with **no `id`**: `role`, `q1`, `q2` on `/contact`; `number` on `/sign-up`. `q1`/`q2` labels are also duplicated across the recruiter and agency branches.
+- Two `<h1>`s on `/employers`.
+- `alert()` used for all validation and error feedback on both forms.
+- Nav hover previews are unreachable by keyboard; mobile menu tiles announce the preview title instead of the destination.
+- SVG maps in `WhereWeWorkSection` have no accessible name.
+- `.chevron-bounce` and the inline `slideInRight` animations escape the `prefers-reduced-motion` block.
+
+### 🟡 Performance
+
+- Unoptimised SVGs used as tiny icons (140 KB at 32 px, etc.) and a 123 KB logo on every page — run SVGO.
+- `team/joe.png` at 496 KB.
+- Bio text rendered twice in the DOM per team member.
+- `useCdn: false` in the dead `GetLinkedInFeed` would hit the Sanity API on every revalidation.
+
+---
+
+## 9. Branch state & git notes
+
+### ⚠️ `main` is not the current code
+
+| Branch | Ahead of `main` | Behind `main` | Last commit |
+|---|---|---|---|
+| **`origin/dev`** | **38** | 5 | `3014348` · 2026-05-27 |
+| `origin/docker/fix_build_args` | 36 | 5 | `0ad8305` · 2026-05-24 — already merged into `dev` |
+| `origin/update-remove-calendly` | 16 | 5 | `bd39df4` · 2026-05-23 — a subset of `dev`'s history |
+| `origin/update/frontend` | 2 | **17** | `c0b1c22` · 2026-04-17 — abandoned |
+
+`main`'s tip is a week older than `dev`. **38 commits sit on `dev` and have never been merged**, including whole features: a new recruitment page, Google reviews on the contact page, a team-section redesign, and the Docker reCAPTCHA build-arg fix. Anyone who clones `main` and starts working is building on stale code.
+
+They have also **diverged in both directions** — `main` carries 5 commits `dev` doesn't have, including a site-wide lowercase restyle (PR #46) and two old fork-era merges (PRs #10 and #15, from `CD-Chief/dev`, before the repo moved into the `RECSEEKERS` org). **A `dev → main` merge will need care**, and the lowercase restyle is likely to conflict with `dev`'s text edits.
+
+**First action for a new developer: agree with the team which branch is truth, then reconcile the two.**
+
+### History facts
+
+- **292 commits on `main`**, from `b11d1a6` (2026-01-26, "Initial commit"). Conventional-Commits style (`feat:`, `fix:`, `style:`, `chore:`) and a PR-merge workflow up to PR #51. No sign of force-pushes or rewritten history.
+- **Five author identities, two actual people** — `Zephrio` / `Chief-Daniel Osei` share one account, and `Dario Labrador` / `darioLabrador` / `Dario Labrador Alonso` are one person across three identities. Any `git shortlog` or blame-based stats will be wrong until a `.mailmap` is added.
+- **No secrets and no `node_modules` have ever been committed** — verified across full history. The only tracked env file is `frontend/.env.example`, whose only populated value is `NEXT_PUBLIC_SANITY_DATASET=production`.
+- The repo is small — `.git` is about **4 MB** for 292 commits. Its largest historical blobs are deleted images (`Illustrations/education-2.svg` 366 KB, `RecLogo.svg` 173 KB, `logo-white.svg` 173 KB, plus the pencil and trophy floats) and 13 revisions of `frontend/package-lock.json`; deleting those files did not shrink the clone.
+
+---
+
+## 10. Suggested onboarding path
+
+1. Read §1–§4, then run the app locally (§2). Note you'll need `RESEND_API_KEY`, `SAM_EMAIL`, `HUBSPOT_ACCESS_TOKEN` and `NEXT_PUBLIC_RECAPTCHA_SITE_KEY` from whoever holds them — they are not in the repo.
+2. Get from the previous team: **where the site is hosted**, the DNS/domain setup, where runtime env vars live, and a copy of the gitignored `Design.md`.
+3. Reconcile `main` and `dev` (§9) before writing any new code.
+4. Fix the 🔴 list in §8, in order. Items 1–3 are the ones that matter commercially.
+5. Delete the 🟠 dead code and add `npm run lint` to CI so it stays gone.
+6. Make the Sanity call (§7): adopt it or remove it.
+7. Consolidate the three `TestimonialsSection`s and the mobile/desktop copy forks — that removes most of the "two sources of truth" risk in the content.
