@@ -1,0 +1,105 @@
+Theme:
+
+Colour
+
+Main Pink Colour : (218, 141, 160) #
+
+Secondary Purple : (217, 64, 192)
+
+Main pink
+--primary: #da8da0;
+
+Logo pink
+--primary-logo: #ffb2dc;
+
+Secondary - darker pink / violet
+--secondary: #d940c0;
+
+Purple
+--tertiary: #4614aa;
+
+
+
+
+
+
+
+Typography
+
+Main : Cooper black
+
+
+
+Pages
+
+Navbar
+
+Home, About, Candidates, Employers, Contact
+
+Email, linkedin and instagram
+
+Home
+
+Hero
+
+Pictures of team, link to about us
+
+CTA candidates
+
+CTA employers
+
+Testimonials, Can add pictures
+
+About
+
+Members
+
+Jobs
+
+Core values
+
+Candidates
+
+Typical roles
+
+Sectors
+
+Feature icons
+
+Average interview feedback time
+
+High interview to offer ratio
+
+client satisfaction rate
+
+Link to contact
+
+Employers
+
+Why us?
+
+Your partner
+
+Feature icons
+
+Market leading candidates
+
+Wide selection of…
+
+Link to contact
+
+Contact
+
+Location
+
+Number
+
+Email
+
+Contact form
+
+Footer
+
+Sitemap (links)
+
+Terms
